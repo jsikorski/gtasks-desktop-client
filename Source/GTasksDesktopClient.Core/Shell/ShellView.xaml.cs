@@ -1,6 +1,6 @@
 using System.Windows.Controls;
 
-namespace GTasksDesktopClient.Core.Views
+namespace GTasksDesktopClient.Core.Shell
 {
     /// <summary>
     /// Interaction logic for ShellView.xaml
