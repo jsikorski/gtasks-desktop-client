@@ -1,4 +1,5 @@
 using Caliburn.Micro;
+using GTasksDesktopClient.Core.ViewModels;
 
 namespace GTasksDesktopClient.Core
 {

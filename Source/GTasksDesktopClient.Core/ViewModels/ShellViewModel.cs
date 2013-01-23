@@ -1,6 +1,6 @@
-﻿using Caliburn.Micro;
+using Caliburn.Micro;
 
-namespace GTasksDesktopClient.Core
+namespace GTasksDesktopClient.Core.ViewModels
 {
     public class ShellViewModel : PropertyChangedBase
     {
