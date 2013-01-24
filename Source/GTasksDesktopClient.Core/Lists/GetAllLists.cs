@@ -6,15 +6,20 @@ namespace GTasksDesktopClient.Core.Lists
     public class GetAllLists : ICommand
     {
         private readonly TasksService _tasksService;
+        private readonly IBusyScope _busyScope;
 
-        public GetAllLists(TasksService tasksService)
+        public GetAllLists(TasksService tasksService, IBusyScope busyScope)
         {
             _tasksService = tasksService;
+            _busyScope = busyScope;
         }
 
         public void Execute()
         {
-            var lists = _tasksService.Tasklists.List().Fetch();
+            using (var busyScopeContext = new BusyScopeContext(_busyScope))
+            {
+                var lists = _tasksService.Tasklists.List().Fetch();                
+            }
         }
     }
 }

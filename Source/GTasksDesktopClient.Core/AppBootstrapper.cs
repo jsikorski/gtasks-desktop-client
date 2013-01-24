@@ -26,6 +26,7 @@ namespace GTasksDesktopClient.Core
 
             RegisterViews(containerBuilder);
             RegisterViewModels(containerBuilder);
+            RegisterBusyScopes(containerBuilder);
             RegisterCommands(containerBuilder);
             RegisterCaliburnComponents(containerBuilder);
             RegisterApplicationServices(containerBuilder);
@@ -43,13 +44,28 @@ namespace GTasksDesktopClient.Core
         private void RegisterViewModels(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                            .Where(type => type.Name.EndsWith("ViewModel"));
+                            .Where(type => type.Name.EndsWith("ViewModel"))
+                            .Where(type => !IsBusyScope(type));
+        }
+
+        private bool IsBusyScope(Type type)
+        {
+            return type.GetInterfaces().Any(i => i == typeof(IBusyScope));
+        }
+
+        private void RegisterBusyScopes(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                            .Where(IsBusyScope)
+                            .SingleInstance()
+                            .AsSelf()
+                            .AsImplementedInterfaces();
         }
 
         private void RegisterCommands(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                            .Where(type => type.GetInterfaces().Any(i => i == typeof (ICommand)));
+                            .Where(type => type.GetInterfaces().Any(i => i == typeof(ICommand)));
         }
 
         private static void RegisterCaliburnComponents(ContainerBuilder containerBuilder)

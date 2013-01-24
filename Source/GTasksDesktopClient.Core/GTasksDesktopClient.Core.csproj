@@ -76,6 +76,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\Libraries\ExtendedWPFToolkit_Binaries\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>..\..\Libraries\ExtendedWPFToolkit_Binaries\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -95,7 +101,9 @@
       <DependentUpon>AuthorizationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Authorization\AuthorizationViewModel.cs" />
+    <Compile Include="Infrastructure\BusyScopeContext.cs" />
     <Compile Include="Infrastructure\CommandsInvoker.cs" />
+    <Compile Include="Infrastructure\IBusyScope.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />
     <Compile Include="Lists\GetAllLists.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">

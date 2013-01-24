@@ -1,9 +1,11 @@
 <UserControl x:Class="GTasksDesktopClient.Core.Shell.ShellView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Height="Auto"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" Height="Auto"
              Width="Auto"
              MinWidth="800"
              MinHeight="600">
-    <ContentControl x:Name="ActiveItem" />
+    <xctk:BusyIndicator IsBusy="{Binding IsBusy}" BusyContent="{Binding Message}" >
+        <ContentControl x:Name="ActiveItem" />
+    </xctk:BusyIndicator>
 </UserControl>
