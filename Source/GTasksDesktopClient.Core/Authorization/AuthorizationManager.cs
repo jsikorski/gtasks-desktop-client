@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -46,25 +47,37 @@ namespace GTasksDesktopClient.Core.Authorization
 
              var refreshToken = AuthorizationStorage.LoadRefreshToken();
              if (!string.IsNullOrEmpty(refreshToken))
-             {
-                 
-             }
+                 return RefreshCredentials(client, scopes, refreshToken);
 
-             IAuthorizationState state = new AuthorizationState(scopes);
-             var responseUrl = FormatResponseUrl(client, state);
-             state.Callback = responseUrl;
-
-             var authorizationResponseServer = new AuthorizationResponseServer(responseUrl);
-             authorizationResponseServer.Start();
-
-             var authorizationUrl = client.RequestUserAuthorization(state);
-             TriggerAuthorizationRequired(authorizationUrl);
-
-             string authorizationCode = authorizationResponseServer.GetAuthorizationCode();
-             authorizationResponseServer.Stop();
-
-             return client.ProcessUserAuthorization(authorizationCode, state);
+             return ObtainCredentials(client, scopes);
          }
+
+        private static IAuthorizationState RefreshCredentials(NativeApplicationClient client, IEnumerable<string> scopes, string refreshToken)
+        {
+            var state = new AuthorizationState(scopes) { RefreshToken = refreshToken };
+            client.RefreshToken(state);
+            return state;
+        }
+
+        private static IAuthorizationState ObtainCredentials(NativeApplicationClient client, IEnumerable<string> scopes)
+        {
+            IAuthorizationState state = new AuthorizationState(scopes);
+            var responseUrl = FormatResponseUrl(client, state);
+            state.Callback = responseUrl;
+
+            var authorizationResponseServer = new AuthorizationResponseServer(responseUrl);
+            authorizationResponseServer.Start();
+
+            var authorizationUrl = client.RequestUserAuthorization(state);
+            TriggerAuthorizationRequired(authorizationUrl);
+
+            string authorizationCode = authorizationResponseServer.GetAuthorizationCode();
+            authorizationResponseServer.Stop();
+
+            state = client.ProcessUserAuthorization(authorizationCode, state);
+            AuthorizationStorage.SaveRefreshToken(state.RefreshToken);
+            return state;
+        }
 
         private static Uri FormatResponseUrl(NativeApplicationClient client, IAuthorizationState state)
         {

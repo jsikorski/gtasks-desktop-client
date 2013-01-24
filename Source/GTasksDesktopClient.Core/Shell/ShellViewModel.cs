@@ -25,8 +25,6 @@ namespace GTasksDesktopClient.Core.Shell
         protected override void OnInitialize()
         {
             ShowLayout();
-
-            AuthorizationStorage.SaveRefreshToken("AAA");
         }
 
         private void ShowAuthorizationView(Uri authorizationUrl)
