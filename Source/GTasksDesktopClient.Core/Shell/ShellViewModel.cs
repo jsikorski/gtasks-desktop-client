@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Autofac;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Authorization;
@@ -24,11 +25,13 @@ namespace GTasksDesktopClient.Core.Shell
         protected override void OnInitialize()
         {
             ShowLayout();
+
+            AuthorizationStorage.SaveRefreshToken("AAA");
         }
 
-        private void ShowAuthorizationView(Uri uri)
+        private void ShowAuthorizationView(Uri authorizationUrl)
         {
-            var authorizationViewModel = _container.Resolve<AuthorizationViewModel>(new TypedParameter(typeof(Uri), uri));
+            var authorizationViewModel = _container.Resolve<AuthorizationViewModel>(new TypedParameter(typeof(Uri), authorizationUrl));
             ActivateItem(authorizationViewModel);
         }
 

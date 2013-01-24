@@ -44,6 +44,12 @@ namespace GTasksDesktopClient.Core.Authorization
              var scope = TasksService.Scopes.Tasks.GetStringValue();
              var scopes = new[] { scope };
 
+             var refreshToken = AuthorizationStorage.LoadRefreshToken();
+             if (!string.IsNullOrEmpty(refreshToken))
+             {
+                 
+             }
+
              IAuthorizationState state = new AuthorizationState(scopes);
              var responseUrl = FormatResponseUrl(client, state);
              state.Callback = responseUrl;
