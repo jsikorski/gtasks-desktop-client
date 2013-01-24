@@ -25,7 +25,7 @@ namespace GTasksDesktopClient.Core.Lists
             using (var busyScopeContext = new BusyScopeContext(_busyScope))
             {
                 var lists = _tasksService.Tasklists.List().Fetch();
-                _eventAggregator.Publish(new ListsFetched() {TasksLists = lists.Items});
+                _eventAggregator.Publish(new ListsFetched {TasksLists = lists.Items});
             }
         }
     }

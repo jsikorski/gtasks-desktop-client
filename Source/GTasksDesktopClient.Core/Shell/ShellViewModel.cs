@@ -17,6 +17,8 @@ namespace GTasksDesktopClient.Core.Shell
         
         private readonly IContainer _container;
         private readonly IEventAggregator _eventAggregator;
+        private readonly Func<Uri, AuthorizationViewModel> _authorizationViewModelFactory;
+        private readonly Func<IEnumerable<TaskList>, LayoutViewModel> _layoutViewModelFactory;
 
         private bool _isBusy;
         private string _message;
@@ -41,13 +43,19 @@ namespace GTasksDesktopClient.Core.Shell
             }
         }
 
-        public ShellViewModel(IContainer container, IEventAggregator eventAggregator)
+        public ShellViewModel(
+            IContainer container,
+            IEventAggregator eventAggregator, 
+            Func<Uri, AuthorizationViewModel> authorizationViewModelFactory,
+            Func<IEnumerable<TaskList>, LayoutViewModel> layoutViewModelFactory)
         {
             base.DisplayName = WindowTitle;
 
             _container = container;
             _eventAggregator = eventAggregator;
-            
+            _authorizationViewModelFactory = authorizationViewModelFactory;
+            _layoutViewModelFactory = layoutViewModelFactory;
+
             _eventAggregator.Subscribe(this);
             AuthorizationManager.AuthorizationRequired += ShowAuthorizationView;
         }
@@ -60,20 +68,20 @@ namespace GTasksDesktopClient.Core.Shell
 
         private void ShowAuthorizationView(Uri authorizationUrl)
         {
-            var authorizationViewModel = _container.Resolve<AuthorizationViewModel>(new TypedParameter(typeof(Uri), authorizationUrl));
+            var authorizationViewModel = _authorizationViewModelFactory(authorizationUrl);
             ActivateItem(authorizationViewModel);
         }
 
         public void Handle(ListsFetched message)
         {
+            _eventAggregator.Unsubscribe(this);
             ShowLayout(message.TasksLists);
         }
 
         private void ShowLayout(IEnumerable<TaskList> tasksLists)
         {
-            var layoutViewModel = new LayoutViewModel(tasksLists);
+            var layoutViewModel = _layoutViewModelFactory(tasksLists);
             ActivateItem(layoutViewModel);
-            _eventAggregator.Unsubscribe(this);
         }
     }
 }

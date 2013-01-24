@@ -111,6 +111,7 @@
     <Compile Include="Layout\LayoutViewModel.cs" />
     <Compile Include="Lists\GetAllLists.cs" />
     <Compile Include="Lists\ListsFetched.cs" />
+    <Compile Include="Lists\TasksListViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
