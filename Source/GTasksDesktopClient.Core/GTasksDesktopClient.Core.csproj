@@ -111,6 +111,10 @@
     <Compile Include="Layout\LayoutViewModel.cs" />
     <Compile Include="Lists\GetAllLists.cs" />
     <Compile Include="Lists\ListsFetched.cs" />
+    <Compile Include="Lists\TasksListsView.xaml.cs">
+      <DependentUpon>TasksListsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Lists\TasksListsViewModel.cs" />
     <Compile Include="Lists\TasksListViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -152,6 +156,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Layout\LayoutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Lists\TasksListsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
