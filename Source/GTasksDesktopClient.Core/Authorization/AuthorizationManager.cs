@@ -46,10 +46,17 @@ namespace GTasksDesktopClient.Core.Authorization
              var scopes = new[] { scope };
 
              var refreshToken = AuthorizationStorage.LoadRefreshToken();
-             if (!string.IsNullOrEmpty(refreshToken))
-                 return RefreshCredentials(client, scopes, refreshToken);
+             if (string.IsNullOrEmpty(refreshToken))
+                return ObtainCredentials(client, scopes);
 
-             return ObtainCredentials(client, scopes);
+             try
+             {
+                 return RefreshCredentials(client, scopes, refreshToken);
+             }
+             catch
+             {
+                 return ObtainCredentials(client, scopes);
+             }
          }
 
         private static IAuthorizationState RefreshCredentials(NativeApplicationClient client, IEnumerable<string> scopes, string refreshToken)
@@ -62,7 +69,7 @@ namespace GTasksDesktopClient.Core.Authorization
         private static IAuthorizationState ObtainCredentials(NativeApplicationClient client, IEnumerable<string> scopes)
         {
             IAuthorizationState state = new AuthorizationState(scopes);
-            var responseUrl = FormatResponseUrl(client, state);
+            var responseUrl = FormatResponseUrl();
             state.Callback = responseUrl;
 
             var authorizationResponseServer = new AuthorizationResponseServer(responseUrl);
@@ -79,7 +86,7 @@ namespace GTasksDesktopClient.Core.Authorization
             return state;
         }
 
-        private static Uri FormatResponseUrl(NativeApplicationClient client, IAuthorizationState state)
+        private static Uri FormatResponseUrl()
         {
             var applicationNAme = Assembly.GetEntryAssembly().GetName().Name;
             var port = GetRandomUnusedPort();
