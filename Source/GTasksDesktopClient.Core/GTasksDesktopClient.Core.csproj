@@ -105,7 +105,12 @@
     <Compile Include="Infrastructure\CommandsInvoker.cs" />
     <Compile Include="Infrastructure\IBusyScope.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />
+    <Compile Include="Layout\LayoutView.xaml.cs">
+      <DependentUpon>LayoutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\LayoutViewModel.cs" />
     <Compile Include="Lists\GetAllLists.cs" />
+    <Compile Include="Lists\ListsFetched.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -142,6 +147,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Authorization\AuthorizationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Layout\LayoutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
