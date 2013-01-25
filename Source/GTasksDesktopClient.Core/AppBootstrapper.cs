@@ -7,6 +7,7 @@ using GTasksDesktopClient.Core.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Shell;
 using System.Linq;
+using GTasksDesktopClient.Core.Synchronization;
 using Google.Apis.Tasks.v1;
 
 namespace GTasksDesktopClient.Core
@@ -30,6 +31,7 @@ namespace GTasksDesktopClient.Core
             RegisterCommands(containerBuilder);
             RegisterCaliburnComponents(containerBuilder);
             RegisterApplicationServices(containerBuilder);
+            RegisterContexts(containerBuilder);
             containerBuilder.Register(_ => _container).As<IContainer>();
 
             return containerBuilder.Build();
@@ -77,6 +79,11 @@ namespace GTasksDesktopClient.Core
         private void RegisterApplicationServices(ContainerBuilder containerBuilder)
         {
             containerBuilder.Register(_ => new TasksService(AuthorizationManager.GetAuthenticator())).As<TasksService>();
+        }
+
+        private void RegisterContexts(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<SynchronizationContext>().SingleInstance();
         }
 
         protected override object GetInstance(Type service, string key)

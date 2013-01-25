@@ -7,11 +7,12 @@ using GTasksDesktopClient.Core.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Lists;
+using GTasksDesktopClient.Core.Synchronization;
 using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.Shell
 {
-    public class ShellViewModel : Conductor<object>, IBusyScope, IHandle<ListsFetched>
+    public class ShellViewModel : Conductor<object>, IBusyScope, IHandle<ListsUpdated>
     {
         private const string WindowTitle = "Google Tasks Desktop Client";
         
@@ -62,8 +63,8 @@ namespace GTasksDesktopClient.Core.Shell
 
         protected override void OnInitialize()
         {
-            var getAllLists = _container.Resolve<GetAllLists>();
-            CommandsInvoker.ExecuteCommand(getAllLists);
+            var synchronize = _container.Resolve<Synchronize>();
+            CommandsInvoker.ExecuteCommand(synchronize);
         }
 
         private void ShowAuthorizationView(Uri authorizationUrl)
@@ -72,7 +73,7 @@ namespace GTasksDesktopClient.Core.Shell
             ActivateItem(authorizationViewModel);
         }
 
-        public void Handle(ListsFetched message)
+        public void Handle(ListsUpdated message)
         {
             _eventAggregator.Unsubscribe(this);
             ShowLayout(message.TasksLists);

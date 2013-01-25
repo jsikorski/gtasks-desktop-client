@@ -9,11 +9,9 @@ namespace GTasksDesktopClient.Core.Layout
     {
         public TasksListsViewModel TasksListsViewModel { get; set; }
 
-        public LayoutViewModel(
-            IEnumerable<TaskList> tasksLists, 
-            Func<IEnumerable<TaskList>, TasksListsViewModel> tasksListsViewModelFactory)
+        public LayoutViewModel(TasksListsViewModel tasksListsViewModel)
         {
-            TasksListsViewModel = tasksListsViewModelFactory(tasksLists);
+            TasksListsViewModel = tasksListsViewModel;
         }
     }
 }

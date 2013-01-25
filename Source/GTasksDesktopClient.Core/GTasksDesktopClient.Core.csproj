@@ -109,8 +109,6 @@
       <DependentUpon>LayoutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layout\LayoutViewModel.cs" />
-    <Compile Include="Lists\GetAllLists.cs" />
-    <Compile Include="Lists\ListsFetched.cs" />
     <Compile Include="Lists\TasksListsView.xaml.cs">
       <DependentUpon>TasksListsView.xaml</DependentUpon>
     </Compile>
@@ -120,6 +118,9 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
+    <Compile Include="Synchronization\ListsUpdated.cs" />
+    <Compile Include="Synchronization\SynchronizationContext.cs" />
+    <Compile Include="Synchronization\Synchronize.cs" />
     <Compile Include="Utils\WebBrowserBehaviors.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using GTasksDesktopClient.Core.Synchronization;
 using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.Lists
@@ -9,9 +10,9 @@ namespace GTasksDesktopClient.Core.Lists
     {
         public ObservableCollection<TasksListViewModel> TasksLists { get; private set; }
 
-        public TasksListsViewModel(IEnumerable<TaskList> tasksLists)
+        public TasksListsViewModel(SynchronizationContext synchronizationContext)
         {
-            var tasksListsViewModel = tasksLists.Select(tasksList => new TasksListViewModel(tasksList));
+            var tasksListsViewModel = synchronizationContext.TasksLists.Select(tasksList => new TasksListViewModel(tasksList));
             TasksLists = new ObservableCollection<TasksListViewModel>(tasksListsViewModel);
         }
     }
