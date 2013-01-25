@@ -5,6 +5,11 @@ namespace GTasksDesktopClient.Core.Synchronization
 {
     public class ListsUpdated
     {
-        public IEnumerable<TaskList> TasksLists { get; set; } 
+        public IEnumerable<TaskList> TasksLists { get; private set; }
+
+        public ListsUpdated(IEnumerable<TaskList> tasksLists)
+        {
+            TasksLists = tasksLists;
+        }
     }
 }

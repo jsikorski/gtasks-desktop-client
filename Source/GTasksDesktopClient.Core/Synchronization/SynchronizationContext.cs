@@ -16,7 +16,7 @@ namespace GTasksDesktopClient.Core.Synchronization
             set
             {
                 _tasksLists = value;
-                _eventAggregator.Publish(new ListsUpdated() {TasksLists = value});
+                _eventAggregator.Publish(new ListsUpdated(value));
             }
         }
 
