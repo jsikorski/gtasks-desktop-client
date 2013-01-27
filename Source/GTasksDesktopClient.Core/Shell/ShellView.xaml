@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" Height="Auto"
              Width="Auto"
-             MinWidth="800"
+             MinWidth="1000"
              MinHeight="600">
     <xctk:BusyIndicator IsBusy="{Binding IsBusy}" BusyContent="{Binding Message}" >
         <ContentControl x:Name="ActiveItem" />
