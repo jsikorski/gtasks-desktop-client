@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Autofac;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
@@ -15,8 +14,7 @@ namespace GTasksDesktopClient.Core.Shell
     public class ShellViewModel : Conductor<object>, IBusyScope, IHandle<ListsUpdated>
     {
         private const string WindowTitle = "Google Tasks Desktop Client";
-        
-        private readonly IContainer _container;
+
         private readonly IEventAggregator _eventAggregator;
         private readonly Func<Uri, AuthorizationViewModel> _authorizationViewModelFactory;
         private readonly Func<IEnumerable<TaskList>, LayoutViewModel> _layoutViewModelFactory;
@@ -45,14 +43,12 @@ namespace GTasksDesktopClient.Core.Shell
         }
 
         public ShellViewModel(
-            IContainer container,
             IEventAggregator eventAggregator, 
             Func<Uri, AuthorizationViewModel> authorizationViewModelFactory,
             Func<IEnumerable<TaskList>, LayoutViewModel> layoutViewModelFactory)
         {
             base.DisplayName = WindowTitle;
 
-            _container = container;
             _eventAggregator = eventAggregator;
             _authorizationViewModelFactory = authorizationViewModelFactory;
             _layoutViewModelFactory = layoutViewModelFactory;
