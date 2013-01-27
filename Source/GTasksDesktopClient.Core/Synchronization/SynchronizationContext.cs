@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
-using GTasksDesktopClient.Core.Lists;
 using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.Synchronization
@@ -23,6 +22,7 @@ namespace GTasksDesktopClient.Core.Synchronization
         public SynchronizationContext(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+            _tasksLists = new List<TaskList>();
         }
     }
 }

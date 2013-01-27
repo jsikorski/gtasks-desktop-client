@@ -10,16 +10,16 @@ using GTasksDesktopClient.Core.Synchronization;
 
 namespace GTasksDesktopClient.Core.Shell
 {
-    public class ShellViewModel : Conductor<object>, IBusyScope, IHandle<ListsUpdated>
+    public class ShellViewModel : Conductor<object>, IBusyScope
     {
         private const string WindowTitle = "Google Tasks Desktop Client";
 
         private readonly IContainer _container;
-        private readonly IEventAggregator _eventAggregator;
         private readonly Func<Uri, AuthorizationViewModel> _authorizationViewModelFactory;
 
         private bool _isBusy;
         private string _message;
+        private BusyScopeContext _busyScopeContext;
 
         public bool IsBusy
         {
@@ -42,34 +42,32 @@ namespace GTasksDesktopClient.Core.Shell
         }
 
         public ShellViewModel(
-            IContainer container,
-            IEventAggregator eventAggregator, 
+            IContainer container, 
             Func<Uri, AuthorizationViewModel> authorizationViewModelFactory)
         {
             base.DisplayName = WindowTitle;
 
             _container = container;
-            _eventAggregator = eventAggregator;
             _authorizationViewModelFactory = authorizationViewModelFactory;
 
-            _eventAggregator.Subscribe(this);
             AuthorizationManager.AuthorizationRequired += ShowAuthorizationView;
+            AuthorizationManager.AuthorizationSucceeded += ShowLayout;
+
+            _busyScopeContext = new BusyScopeContext(this);
         }
 
         private void ShowAuthorizationView(Uri authorizationUrl)
         {
+            _busyScopeContext.Dispose();
+
             var authorizationViewModel = _authorizationViewModelFactory(authorizationUrl);
             ActivateItem(authorizationViewModel);
         }
 
-        public void Handle(ListsUpdated message)
-        {
-            _eventAggregator.Unsubscribe(this);
-            ShowLayout();
-        }
-
         private void ShowLayout()
         {
+            _busyScopeContext.Dispose();
+
             var layoutViewModel = _container.Resolve<LayoutViewModel>();
             ActivateItem(layoutViewModel);
         }
