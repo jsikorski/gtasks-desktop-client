@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using GTasksDesktopClient.Core.Lists;
-using Google.Apis.Tasks.v1.Data;
+﻿using GTasksDesktopClient.Core.Lists;
 
 namespace GTasksDesktopClient.Core.Layout
 {

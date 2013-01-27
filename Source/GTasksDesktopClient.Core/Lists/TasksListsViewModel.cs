@@ -14,13 +14,13 @@ namespace GTasksDesktopClient.Core.Lists
 
         public TasksListsViewModel(
             EventAggregator eventAggregator,
-            SynchronizationContext synchronizationContext
+            CurrentContext currentContext
         )
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.Subscribe(this);
 
-            var tasksListsViewModel = synchronizationContext.TasksLists.Select(tasksList => new TasksListViewModel(tasksList));
+            var tasksListsViewModel = currentContext.TasksLists.Select(tasksList => new TasksListViewModel(tasksList));
             TasksLists = new ObservableCollection<TasksListViewModel>(tasksListsViewModel);
         }
 

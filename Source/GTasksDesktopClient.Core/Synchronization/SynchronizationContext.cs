@@ -1,28 +1,24 @@
-﻿using System.Collections.Generic;
-using Caliburn.Micro;
-using Google.Apis.Tasks.v1.Data;
+﻿using System.Threading;
 
 namespace GTasksDesktopClient.Core.Synchronization
 {
     public class SynchronizationContext
     {
-        private readonly IEventAggregator _eventAggregator;
+        private readonly Semaphore _semaphore;
 
-        private IEnumerable<TaskList> _tasksLists;
-        public IEnumerable<TaskList> TasksLists
+        public SynchronizationContext()
         {
-            get { return _tasksLists; }
-            set
-            {
-                _tasksLists = value;
-                _eventAggregator.Publish(new ListsUpdated(value));
-            }
+            _semaphore = new Semaphore(1, 1);
         }
 
-        public SynchronizationContext(IEventAggregator eventAggregator)
+        public void Lock()
         {
-            _eventAggregator = eventAggregator;
-            _tasksLists = new List<TaskList>();
+            _semaphore.WaitOne();
+        }
+
+        public void Unlock()
+        {
+            _semaphore.Release();
         }
     }
 }

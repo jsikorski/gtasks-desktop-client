@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Google.Apis.Tasks.v1.Data;
 
-namespace GTasksDesktopClient.Core.Synchronization
+namespace GTasksDesktopClient.Core.Lists
 {
     public class ListsUpdated
     {
