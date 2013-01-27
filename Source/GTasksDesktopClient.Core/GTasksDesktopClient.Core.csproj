@@ -103,8 +103,11 @@
     <Compile Include="Authorization\AuthorizationViewModel.cs" />
     <Compile Include="Infrastructure\BusyScopeContext.cs" />
     <Compile Include="Infrastructure\CommandsInvoker.cs" />
+    <Compile Include="Infrastructure\IBackgroundTask.cs" />
     <Compile Include="Infrastructure\IBusyScope.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />
+    <Compile Include="Infrastructure\IStartable.cs" />
+    <Compile Include="Infrastructure\StartBackgroundTasks.cs" />
     <Compile Include="Layout\LayoutView.xaml.cs">
       <DependentUpon>LayoutView.xaml</DependentUpon>
     </Compile>

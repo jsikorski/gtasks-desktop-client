@@ -61,12 +61,6 @@ namespace GTasksDesktopClient.Core.Shell
             AuthorizationManager.AuthorizationRequired += ShowAuthorizationView;
         }
 
-        protected override void OnInitialize()
-        {
-            var synchronize = _container.Resolve<Synchronize>();
-            CommandsInvoker.ExecuteCommand(synchronize);
-        }
-
         private void ShowAuthorizationView(Uri authorizationUrl)
         {
             var authorizationViewModel = _authorizationViewModelFactory(authorizationUrl);

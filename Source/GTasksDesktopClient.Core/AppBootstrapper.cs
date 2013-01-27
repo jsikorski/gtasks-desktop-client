@@ -9,6 +9,7 @@ using GTasksDesktopClient.Core.Shell;
 using System.Linq;
 using GTasksDesktopClient.Core.Synchronization;
 using Google.Apis.Tasks.v1;
+using IStartable = GTasksDesktopClient.Core.Infrastructure.IStartable;
 
 namespace GTasksDesktopClient.Core
 {
@@ -20,7 +21,7 @@ namespace GTasksDesktopClient.Core
         {
             _container = InitializeContainer();
         }
-
+        
         private IContainer InitializeContainer()
         {
             var containerBuilder = new ContainerBuilder();
@@ -29,6 +30,7 @@ namespace GTasksDesktopClient.Core
             RegisterViewModels(containerBuilder);
             RegisterBusyScopes(containerBuilder);
             RegisterCommands(containerBuilder);
+            RegisterBackgroundTasks(containerBuilder);
             RegisterCaliburnComponents(containerBuilder);
             RegisterApplicationServices(containerBuilder);
             RegisterContexts(containerBuilder);
@@ -67,7 +69,16 @@ namespace GTasksDesktopClient.Core
         private void RegisterCommands(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                            .Where(type => type.GetInterfaces().Any(i => i == typeof(ICommand)));
+                            .Where(type => type.GetInterfaces().Any(i => i == typeof (ICommand)))
+                            .AsSelf()
+                            .AsImplementedInterfaces();
+        }
+
+        private void RegisterBackgroundTasks(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                            .Where(type => type.GetInterfaces().Any(i => i == typeof(IBackgroundTask)))
+                            .AsImplementedInterfaces();
         }
 
         private static void RegisterCaliburnComponents(ContainerBuilder containerBuilder)
@@ -94,6 +105,14 @@ namespace GTasksDesktopClient.Core
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
             return _container.Resolve(service.MakeArrayType()) as IEnumerable<object>;
+        }
+
+        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
+        {
+            base.OnStartup(sender, e);
+
+            var startables = _container.Resolve<IEnumerable<IStartable>>();
+            startables.ToList().ForEach(CommandsInvoker.ExecuteCommand);
         }
     }
 }

@@ -3,7 +3,7 @@ using Google.Apis.Tasks.v1;
 
 namespace GTasksDesktopClient.Core.Synchronization
 {
-    public class Synchronize : ICommand
+    public class Synchronize : IBackgroundTask
     {
         private readonly SynchronizationContext _synchronizationContext;
         private readonly TasksService _tasksService;
