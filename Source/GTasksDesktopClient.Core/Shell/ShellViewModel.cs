@@ -1,13 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using Autofac;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Lists;
 using GTasksDesktopClient.Core.Synchronization;
-using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.Shell
 {
@@ -15,9 +14,9 @@ namespace GTasksDesktopClient.Core.Shell
     {
         private const string WindowTitle = "Google Tasks Desktop Client";
 
+        private readonly IContainer _container;
         private readonly IEventAggregator _eventAggregator;
         private readonly Func<Uri, AuthorizationViewModel> _authorizationViewModelFactory;
-        private readonly Func<IEnumerable<TaskList>, LayoutViewModel> _layoutViewModelFactory;
 
         private bool _isBusy;
         private string _message;
@@ -43,15 +42,15 @@ namespace GTasksDesktopClient.Core.Shell
         }
 
         public ShellViewModel(
+            IContainer container,
             IEventAggregator eventAggregator, 
-            Func<Uri, AuthorizationViewModel> authorizationViewModelFactory,
-            Func<IEnumerable<TaskList>, LayoutViewModel> layoutViewModelFactory)
+            Func<Uri, AuthorizationViewModel> authorizationViewModelFactory)
         {
             base.DisplayName = WindowTitle;
 
+            _container = container;
             _eventAggregator = eventAggregator;
             _authorizationViewModelFactory = authorizationViewModelFactory;
-            _layoutViewModelFactory = layoutViewModelFactory;
 
             _eventAggregator.Subscribe(this);
             AuthorizationManager.AuthorizationRequired += ShowAuthorizationView;
@@ -66,12 +65,12 @@ namespace GTasksDesktopClient.Core.Shell
         public void Handle(ListsUpdated message)
         {
             _eventAggregator.Unsubscribe(this);
-            ShowLayout(message.TasksLists);
+            ShowLayout();
         }
 
-        private void ShowLayout(IEnumerable<TaskList> tasksLists)
+        private void ShowLayout()
         {
-            var layoutViewModel = _layoutViewModelFactory(tasksLists);
+            var layoutViewModel = _container.Resolve<LayoutViewModel>();
             ActivateItem(layoutViewModel);
         }
     }
