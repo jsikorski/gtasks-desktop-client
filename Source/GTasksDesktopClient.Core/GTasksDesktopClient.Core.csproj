@@ -123,7 +123,15 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
+    <Compile Include="Synchronization\ISyncStateIndicator.cs" />
     <Compile Include="Synchronization\SynchronizationContext.cs" />
+    <Compile Include="Synchronization\SynchronizationScope.cs" />
+    <Compile Include="Synchronization\SynchronizationState.cs" />
+    <Compile Include="Synchronization\SynchronizationStateToStringConverter.cs" />
+    <Compile Include="Synchronization\SynchronizationStateView.xaml.cs">
+      <DependentUpon>SynchronizationStateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Synchronization\SynchronizationStateViewModel.cs" />
     <Compile Include="Synchronization\Synchronize.cs" />
     <Compile Include="Utils\WebBrowserBehaviors.cs" />
   </ItemGroup>
@@ -175,6 +183,10 @@
     <Page Include="Styles\WhistlerBlue.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Synchronization\SynchronizationStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup />

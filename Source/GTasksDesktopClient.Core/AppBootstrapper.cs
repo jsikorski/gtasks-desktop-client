@@ -28,7 +28,7 @@ namespace GTasksDesktopClient.Core
 
             RegisterViews(containerBuilder);
             RegisterViewModels(containerBuilder);
-            RegisterBusyIndicators(containerBuilder);
+            RegisterIndicators(containerBuilder);
             RegisterCommands(containerBuilder);
             RegisterBackgroundTasks(containerBuilder);
             RegisterCaliburnComponents(containerBuilder);
@@ -49,18 +49,18 @@ namespace GTasksDesktopClient.Core
         {
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                             .Where(type => type.Name.EndsWith("ViewModel"))
-                            .Where(type => !IsBusyIndicator(type));
+                            .Where(type => !IsIndicator(type));
         }
 
-        private bool IsBusyIndicator(Type type)
+        private bool IsIndicator(Type type)
         {
-            return type.GetInterfaces().Any(i => i == typeof(IBusyIndicator));
+            return type.GetInterfaces().Any(i => i.Name.EndsWith("Indicator"));
         }
 
-        private void RegisterBusyIndicators(ContainerBuilder containerBuilder)
+        private void RegisterIndicators(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                            .Where(IsBusyIndicator)
+                            .Where(IsIndicator)
                             .SingleInstance()
                             .AsSelf()
                             .AsImplementedInterfaces();
