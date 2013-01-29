@@ -1,7 +1,7 @@
 ﻿namespace GTasksDesktopClient.Core.Infrastructure
 {
-    public interface IBackgroundTask
+    public interface IStopable
     {
-        void Execute();
+        void Stop();
     }
 }

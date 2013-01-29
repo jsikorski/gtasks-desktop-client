@@ -102,13 +102,16 @@
     </Compile>
     <Compile Include="Authorization\AuthorizationViewModel.cs" />
     <Compile Include="CurrentContext.cs" />
+    <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksContext.cs" />
+    <Compile Include="Infrastructure\BackgroundTasks\IBackgroundTask.cs" />
+    <Compile Include="Infrastructure\BackgroundTasks\StartBackgroundTasks.cs" />
+    <Compile Include="Infrastructure\BackgroundTasks\StopBackgroundTasks.cs" />
     <Compile Include="Infrastructure\BusyScope.cs" />
     <Compile Include="Infrastructure\CommandsInvoker.cs" />
-    <Compile Include="Infrastructure\IBackgroundTask.cs" />
     <Compile Include="Infrastructure\IBusyIndicator.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />
     <Compile Include="Infrastructure\IStartable.cs" />
-    <Compile Include="Infrastructure\StartBackgroundTasks.cs" />
+    <Compile Include="Infrastructure\IStopable.cs" />
     <Compile Include="Layout\LayoutView.xaml.cs">
       <DependentUpon>LayoutView.xaml</DependentUpon>
     </Compile>

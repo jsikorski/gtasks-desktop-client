@@ -19,7 +19,7 @@ namespace GTasksDesktopClient.Core.Shell
 
         private bool _isBusy;
         private string _message;
-        private BusyScope _busyScope;
+        private readonly BusyScope _busyScope;
 
         public bool IsBusy
         {

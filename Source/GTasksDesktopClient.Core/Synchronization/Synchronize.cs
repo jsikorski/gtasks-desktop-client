@@ -1,4 +1,5 @@
 ﻿using GTasksDesktopClient.Core.Infrastructure;
+using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using Google.Apis.Tasks.v1;
 
 namespace GTasksDesktopClient.Core.Synchronization

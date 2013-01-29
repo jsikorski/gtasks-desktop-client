@@ -1,6 +1,7 @@
 ﻿namespace GTasksDesktopClient.Core.Infrastructure
 {
-    public interface IStartable : ICommand
+    public interface IStartable
     {
+        void Start();
     }
 }

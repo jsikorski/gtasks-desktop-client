@@ -5,6 +5,7 @@ using Autofac;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
+using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
 using System.Linq;
 using GTasksDesktopClient.Core.Synchronization;
@@ -30,6 +31,8 @@ namespace GTasksDesktopClient.Core
             RegisterViewModels(containerBuilder);
             RegisterIndicators(containerBuilder);
             RegisterCommands(containerBuilder);
+            RegisterStartables(containerBuilder);
+            RegisterStopables(containerBuilder);
             RegisterBackgroundTasks(containerBuilder);
             RegisterCaliburnComponents(containerBuilder);
             RegisterApplicationServices(containerBuilder);
@@ -70,7 +73,20 @@ namespace GTasksDesktopClient.Core
         {
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                             .Where(type => type.GetInterfaces().Any(i => i == typeof (ICommand)))
-                            .AsSelf()
+                            .AsSelf();
+        }
+
+        private void RegisterStartables(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                            .Where(type => type.GetInterfaces().Any(i => i == typeof(IStartable)))
+                            .AsImplementedInterfaces();
+        }
+
+        private void RegisterStopables(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                            .Where(type => type.GetInterfaces().Any(i => i == typeof(IStopable)))
                             .AsImplementedInterfaces();
         }
 
@@ -94,6 +110,7 @@ namespace GTasksDesktopClient.Core
 
         private void RegisterContexts(ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterType<BackgroundTasksContext>().SingleInstance();
             containerBuilder.RegisterType<CurrentContext>().SingleInstance();
             containerBuilder.RegisterType<SynchronizationContext>().SingleInstance();
         }
@@ -113,7 +130,15 @@ namespace GTasksDesktopClient.Core
             base.OnStartup(sender, e);
 
             var startables = _container.Resolve<IEnumerable<IStartable>>();
-            startables.ToList().ForEach(CommandsInvoker.ExecuteCommand);
+            startables.ToList().ForEach(startable => startable.Start());
+        }
+
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            var stopables = _container.Resolve<IEnumerable<IStopable>>();
+            stopables.ToList().ForEach(stopable => stopable.Stop());
+
+            base.OnExit(sender, e);
         }
     }
 }
