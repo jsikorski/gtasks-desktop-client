@@ -10,7 +10,7 @@ using GTasksDesktopClient.Core.Synchronization;
 
 namespace GTasksDesktopClient.Core.Shell
 {
-    public class ShellViewModel : Conductor<object>, IBusyScope
+    public class ShellViewModel : Conductor<object>, IBusyIndicator
     {
         private const string WindowTitle = "Google Tasks Desktop Client";
 
@@ -19,7 +19,7 @@ namespace GTasksDesktopClient.Core.Shell
 
         private bool _isBusy;
         private string _message;
-        private BusyScopeContext _busyScopeContext;
+        private BusyScope _busyScope;
 
         public bool IsBusy
         {
@@ -53,12 +53,12 @@ namespace GTasksDesktopClient.Core.Shell
             AuthorizationManager.AuthorizationRequired += ShowAuthorizationView;
             AuthorizationManager.AuthorizationSucceeded += ShowLayout;
 
-            _busyScopeContext = new BusyScopeContext(this);
+            _busyScope = new BusyScope(this);
         }
 
         private void ShowAuthorizationView(Uri authorizationUrl)
         {
-            _busyScopeContext.Dispose();
+            _busyScope.Dispose();
 
             var authorizationViewModel = _authorizationViewModelFactory(authorizationUrl);
             ActivateItem(authorizationViewModel);
@@ -66,7 +66,7 @@ namespace GTasksDesktopClient.Core.Shell
 
         private void ShowLayout()
         {
-            _busyScopeContext.Dispose();
+            _busyScope.Dispose();
 
             var layoutViewModel = _container.Resolve<LayoutViewModel>();
             ActivateItem(layoutViewModel);

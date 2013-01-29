@@ -102,10 +102,10 @@
     </Compile>
     <Compile Include="Authorization\AuthorizationViewModel.cs" />
     <Compile Include="CurrentContext.cs" />
-    <Compile Include="Infrastructure\BusyScopeContext.cs" />
+    <Compile Include="Infrastructure\BusyScope.cs" />
     <Compile Include="Infrastructure\CommandsInvoker.cs" />
     <Compile Include="Infrastructure\IBackgroundTask.cs" />
-    <Compile Include="Infrastructure\IBusyScope.cs" />
+    <Compile Include="Infrastructure\IBusyIndicator.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />
     <Compile Include="Infrastructure\IStartable.cs" />
     <Compile Include="Infrastructure\StartBackgroundTasks.cs" />

@@ -1,6 +1,6 @@
 ﻿namespace GTasksDesktopClient.Core.Infrastructure
 {
-    public interface IBusyScope
+    public interface IBusyIndicator
     {
         bool IsBusy { get; set; }
         string Message { get; set; }
