@@ -9,7 +9,7 @@ namespace GTasksDesktopClient.Core.Synchronization
         public SynchronizationScope(ISyncStateIndicator syncStateIndicator)
         {
             _syncStateIndicator = syncStateIndicator;
-            _syncStateIndicator.State = SynchronizationState.InProgress;
+            _syncStateIndicator.State = SynchronizationState.Connecting;
         }
 
         public void Dispose()

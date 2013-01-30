@@ -9,21 +9,23 @@ namespace GTasksDesktopClient.Core
     {
         private readonly IEventAggregator _eventAggregator;
 
-        private IEnumerable<TaskList> _tasksLists;
-        public IEnumerable<TaskList> TasksLists
+        private string _lastTasksListETag;
+        public IEnumerable<TaskList> TasksLists { get; private set; }
+
+        public void UpdateTasksLists(TaskLists taskLists)
         {
-            get { return _tasksLists; }
-            set
-            {
-                _tasksLists = value;
-                _eventAggregator.Publish(new ListsUpdated(value));
-            }
+            if (_lastTasksListETag == taskLists.ETag)
+                return;
+
+            _lastTasksListETag = taskLists.ETag;
+            TasksLists = taskLists.Items;
+            _eventAggregator.Publish(new ListsUpdated(TasksLists));
         }
 
         public CurrentContext(EventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            _tasksLists = new List<TaskList>();
+            TasksLists = new List<TaskList>();
         }
     }
 }

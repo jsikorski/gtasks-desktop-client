@@ -3,7 +3,7 @@
     public enum SynchronizationState
     {
         Idle,
-        InProgress,
+        Connecting,
         Error
     }
 }

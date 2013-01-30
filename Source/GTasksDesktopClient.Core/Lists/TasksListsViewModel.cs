@@ -19,7 +19,8 @@ namespace GTasksDesktopClient.Core.Lists
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.Subscribe(this);
-
+            
+            //currentContext.TasksLists.First().
             var tasksListsViewModel = currentContext.TasksLists.Select(tasksList => new TasksListViewModel(tasksList));
             TasksLists = new ObservableCollection<TasksListViewModel>(tasksListsViewModel);
         }

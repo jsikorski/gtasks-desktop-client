@@ -14,8 +14,8 @@ namespace GTasksDesktopClient.Core.Synchronization
             {
                 case SynchronizationState.Idle:
                     return "gotowa";
-                case SynchronizationState.InProgress:
-                    return "w trakcie";
+                case SynchronizationState.Connecting:
+                    return "łączenie...";
                 default:
                     return "wystąpił nieznany błąd";
             }

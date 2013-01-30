@@ -30,7 +30,7 @@ namespace GTasksDesktopClient.Core.Synchronization
             using (new SynchronizationScope(_syncStateIndicator))
             {
                 var lists = _tasksService.Tasklists.List().Fetch();
-                _currentContext.TasksLists = lists.Items;
+                _currentContext.UpdateTasksLists(lists);
             }
         
             _synchronizationContext.Unlock();
