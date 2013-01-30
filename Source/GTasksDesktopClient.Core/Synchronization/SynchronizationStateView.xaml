@@ -13,6 +13,6 @@
     
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
         <TextBlock Text="Stan synchronizacji:" />
-        <TextBlock Margin="5 0 0 0" Text="{Binding State, Converter={StaticResource synchronizationStateToStringConverter}}" MinWidth="50" />
+        <TextBlock Margin="5 0 0 0" Text="{Binding State, Converter={StaticResource synchronizationStateToStringConverter}}" MinWidth="55" />
     </StackPanel>
 </UserControl>
