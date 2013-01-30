@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
-using GTasksDesktopClient.Core.Lists;
+using GTasksDesktopClient.Core.TasksLists;
 using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core
@@ -19,7 +19,7 @@ namespace GTasksDesktopClient.Core
 
             _lastTasksListETag = taskLists.ETag;
             TasksLists = taskLists.Items;
-            _eventAggregator.Publish(new ListsUpdated(TasksLists));
+            _eventAggregator.Publish(new TasksListsUpdated(TasksLists));
         }
 
         public CurrentContext(EventAggregator eventAggregator)

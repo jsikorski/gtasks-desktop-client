@@ -5,7 +5,6 @@ using Caliburn.Micro;
 using GTasksDesktopClient.Core.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
-using GTasksDesktopClient.Core.Lists;
 using GTasksDesktopClient.Core.Synchronization;
 
 namespace GTasksDesktopClient.Core.Shell

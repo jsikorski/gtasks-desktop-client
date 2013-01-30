@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using Google.Apis.Tasks.v1.Data;
 
-namespace GTasksDesktopClient.Core.Lists
+namespace GTasksDesktopClient.Core.TasksLists
 {
-    public class ListsUpdated
+    public class TasksListsUpdated
     {
         public IEnumerable<TaskList> TasksLists { get; private set; }
 
-        public ListsUpdated(IEnumerable<TaskList> tasksLists)
+        public TasksListsUpdated(IEnumerable<TaskList> tasksLists)
         {
             TasksLists = tasksLists;
         }

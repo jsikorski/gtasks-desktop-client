@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GTasksDesktopClient.Core.Lists
+namespace GTasksDesktopClient.Core.Tasks
 {
     /// <summary>
-    /// Interaction logic for TasksListsView.xaml
+    /// Interaction logic for TasksView.xaml
     /// </summary>
-    public partial class TasksListsView : UserControl
+    public partial class TasksView : UserControl
     {
-        public TasksListsView()
+        public TasksView()
         {
             InitializeComponent();
         }

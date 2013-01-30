@@ -116,12 +116,12 @@
       <DependentUpon>LayoutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layout\LayoutViewModel.cs" />
-    <Compile Include="Lists\ListsUpdated.cs" />
-    <Compile Include="Lists\TasksListsView.xaml.cs">
+    <Compile Include="TasksLists\TasksListsUpdated.cs" />
+    <Compile Include="TasksLists\TasksListsView.xaml.cs">
       <DependentUpon>TasksListsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Lists\TasksListsViewModel.cs" />
-    <Compile Include="Lists\TasksListViewModel.cs" />
+    <Compile Include="TasksLists\TasksListsViewModel.cs" />
+    <Compile Include="TasksLists\TasksListViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -136,6 +136,13 @@
     </Compile>
     <Compile Include="Synchronization\SynchronizationStateViewModel.cs" />
     <Compile Include="Synchronization\Synchronize.cs" />
+    <Compile Include="Tasks\ShowTasks.cs" />
+    <Compile Include="Tasks\TasksUpdated.cs" />
+    <Compile Include="Tasks\TasksView.xaml.cs">
+      <DependentUpon>TasksView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tasks\TasksViewModel.cs" />
+    <Compile Include="Tasks\TaskViewModel.cs" />
     <Compile Include="Utils\WebBrowserBehaviors.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -175,7 +182,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Lists\TasksListsView.xaml">
+    <Page Include="TasksLists\TasksListsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -188,6 +195,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Synchronization\SynchronizationStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tasks\TasksView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

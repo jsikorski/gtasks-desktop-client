@@ -16,7 +16,8 @@
             <ColumnDefinition Width="3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
-        <ContentControl x:Name="TasksListsViewModel" Grid.Row="0" Grid.Column="0"></ContentControl>
-        <ContentControl x:Name="SynchronizationStateViewModel" Grid.Row="1" Grid.Column="1"></ContentControl>
+        <ContentControl x:Name="TasksListsViewModel" Grid.Row="0" Grid.Column="0" />
+        <ContentControl x:Name="TasksViewModel" Grid.Row="0" Grid.Column="1" />
+        <ContentControl x:Name="SynchronizationStateViewModel" Grid.Row="1" Grid.Column="1" />
     </Grid>
 </UserControl>

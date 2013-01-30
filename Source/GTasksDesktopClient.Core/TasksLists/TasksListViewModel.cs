@@ -2,11 +2,16 @@
 using System.Globalization;
 using Google.Apis.Tasks.v1.Data;
 
-namespace GTasksDesktopClient.Core.Lists
+namespace GTasksDesktopClient.Core.TasksLists
 {
     public class TasksListViewModel
     {
         private readonly TaskList _taskList;
+
+        public string Id
+        {
+            get { return _taskList.Id; }
+        }
 
         public string Title
         {
