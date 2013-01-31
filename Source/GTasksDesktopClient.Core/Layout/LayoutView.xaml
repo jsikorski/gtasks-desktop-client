@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
              mc:Ignorable="d" 
              d:DesignHeight="400" 
              d:DesignWidth="800">
@@ -12,17 +13,20 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
-        
-        <TabControl Grid.Row="0">
-            <TabControl.Items>
-                <TabItem Header="Listy">
-                    <controls:MetroContentControl x:Name="TasksListsViewModel" />
-                </TabItem>
-                <TabItem Header="Zadania">
-                    <controls:MetroContentControl x:Name="TasksViewModel" />
-                </TabItem>
-            </TabControl.Items>
+
+        <TabControl x:Name="Items">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Header}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <controls:MetroContentControl cal:View.Model="{Binding}" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
+        
         <ContentControl x:Name="SynchronizationStateViewModel" Grid.Row="1" />
     </Grid>
 </UserControl>

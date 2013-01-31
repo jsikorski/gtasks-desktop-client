@@ -3,15 +3,21 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Infrastructure;
+using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Tasks;
 
 namespace GTasksDesktopClient.Core.TasksLists
 {
-    public class TasksListsViewModel : Screen, IHandle<TasksListsUpdated>
+    public class TasksListsViewModel : Screen, ITab, IHandle<TasksListsUpdated>
     {
         private readonly EventAggregator _eventAggregator;
         private readonly Func<string, ShowTasks> _showTasksFactory;
         private TasksListViewModel _selectedTasksList;
+
+        public string Header
+        {
+            get { return "Listy"; }
+        }
 
         public TasksListViewModel SelectedTasksList
         {
@@ -44,6 +50,8 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         public void ShowTasksList()
         {
+            _eventAggregator.Publish(new TasksViewRequested());
+
             var showTasks = _showTasksFactory(_selectedTasksList.Id);
             CommandsInvoker.ExecuteCommand(showTasks);
         }

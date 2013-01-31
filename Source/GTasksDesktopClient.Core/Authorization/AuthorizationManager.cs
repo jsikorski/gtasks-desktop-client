@@ -17,8 +17,8 @@ namespace GTasksDesktopClient.Core.Authorization
     {
         private const string AuthorizationResponseUrlFormat = "http://localhost:{0}/{1}/authorize/";
 
-        private const string ClientIdentifier = "747950969211.apps.googleusercontent.com";
-        private const string ClientSecret = "Pc30_p04vf01tF6apQ0bpDlS";
+        private const string ClientIdentifier = "596156411832.apps.googleusercontent.com";
+        private const string ClientSecret = "TTVqVDazRG_u5qr7XlAOpeQk";
 
         public static event Action<Uri> AuthorizationRequired;
         public static event Action AuthorizationSucceeded;

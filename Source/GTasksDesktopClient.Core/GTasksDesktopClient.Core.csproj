@@ -116,6 +116,7 @@
     <Compile Include="Infrastructure\ICommand.cs" />
     <Compile Include="Infrastructure\IStartable.cs" />
     <Compile Include="Infrastructure\IStopable.cs" />
+    <Compile Include="Layout\ITab.cs" />
     <Compile Include="Layout\LayoutView.xaml.cs">
       <DependentUpon>LayoutView.xaml</DependentUpon>
     </Compile>
@@ -141,6 +142,7 @@
     <Compile Include="Synchronization\SynchronizationStateViewModel.cs" />
     <Compile Include="Synchronization\Synchronize.cs" />
     <Compile Include="Tasks\ShowTasks.cs" />
+    <Compile Include="Tasks\TasksViewRequested.cs" />
     <Compile Include="Tasks\TasksUpdated.cs" />
     <Compile Include="Tasks\TasksView.xaml.cs">
       <DependentUpon>TasksView.xaml</DependentUpon>

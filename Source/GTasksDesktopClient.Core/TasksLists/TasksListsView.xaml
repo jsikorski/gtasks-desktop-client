@@ -13,9 +13,9 @@
              cal:Message.Attach="[Event SelectionChanged] = [Action ShowTasksList]">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <Grid VerticalAlignment="Center">
+                <Grid VerticalAlignment="Center" >
                     <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="75"></RowDefinition>
+                        <RowDefinition MinHeight="75" Cursor="{x:Static Cursors.Hand}"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>

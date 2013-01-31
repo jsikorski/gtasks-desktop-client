@@ -5,13 +5,11 @@ namespace GTasksDesktopClient.Core.Infrastructure.BackgroundTasks
 {
     public class BackgroundTasksContext : IDisposable
     {
-        private const int BackgroundTasksInterval = 1000;
-
         public Timer Timer { get; private set; }
 
         public BackgroundTasksContext()
         {
-            Timer = new Timer(BackgroundTasksInterval);
+            Timer = new Timer(1);
         }
 
         public void Dispose()

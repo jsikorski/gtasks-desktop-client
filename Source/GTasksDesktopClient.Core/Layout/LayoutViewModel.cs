@@ -5,20 +5,45 @@ using GTasksDesktopClient.Core.TasksLists;
 
 namespace GTasksDesktopClient.Core.Layout
 {
-    public class LayoutViewModel : Conductor<IScreen>.Collection.OneActive
+    public class LayoutViewModel : Conductor<ITab>.Collection.OneActive, IHandle<TasksViewRequested>
     {
-        public TasksListsViewModel TasksListsViewModel { get; set; }
-        public TasksViewModel TasksViewModel { get; set; }
-        public SynchronizationStateViewModel SynchronizationStateViewModel { get; set; }
+        private readonly EventAggregator _eventAggregator;
+
+        private TasksListsViewModel TasksListsViewModel { get; set; }
+        private TasksViewModel TasksViewModel { get; set; }        
+        public SynchronizationStateViewModel SynchronizationStateViewModel { get; private set; }
 
         public LayoutViewModel(
+            EventAggregator eventAggregator,
             TasksListsViewModel tasksListsViewModel, 
             TasksViewModel tasksViewModel,
             SynchronizationStateViewModel synchronizationStateViewModel)
         {
+            _eventAggregator = eventAggregator;
+            _eventAggregator.Subscribe(this);
+
             TasksListsViewModel = tasksListsViewModel;
             TasksViewModel = tasksViewModel;
+
+            Items.Add(TasksListsViewModel);
+            Items.Add(TasksViewModel);
+            
             SynchronizationStateViewModel = synchronizationStateViewModel;
+        }
+
+        private void ShowTasksLists()
+        {
+            ActivateItem(TasksListsViewModel);
+        }
+
+        public void Handle(TasksViewRequested message)
+        {
+            ShowTasks();
+        }
+
+        private void ShowTasks()
+        {
+            ActivateItem(TasksViewModel);
         }
     }
 }
