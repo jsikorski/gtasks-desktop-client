@@ -31,11 +31,6 @@ namespace GTasksDesktopClient.Core.Layout
             SynchronizationStateViewModel = synchronizationStateViewModel;
         }
 
-        private void ShowTasksLists()
-        {
-            ActivateItem(TasksListsViewModel);
-        }
-
         public void Handle(TasksViewRequested message)
         {
             ShowTasks();

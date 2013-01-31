@@ -7,6 +7,7 @@
                       MaxHeight="800">
     <Window.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
@@ -18,7 +19,13 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <controls:ProgressRing IsActive="{Binding IsBusy}" />
         <ContentControl x:Name="ActiveItem" />
+        <Border Background="White" 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                Opacity="0.55" 
+                Visibility="{Binding ElementName=ProgressRing, Path=IsActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <controls:ProgressRing x:Name="ProgressRing" IsActive="{Binding IsBusy}" />
+        </Border>
     </Grid>
 </controls:MetroWindow>

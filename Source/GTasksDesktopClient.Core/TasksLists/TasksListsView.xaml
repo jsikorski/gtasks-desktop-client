@@ -9,11 +9,10 @@
              d:DesignWidth="300">
 
     <ListBox ItemsSource="{Binding TasksLists}" 
-             SelectedItem="{Binding SelectedTasksList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-             cal:Message.Attach="[Event SelectionChanged] = [Action ShowTasksList]">
+             SelectedItem="{Binding SelectedTasksList, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <Grid VerticalAlignment="Center" >
+                <Grid VerticalAlignment="Center" cal:Message.Attach="[Event MouseUp] = [Action ShowTasksList]" >
                     <Grid.RowDefinitions>
                         <RowDefinition MinHeight="75" Cursor="{x:Static Cursors.Hand}"></RowDefinition>
                     </Grid.RowDefinitions>
@@ -30,7 +29,7 @@
                     <StackPanel Grid.Column="1" Margin="0 0 10 0" Orientation="Horizontal">
                         <Rectangle Grid.Column="1" Width="12" Height="12" Margin="0 0 10 0">
                             <Rectangle.Fill>
-                                <VisualBrush Visual="{StaticResource appbar_edit}"/>
+                                <VisualBrush Visual="{StaticResource appbar_edit}" />
                             </Rectangle.Fill>
                         </Rectangle>
                         <Rectangle Grid.Column="1" Width="12" Height="12">

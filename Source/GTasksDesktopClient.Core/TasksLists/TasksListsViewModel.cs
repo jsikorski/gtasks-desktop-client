@@ -12,26 +12,13 @@ namespace GTasksDesktopClient.Core.TasksLists
     {
         private readonly EventAggregator _eventAggregator;
         private readonly Func<string, ShowTasks> _showTasksFactory;
-        private TasksListViewModel _selectedTasksList;
 
         public string Header
         {
             get { return "Listy"; }
         }
 
-        public TasksListViewModel SelectedTasksList
-        {
-            get { return _selectedTasksList; }
-            set
-            {
-                if (value == null)
-                    return;
-
-                _selectedTasksList = value;
-                NotifyOfPropertyChange(() => SelectedTasksList);
-            }
-        }
-
+        public TasksListViewModel SelectedTasksList { get; set; }
         public ObservableCollection<TasksListViewModel> TasksLists { get; private set; }
 
         public TasksListsViewModel(
@@ -44,24 +31,22 @@ namespace GTasksDesktopClient.Core.TasksLists
             _showTasksFactory = showTasksFactory;
             _eventAggregator.Subscribe(this);
 
-            var tasksListsViewModel = currentContext.TasksLists.Select(tasksList => new TasksListViewModel(tasksList));
-            TasksLists = new ObservableCollection<TasksListViewModel>(tasksListsViewModel);
+            var tasksListsViewModels = currentContext.TasksLists.Select(tasksList => new TasksListViewModel(tasksList));
+            TasksLists = new ObservableCollection<TasksListViewModel>(tasksListsViewModels);
         }
 
         public void ShowTasksList()
         {
             _eventAggregator.Publish(new TasksViewRequested());
 
-            var showTasks = _showTasksFactory(_selectedTasksList.Id);
+            var showTasks = _showTasksFactory(SelectedTasksList.Id);
             CommandsInvoker.ExecuteCommand(showTasks);
         }
 
         public void Handle(TasksListsUpdated message)
         {
             TasksLists.Clear();
-            message.TasksLists.ToList().ForEach(list => TasksLists.Add(new TasksListViewModel(list)));
-
-            SelectedTasksList = TasksLists.First();
+            message.TasksLists.ToList().ForEach(tasksList => TasksLists.Add(new TasksListViewModel(tasksList)));
         }
     }
 }

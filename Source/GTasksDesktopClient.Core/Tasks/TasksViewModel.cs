@@ -19,9 +19,9 @@ namespace GTasksDesktopClient.Core.Tasks
         public TasksViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+            _eventAggregator.Subscribe(this);
 
             Tasks = new ObservableCollection<TaskViewModel>();
-            _eventAggregator.Subscribe(this);
         }
 
         public void Handle(TasksUpdated message)
