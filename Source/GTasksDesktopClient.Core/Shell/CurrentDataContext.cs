@@ -37,6 +37,8 @@ namespace GTasksDesktopClient.Core.Shell
         public CurrentDataContext(EventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+
+            Tasks = new List<Task>();
             TasksLists = new List<TaskList>();
         }
     }
