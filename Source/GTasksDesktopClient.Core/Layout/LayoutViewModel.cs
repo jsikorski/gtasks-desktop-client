@@ -20,8 +20,6 @@ namespace GTasksDesktopClient.Core.Layout
             SynchronizationStateViewModel synchronizationStateViewModel)
         {
             _eventAggregator = eventAggregator;
-            _eventAggregator.Subscribe(this);
-
             TasksListsViewModel = tasksListsViewModel;
             TasksViewModel = tasksViewModel;
 
@@ -29,6 +27,16 @@ namespace GTasksDesktopClient.Core.Layout
             Items.Add(TasksViewModel);
             
             SynchronizationStateViewModel = synchronizationStateViewModel;
+        }
+
+        protected override void OnActivate()
+        {
+            _eventAggregator.Subscribe(this);
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            _eventAggregator.Unsubscribe(this);
         }
 
         public void Handle(TasksViewRequested message)

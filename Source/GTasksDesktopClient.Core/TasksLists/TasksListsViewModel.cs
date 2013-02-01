@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
@@ -16,14 +15,13 @@ namespace GTasksDesktopClient.Core.TasksLists
     {
         private readonly EventAggregator _eventAggregator;
         private readonly CurrentContext _currentContext;
-        private readonly Func<string, ShowTasks> _showTasksFactory;
-        private TasksListViewModel _selectedTasksList;
 
         public string Header
         {
             get { return "Listy"; }
         }
 
+        private TasksListViewModel _selectedTasksList;
         public TasksListViewModel SelectedTasksList
         {
             get { return _selectedTasksList; }
@@ -42,13 +40,10 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         public TasksListsViewModel(
             EventAggregator eventAggregator,
-            CurrentContext currentContext,
-            Func<string, ShowTasks> showTasksFactory
-        )
+            CurrentContext currentContext)
         {
             _eventAggregator = eventAggregator;
             _currentContext = currentContext;
-            _showTasksFactory = showTasksFactory;
 
             TasksLists = new ObservableCollection<TasksListViewModel>();
             SelectFirstTasksList();
@@ -93,9 +88,6 @@ namespace GTasksDesktopClient.Core.TasksLists
         public void ShowTasksList()
         {
             _eventAggregator.Publish(new TasksViewRequested());
-
-            var showTasks = _showTasksFactory(SelectedTasksList.Id);
-            CommandsInvoker.ExecuteCommand(showTasks);
         }
 
         public void Handle(TasksListsUpdated message)
