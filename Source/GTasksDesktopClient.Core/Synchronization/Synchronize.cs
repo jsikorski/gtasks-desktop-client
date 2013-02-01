@@ -8,18 +8,18 @@ namespace GTasksDesktopClient.Core.Synchronization
     public class Synchronize : IBackgroundTask
     {
         private readonly SynchronizationContext _synchronizationContext;
-        private readonly DataContext _dataContext;
+        private readonly CurrentDataContext _currentDataContext;
         private readonly TasksService _tasksService;
         private readonly ISyncStateIndicator _syncStateIndicator;
 
         public Synchronize(
             SynchronizationContext synchronizationContext,
-            DataContext dataContext,
+            CurrentDataContext currentDataContext,
             TasksService tasksService, 
             ISyncStateIndicator syncStateIndicator)
         {
             _synchronizationContext = synchronizationContext;
-            _dataContext = dataContext;
+            _currentDataContext = currentDataContext;
             _tasksService = tasksService;
             _syncStateIndicator = syncStateIndicator;
         }
@@ -34,7 +34,7 @@ namespace GTasksDesktopClient.Core.Synchronization
 
                 if (_synchronizationContext.LastTasksListsETag != lists.ETag)
                 {
-                    _dataContext.TasksLists = lists.Items;
+                    _currentDataContext.TasksLists = lists.Items;
                     _synchronizationContext.LastTasksListsETag = lists.ETag;
                 }
             }

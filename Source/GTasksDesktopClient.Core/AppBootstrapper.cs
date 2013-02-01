@@ -111,7 +111,7 @@ namespace GTasksDesktopClient.Core
         private void RegisterContexts(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<BackgroundTasksContext>().SingleInstance();
-            containerBuilder.RegisterType<DataContext>().SingleInstance();
+            containerBuilder.RegisterType<CurrentDataContext>().SingleInstance();
             containerBuilder.RegisterType<SynchronizationContext>().SingleInstance();
         }
 

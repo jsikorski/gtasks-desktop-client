@@ -15,7 +15,7 @@ namespace GTasksDesktopClient.Core.TasksLists
     public class TasksListsViewModel : Screen, ITab, IHandle<TasksListsUpdated>
     {
         private readonly EventAggregator _eventAggregator;
-        private readonly DataContext _dataContext;
+        private readonly CurrentDataContext _currentDataContext;
 
         public string Header
         {
@@ -32,7 +32,7 @@ namespace GTasksDesktopClient.Core.TasksLists
                     return;
 
                 _selectedTasksList = value;
-                _dataContext.SelectedTasksListId = _selectedTasksList.Id;
+                _currentDataContext.SelectedTasksListId = _selectedTasksList.Id;
                 NotifyOfPropertyChange(() => SelectedTasksList);
             }
         }
@@ -41,10 +41,10 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         public TasksListsViewModel(
             EventAggregator eventAggregator,
-            DataContext dataContext)
+            CurrentDataContext currentDataContext)
         {
             _eventAggregator = eventAggregator;
-            _dataContext = dataContext;
+            _currentDataContext = currentDataContext;
 
             TasksLists = new ObservableCollection<TasksListViewModel>();
             SelectFirstTasksList();
@@ -52,7 +52,7 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         protected override void OnActivate()
         {
-            UpdateTasksLists(_dataContext.TasksLists);
+            UpdateTasksLists(_currentDataContext.TasksLists);
             _eventAggregator.Subscribe(this);
         }
 
@@ -66,7 +66,7 @@ namespace GTasksDesktopClient.Core.TasksLists
         private void UpdateSelectedTasksList()
         {
             var lastSelectedTasksList =
-                TasksLists.SingleOrDefault(tasksList => tasksList.Id == _dataContext.SelectedTasksListId);
+                TasksLists.SingleOrDefault(tasksList => tasksList.Id == _currentDataContext.SelectedTasksListId);
 
             if (lastSelectedTasksList == null)
                 SelectFirstTasksList();

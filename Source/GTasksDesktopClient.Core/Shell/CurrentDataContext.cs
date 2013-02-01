@@ -1,15 +1,27 @@
 using System.Collections.Generic;
 using Caliburn.Micro;
+using GTasksDesktopClient.Core.Tasks;
 using GTasksDesktopClient.Core.TasksLists;
 using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.Shell
 {
-    public class DataContext
+    public class CurrentDataContext
     {
         private readonly IEventAggregator _eventAggregator;
 
         public string SelectedTasksListId { get; set; }
+
+        private IEnumerable<Task> _tasks;
+        public IEnumerable<Task> Tasks
+        {
+            get { return _tasks; }
+            set
+            {
+                _tasks = value;
+                _eventAggregator.Publish(new TasksUpdated(value));
+            }
+        }
 
         private IEnumerable<TaskList> _tasksLists;
         public IEnumerable<TaskList> TasksLists
@@ -22,7 +34,7 @@ namespace GTasksDesktopClient.Core.Shell
             }
         }
         
-        public DataContext(EventAggregator eventAggregator)
+        public CurrentDataContext(EventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
             TasksLists = new List<TaskList>();

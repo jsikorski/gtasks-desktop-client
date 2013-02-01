@@ -120,7 +120,7 @@
       <DependentUpon>LayoutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layout\LayoutViewModel.cs" />
-    <Compile Include="Shell\DataContext.cs" />
+    <Compile Include="Shell\CurrentDataContext.cs" />
     <Compile Include="TasksLists\TasksListsUpdated.cs" />
     <Compile Include="TasksLists\TasksListsView.xaml.cs">
       <DependentUpon>TasksListsView.xaml</DependentUpon>

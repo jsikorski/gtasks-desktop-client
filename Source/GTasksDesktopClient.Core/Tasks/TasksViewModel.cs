@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Shell;
 using GTasksDesktopClient.Core.Utils;
+using Task = Google.Apis.Tasks.v1.Data.Task;
 
 namespace GTasksDesktopClient.Core.Tasks
 {
@@ -13,7 +16,7 @@ namespace GTasksDesktopClient.Core.Tasks
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly Func<string, ShowTasks> _showTasksFactory;
-        private readonly DataContext _dataContext;
+        private readonly CurrentDataContext _currentDataContext;
 
         public string Header
         {
@@ -25,11 +28,11 @@ namespace GTasksDesktopClient.Core.Tasks
         public TasksViewModel(
             IEventAggregator eventAggregator, 
             Func<string, ShowTasks> showTasksFactory, 
-            DataContext dataContext)
+            CurrentDataContext currentDataContext)
         {
             _eventAggregator = eventAggregator;
             _showTasksFactory = showTasksFactory;
-            _dataContext = dataContext;
+            _currentDataContext = currentDataContext;
 
             Tasks = new ObservableCollection<TaskViewModel>();
         }
@@ -37,9 +40,16 @@ namespace GTasksDesktopClient.Core.Tasks
         protected override void OnActivate()
         {
             _eventAggregator.Subscribe(this);
+            UpdateTasks(_currentDataContext.Tasks);
 
-            var showTasks = _showTasksFactory(_dataContext.SelectedTasksListId);
+            var showTasks = _showTasksFactory(_currentDataContext.SelectedTasksListId);
             CommandsInvoker.ExecuteCommand(showTasks);
+        }
+
+        private void UpdateTasks(IEnumerable<Task> tasks)
+        {
+            var tasksViewModels = tasks.Select(task => new TaskViewModel(task));
+            Tasks.AddRange(tasksViewModels);
         }
 
         protected override void OnDeactivate(bool close)
@@ -51,8 +61,7 @@ namespace GTasksDesktopClient.Core.Tasks
         public void Handle(TasksUpdated message)
         {
             Tasks.Clear();
-            var tasksViewModel = message.Tasks.Select(task => new TaskViewModel(task));
-            Tasks.AddRange(tasksViewModel);
+            UpdateTasks(message.Tasks);
         }
     }
 }
