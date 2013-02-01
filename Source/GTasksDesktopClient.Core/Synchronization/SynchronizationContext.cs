@@ -6,6 +6,8 @@ namespace GTasksDesktopClient.Core.Synchronization
     {
         private readonly Semaphore _semaphore;
 
+        public string LastTasksListsETag { get; set; }
+
         public SynchronizationContext()
         {
             _semaphore = new Semaphore(1, 1);
