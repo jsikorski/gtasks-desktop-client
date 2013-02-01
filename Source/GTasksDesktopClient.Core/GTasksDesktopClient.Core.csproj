@@ -105,7 +105,6 @@
       <DependentUpon>AuthorizationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Authorization\AuthorizationViewModel.cs" />
-    <Compile Include="CurrentContext.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksContext.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\IBackgroundTask.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\StartBackgroundTasks.cs" />
@@ -121,6 +120,7 @@
       <DependentUpon>LayoutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layout\LayoutViewModel.cs" />
+    <Compile Include="Shell\DataContext.cs" />
     <Compile Include="TasksLists\TasksListsUpdated.cs" />
     <Compile Include="TasksLists\TasksListsView.xaml.cs">
       <DependentUpon>TasksListsView.xaml</DependentUpon>

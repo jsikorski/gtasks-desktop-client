@@ -4,6 +4,7 @@ using System.Linq;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
+using GTasksDesktopClient.Core.Shell;
 using GTasksDesktopClient.Core.Utils;
 
 namespace GTasksDesktopClient.Core.Tasks
@@ -12,7 +13,7 @@ namespace GTasksDesktopClient.Core.Tasks
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly Func<string, ShowTasks> _showTasksFactory;
-        private readonly CurrentContext _currentContext;
+        private readonly DataContext _dataContext;
 
         public string Header
         {
@@ -24,11 +25,11 @@ namespace GTasksDesktopClient.Core.Tasks
         public TasksViewModel(
             IEventAggregator eventAggregator, 
             Func<string, ShowTasks> showTasksFactory, 
-            CurrentContext currentContext)
+            DataContext dataContext)
         {
             _eventAggregator = eventAggregator;
             _showTasksFactory = showTasksFactory;
-            _currentContext = currentContext;
+            _dataContext = dataContext;
 
             Tasks = new ObservableCollection<TaskViewModel>();
         }
@@ -37,7 +38,7 @@ namespace GTasksDesktopClient.Core.Tasks
         {
             _eventAggregator.Subscribe(this);
 
-            var showTasks = _showTasksFactory(_currentContext.SelectedTasksListId);
+            var showTasks = _showTasksFactory(_dataContext.SelectedTasksListId);
             CommandsInvoker.ExecuteCommand(showTasks);
         }
 

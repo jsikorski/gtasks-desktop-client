@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.TasksLists;
 using Google.Apis.Tasks.v1.Data;
 
-namespace GTasksDesktopClient.Core
+namespace GTasksDesktopClient.Core.Shell
 {
-    public class CurrentContext
+    public class DataContext
     {
         private readonly IEventAggregator _eventAggregator;
 
@@ -22,7 +22,7 @@ namespace GTasksDesktopClient.Core
             }
         }
         
-        public CurrentContext(EventAggregator eventAggregator)
+        public DataContext(EventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
             TasksLists = new List<TaskList>();

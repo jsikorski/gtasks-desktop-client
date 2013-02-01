@@ -1,5 +1,6 @@
 ﻿using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
+using GTasksDesktopClient.Core.Shell;
 using Google.Apis.Tasks.v1;
 
 namespace GTasksDesktopClient.Core.Synchronization
@@ -7,18 +8,18 @@ namespace GTasksDesktopClient.Core.Synchronization
     public class Synchronize : IBackgroundTask
     {
         private readonly SynchronizationContext _synchronizationContext;
-        private readonly CurrentContext _currentContext;
+        private readonly DataContext _dataContext;
         private readonly TasksService _tasksService;
         private readonly ISyncStateIndicator _syncStateIndicator;
 
         public Synchronize(
             SynchronizationContext synchronizationContext,
-            CurrentContext currentContext,
+            DataContext dataContext,
             TasksService tasksService, 
             ISyncStateIndicator syncStateIndicator)
         {
             _synchronizationContext = synchronizationContext;
-            _currentContext = currentContext;
+            _dataContext = dataContext;
             _tasksService = tasksService;
             _syncStateIndicator = syncStateIndicator;
         }
@@ -33,7 +34,7 @@ namespace GTasksDesktopClient.Core.Synchronization
 
                 if (_synchronizationContext.LastTasksListsETag != lists.ETag)
                 {
-                    _currentContext.TasksLists = lists.Items;
+                    _dataContext.TasksLists = lists.Items;
                     _synchronizationContext.LastTasksListsETag = lists.ETag;
                 }
             }

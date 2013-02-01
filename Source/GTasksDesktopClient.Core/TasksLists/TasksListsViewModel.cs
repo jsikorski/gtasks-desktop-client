@@ -4,6 +4,7 @@ using System.Linq;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
+using GTasksDesktopClient.Core.Shell;
 using GTasksDesktopClient.Core.Tasks;
 using GTasksDesktopClient.Core.Utils;
 using DotNetOpenAuth.Messaging;
@@ -14,7 +15,7 @@ namespace GTasksDesktopClient.Core.TasksLists
     public class TasksListsViewModel : Screen, ITab, IHandle<TasksListsUpdated>
     {
         private readonly EventAggregator _eventAggregator;
-        private readonly CurrentContext _currentContext;
+        private readonly DataContext _dataContext;
 
         public string Header
         {
@@ -31,7 +32,7 @@ namespace GTasksDesktopClient.Core.TasksLists
                     return;
 
                 _selectedTasksList = value;
-                _currentContext.SelectedTasksListId = _selectedTasksList.Id;
+                _dataContext.SelectedTasksListId = _selectedTasksList.Id;
                 NotifyOfPropertyChange(() => SelectedTasksList);
             }
         }
@@ -40,10 +41,10 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         public TasksListsViewModel(
             EventAggregator eventAggregator,
-            CurrentContext currentContext)
+            DataContext dataContext)
         {
             _eventAggregator = eventAggregator;
-            _currentContext = currentContext;
+            _dataContext = dataContext;
 
             TasksLists = new ObservableCollection<TasksListViewModel>();
             SelectFirstTasksList();
@@ -51,7 +52,7 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         protected override void OnActivate()
         {
-            UpdateTasksLists(_currentContext.TasksLists);
+            UpdateTasksLists(_dataContext.TasksLists);
             _eventAggregator.Subscribe(this);
         }
 
@@ -65,7 +66,7 @@ namespace GTasksDesktopClient.Core.TasksLists
         private void UpdateSelectedTasksList()
         {
             var lastSelectedTasksList =
-                TasksLists.SingleOrDefault(tasksList => tasksList.Id == _currentContext.SelectedTasksListId);
+                TasksLists.SingleOrDefault(tasksList => tasksList.Id == _dataContext.SelectedTasksListId);
 
             if (lastSelectedTasksList == null)
                 SelectFirstTasksList();
