@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
@@ -15,6 +16,7 @@ namespace GTasksDesktopClient.Core.TasksLists
     public class TasksListsViewModel : Screen, ITab, IHandle<TasksListsUpdated>
     {
         private readonly EventAggregator _eventAggregator;
+        private readonly Func<string, ShowTasks> _showTasksFactory;
         private readonly CurrentDataContext _currentDataContext;
 
         public string Header
@@ -41,9 +43,11 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         public TasksListsViewModel(
             EventAggregator eventAggregator,
+            Func<string, ShowTasks> showTasksFactory,
             CurrentDataContext currentDataContext)
         {
             _eventAggregator = eventAggregator;
+            _showTasksFactory = showTasksFactory;
             _currentDataContext = currentDataContext;
 
             TasksLists = new ObservableCollection<TasksListViewModel>();
@@ -89,6 +93,9 @@ namespace GTasksDesktopClient.Core.TasksLists
         public void ShowTasksList()
         {
             _eventAggregator.Publish(new TasksViewRequested());
+
+            var showTasks = _showTasksFactory(_currentDataContext.SelectedTasksListId);
+            CommandsInvoker.ExecuteCommand(showTasks);
         }
 
         public void Handle(TasksListsUpdated message)

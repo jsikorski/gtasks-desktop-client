@@ -15,7 +15,6 @@ namespace GTasksDesktopClient.Core.Tasks
     public class TasksViewModel : Screen, ITab, IHandle<TasksUpdated>
     {
         private readonly IEventAggregator _eventAggregator;
-        private readonly Func<string, ShowTasks> _showTasksFactory;
         private readonly CurrentDataContext _currentDataContext;
 
         public string Header
@@ -27,11 +26,9 @@ namespace GTasksDesktopClient.Core.Tasks
 
         public TasksViewModel(
             IEventAggregator eventAggregator, 
-            Func<string, ShowTasks> showTasksFactory, 
             CurrentDataContext currentDataContext)
         {
             _eventAggregator = eventAggregator;
-            _showTasksFactory = showTasksFactory;
             _currentDataContext = currentDataContext;
 
             Tasks = new ObservableCollection<TaskViewModel>();
@@ -41,9 +38,6 @@ namespace GTasksDesktopClient.Core.Tasks
         {
             _eventAggregator.Subscribe(this);
             UpdateTasks(_currentDataContext.Tasks);
-
-            var showTasks = _showTasksFactory(_currentDataContext.SelectedTasksListId);
-            CommandsInvoker.ExecuteCommand(showTasks);
         }
 
         private void UpdateTasks(IEnumerable<Task> tasks)
