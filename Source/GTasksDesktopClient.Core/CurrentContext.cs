@@ -9,15 +9,17 @@ namespace GTasksDesktopClient.Core
     {
         private readonly IEventAggregator _eventAggregator;
 
-        private string _lastTasksListETag;
+        public string SelectedTasksListId { get; set; }
+
+        private string _lastTasksListsETag;
         public IEnumerable<TaskList> TasksLists { get; private set; }
 
         public void UpdateTasksLists(TaskLists taskLists)
         {
-            if (_lastTasksListETag == taskLists.ETag)
+            if (_lastTasksListsETag == taskLists.ETag)
                 return;
 
-            _lastTasksListETag = taskLists.ETag;
+            _lastTasksListsETag = taskLists.ETag;
             TasksLists = taskLists.Items;
             _eventAggregator.Publish(new TasksListsUpdated(TasksLists));
         }

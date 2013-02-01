@@ -33,11 +33,6 @@ namespace GTasksDesktopClient.Core.Layout
 
         public void Handle(TasksViewRequested message)
         {
-            ShowTasks();
-        }
-
-        private void ShowTasks()
-        {
             ActivateItem(TasksViewModel);
         }
     }

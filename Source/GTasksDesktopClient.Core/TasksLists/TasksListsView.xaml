@@ -9,14 +9,15 @@
              d:DesignWidth="300">
 
     <ListBox ItemsSource="{Binding TasksLists}" 
-             SelectedItem="{Binding SelectedTasksList, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+             SelectedItem="{Binding SelectedTasksList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <Grid VerticalAlignment="Center" cal:Message.Attach="[Event MouseUp] = [Action ShowTasksList]" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="75" Cursor="{x:Static Cursors.Hand}"></RowDefinition>
-                    </Grid.RowDefinitions>
-
+                <Grid Background="Transparent"
+                      Cursor="{x:Static Cursors.Hand}" 
+                      MinHeight="75" 
+                      cal:Message.Attach="[Event MouseUp] = [Action ShowTasksList]"
+                      VerticalAlignment="Center">
+                        
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
