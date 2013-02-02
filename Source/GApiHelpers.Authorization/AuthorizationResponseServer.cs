@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Reflection;
 
 namespace GApiHelpers.Authorization
 {
@@ -57,8 +56,6 @@ namespace GApiHelpers.Authorization
                 string response = ResourcesHelper.GetAsString(ResponsePageResourcePath);
                 writer.Write(response);
                 writer.Flush();
-
-                context.Response.Close();
             }
         }
     }

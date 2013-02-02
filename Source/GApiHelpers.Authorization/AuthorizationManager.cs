@@ -105,9 +105,9 @@ namespace GApiHelpers.Authorization
 
         private static Uri FormatResponseUrl()
         {
-            var applicationNAme = Assembly.GetEntryAssembly().GetName().Name;
+            var applicationName = Assembly.GetEntryAssembly().GetName().Name;
             var port = GetRandomUnusedPort();
-            string url = string.Format(AuthorizationResponseUrlFormat, port, applicationNAme);
+            string url = string.Format(AuthorizationResponseUrlFormat, port, applicationName);
             return new Uri(url);
         }
 
