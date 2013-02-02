@@ -1,12 +1,9 @@
 using System;
 using System.Diagnostics;
-using System.IO;
-using Autofac;
 using Caliburn.Micro;
-using GTasksDesktopClient.Core.Authorization;
+using GApiHelpers.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
-using GTasksDesktopClient.Core.Synchronization;
 
 namespace GTasksDesktopClient.Core.Shell
 {

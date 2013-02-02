@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
 using Caliburn.Micro;
-using GTasksDesktopClient.Core.Authorization;
+using GApiHelpers.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
 using System.Linq;
 using GTasksDesktopClient.Core.Synchronization;
 using Google.Apis.Tasks.v1;
+using Google.Apis.Util;
 using IStartable = GTasksDesktopClient.Core.Infrastructure.IStartable;
 
 namespace GTasksDesktopClient.Core
@@ -105,6 +106,10 @@ namespace GTasksDesktopClient.Core
 
         private void RegisterApplicationServices(ContainerBuilder containerBuilder)
         {
+            var scope = TasksService.Scopes.Tasks.GetStringValue();
+            var scopes = new[] { scope };
+            AuthorizationManager.Initialize(Authorization.ClientIdentifier, Authorization.ClientSecret, scopes);
+
             containerBuilder.Register(_ => new TasksService(AuthorizationManager.GetAuthenticator())).As<TasksService>();
         }
 

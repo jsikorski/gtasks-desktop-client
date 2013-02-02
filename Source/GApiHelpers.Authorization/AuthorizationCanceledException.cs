@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GTasksDesktopClient.Core.Authorization
+namespace GApiHelpers.Authorization
 {
     public class AuthorizationCanceledException : Exception
     {

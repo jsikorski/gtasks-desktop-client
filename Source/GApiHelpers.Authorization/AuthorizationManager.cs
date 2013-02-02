@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -8,17 +7,16 @@ using DotNetOpenAuth.OAuth2;
 using Google.Apis.Authentication;
 using Google.Apis.Authentication.OAuth2;
 using Google.Apis.Authentication.OAuth2.DotNetOpenAuth;
-using Google.Apis.Tasks.v1;
-using Google.Apis.Util;
 
-namespace GTasksDesktopClient.Core.Authorization
+namespace GApiHelpers.Authorization
 {
-    public static class AuthorizationManager
+    public class AuthorizationManager
     {
         private const string AuthorizationResponseUrlFormat = "http://localhost:{0}/{1}/authorize/";
 
-        private const string ClientIdentifier = "747950969211.apps.googleusercontent.com";
-        private const string ClientSecret = "Pc30_p04vf01tF6apQ0bpDlS";
+        private static string _clientIdentifier;
+        private static string _clientSecret;
+        private static IEnumerable<string> _scopes; 
 
         public static event Action<Uri> AuthorizationRequired;
         public static event Action AuthorizationSucceeded;
@@ -37,12 +35,19 @@ namespace GTasksDesktopClient.Core.Authorization
                 handler();
         }
 
+        public static void Initialize(string clientIdentifier, string clientSecret, IEnumerable<string> scopes)
+        {
+            _clientIdentifier = clientIdentifier;
+            _clientSecret = clientSecret;
+            _scopes = scopes;
+        }
+
         public static IAuthenticator GetAuthenticator()
         {
             var tokenProvider = new NativeApplicationClient(GoogleAuthenticationServer.Description)
                                     {
-                                        ClientIdentifier = ClientIdentifier,
-                                        ClientSecret = ClientSecret
+                                        ClientIdentifier = _clientIdentifier,
+                                        ClientSecret = _clientSecret
                                     };
 
             return new OAuth2Authenticator<NativeApplicationClient>(tokenProvider, GetAuthorization);
@@ -50,14 +55,11 @@ namespace GTasksDesktopClient.Core.Authorization
 
         private static IAuthorizationState GetAuthorization(NativeApplicationClient client)
         {
-            var scope = TasksService.Scopes.Tasks.GetStringValue();
-            var scopes = new[] { scope };
-
             var refreshToken = AuthorizationStorage.LoadRefreshToken();
 
             IAuthorizationState state = string.IsNullOrEmpty(refreshToken)
-                                            ? ObtainCredentials(client, scopes)
-                                            : RefreshCredentials(client, scopes, refreshToken);
+                                            ? ObtainCredentials(client)
+                                            : RefreshCredentials(client, refreshToken);
 
             if (!string.IsNullOrEmpty(state.AccessToken))
                 TriggerAuthorizationSucceeded();
@@ -65,9 +67,9 @@ namespace GTasksDesktopClient.Core.Authorization
             return state;
         }
 
-        private static IAuthorizationState ObtainCredentials(NativeApplicationClient client, IEnumerable<string> scopes)
+        private static IAuthorizationState ObtainCredentials(NativeApplicationClient client)
         {
-            IAuthorizationState state = new AuthorizationState(scopes);
+            IAuthorizationState state = new AuthorizationState(_scopes);
             var responseUrl = FormatResponseUrl();
             state.Callback = responseUrl;
 
@@ -85,9 +87,9 @@ namespace GTasksDesktopClient.Core.Authorization
             return state;
         }
 
-        private static IAuthorizationState RefreshCredentials(NativeApplicationClient client, IEnumerable<string> scopes, string refreshToken)
+        private static IAuthorizationState RefreshCredentials(NativeApplicationClient client, string refreshToken)
         {
-            IAuthorizationState state = new AuthorizationState(scopes) { RefreshToken = refreshToken };
+            IAuthorizationState state = new AuthorizationState(_scopes) { RefreshToken = refreshToken };
 
             try
             {
@@ -95,7 +97,7 @@ namespace GTasksDesktopClient.Core.Authorization
             }
             catch
             {
-                state = ObtainCredentials(client, scopes);
+                state = ObtainCredentials(client);
             }
 
             return state;

@@ -2,11 +2,11 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace GTasksDesktopClient.Core.Authorization
+namespace GApiHelpers.Authorization
 {
     public static class AuthorizationStorage
     {
-        private const string RefreshTokenFileName = "google-tasks.token";
+        private const string RefreshTokenFileName = "google-tasks-auth.token";
 
         public static void SaveRefreshToken(string token)
         {

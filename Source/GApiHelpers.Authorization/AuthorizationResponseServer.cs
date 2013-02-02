@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Threading.Tasks;
 
-namespace GTasksDesktopClient.Core.Authorization
+namespace GApiHelpers.Authorization
 {
     public class AuthorizationResponseServer
     {

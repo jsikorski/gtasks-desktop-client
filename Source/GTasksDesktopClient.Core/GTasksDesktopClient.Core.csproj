@@ -97,10 +97,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Authorization\AuthorizationCanceledException.cs" />
-    <Compile Include="Authorization\AuthorizationManager.cs" />
-    <Compile Include="Authorization\AuthorizationResponseServer.cs" />
-    <Compile Include="Authorization\AuthorizationStorage.cs" />
+    <Compile Include="Authorization.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksContext.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\IBackgroundTask.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\StartBackgroundTasks.cs" />
@@ -207,6 +204,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GApiHelpers.Authorization\GApiHelpers.Authorization.csproj">
+      <Project>{554ad8de-9139-4798-b1f7-614e08e59e5e}</Project>
+      <Name>GApiHelpers.Authorization</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
