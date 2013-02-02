@@ -106,20 +106,9 @@ namespace GTasksDesktopClient.Core
 
         private void RegisterApplicationServices(ContainerBuilder containerBuilder)
         {
-            var scope = TasksService.Scopes.Tasks.GetStringValue();
-            var scopes = new[] { scope };
-
-            var authorizationConfig = new AuthorizationConfig
-                {
-                    ClientIdentifier = Authorization.ClientIdentifier,
-                    ClientSecret = Authorization.ClientSecret,
-                    Scopes = scopes,
-                    RefreshTokenFilePath = Authorization.RefreshTokenFilePath
-                };
-
-            AuthorizationManager.Initialize(authorizationConfig);
-
-            containerBuilder.Register(_ => new TasksService(AuthorizationManager.GetAuthenticator())).As<TasksService>();
+            containerBuilder.RegisterInstance(new AuthorizationManager(Authorization.GetConfiguration()));
+            containerBuilder.Register(
+                context => new TasksService(context.Resolve<AuthorizationManager>().GetAuthenticator())).As<TasksService>();
         }
 
         private void RegisterContexts(ContainerBuilder containerBuilder)

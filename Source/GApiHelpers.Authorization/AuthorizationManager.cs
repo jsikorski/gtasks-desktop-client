@@ -14,29 +14,29 @@ namespace GApiHelpers.Authorization
     {
         private const string AuthorizationResponseUrlFormat = "http://localhost:{0}/{1}/authorize/";
 
-        private static string _clientIdentifier;
-        private static string _clientSecret;
-        private static IEnumerable<string> _scopes;
-        private static string _refreshTokenFilePath;
+        private string _clientIdentifier;
+        private string _clientSecret;
+        private IEnumerable<string> _scopes;
+        private string _refreshTokenFilePath;
 
-        public static event Action<Uri> AuthorizationRequired;
-        public static event Action AuthorizationSucceeded;
+        public event Action<Uri> AuthorizationRequired;
+        public event Action AuthorizationSucceeded;
 
-        private static void TriggerAuthorizationRequired(Uri authorizationUrl)
+        private void TriggerAuthorizationRequired(Uri authorizationUrl)
         {
             var handler = AuthorizationRequired;
             if (handler != null)
                 handler(authorizationUrl);
         }
 
-        private static void TriggerAuthorizationSucceeded()
+        private void TriggerAuthorizationSucceeded()
         {
             Action handler = AuthorizationSucceeded;
             if (handler != null)
                 handler();
         }
 
-        public static void Initialize(AuthorizationConfig authorizationConfig)
+        public AuthorizationManager(AuthorizationConfig authorizationConfig)
         {
             authorizationConfig.Validate();
 
@@ -46,7 +46,7 @@ namespace GApiHelpers.Authorization
             _refreshTokenFilePath = authorizationConfig.RefreshTokenFilePath;
         }
 
-        public static IAuthenticator GetAuthenticator()
+        public IAuthenticator GetAuthenticator()
         {
             var tokenProvider = new NativeApplicationClient(GoogleAuthenticationServer.Description)
                                     {
@@ -57,7 +57,7 @@ namespace GApiHelpers.Authorization
             return new OAuth2Authenticator<NativeApplicationClient>(tokenProvider, GetAuthorization);
         }
 
-        private static IAuthorizationState GetAuthorization(NativeApplicationClient client)
+        private IAuthorizationState GetAuthorization(NativeApplicationClient client)
         {
             var refreshToken = AuthorizationStorage.LoadRefreshToken(_refreshTokenFilePath);
 
@@ -71,7 +71,7 @@ namespace GApiHelpers.Authorization
             return state;
         }
 
-        private static IAuthorizationState ObtainCredentials(NativeApplicationClient client)
+        private IAuthorizationState ObtainCredentials(NativeApplicationClient client)
         {
             IAuthorizationState state = new AuthorizationState(_scopes);
             var responseUrl = FormatResponseUrl();
@@ -91,7 +91,7 @@ namespace GApiHelpers.Authorization
             return state;
         }
 
-        private static IAuthorizationState RefreshCredentials(NativeApplicationClient client, string refreshToken)
+        private IAuthorizationState RefreshCredentials(NativeApplicationClient client, string refreshToken)
         {
             IAuthorizationState state = new AuthorizationState(_scopes) { RefreshToken = refreshToken };
 
@@ -107,7 +107,7 @@ namespace GApiHelpers.Authorization
             return state;
         }
 
-        private static Uri FormatResponseUrl()
+        private Uri FormatResponseUrl()
         {
             var applicationNAme = Assembly.GetEntryAssembly().GetName().Name;
             var port = GetRandomUnusedPort();
@@ -115,7 +115,7 @@ namespace GApiHelpers.Authorization
             return new Uri(url);
         }
 
-        private static int GetRandomUnusedPort()
+        private int GetRandomUnusedPort()
         {
             var listener = new TcpListener(IPAddress.Loopback, 0);
             try

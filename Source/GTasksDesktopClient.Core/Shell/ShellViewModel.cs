@@ -12,6 +12,7 @@ namespace GTasksDesktopClient.Core.Shell
         private const string WindowTitle = "Google Tasks Desktop Client";
 
         private readonly LayoutViewModel _layoutViewModel;
+        private readonly AuthorizationManager _authorizationManager;
 
         private bool _isBusy;
         public bool IsBusy
@@ -24,15 +25,18 @@ namespace GTasksDesktopClient.Core.Shell
             }
         }
 
-        public ShellViewModel(LayoutViewModel layoutViewModel)
+        public ShellViewModel(
+            LayoutViewModel layoutViewModel, 
+            AuthorizationManager authorizationManager)
         {
             base.DisplayName = WindowTitle;
             IsBusy = true;
 
             _layoutViewModel = layoutViewModel;
+            _authorizationManager = authorizationManager;
 
-            AuthorizationManager.AuthorizationRequired += ShowAuthorizationView;
-            AuthorizationManager.AuthorizationSucceeded += ShowLayout;
+            _authorizationManager.AuthorizationRequired += ShowAuthorizationView;
+            _authorizationManager.AuthorizationSucceeded += ShowLayout;
         }
 
         private void ShowAuthorizationView(Uri authorizationUrl)
