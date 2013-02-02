@@ -12,14 +12,9 @@ namespace GTasksDesktopClient.Core.Infrastructure
             _busyIndicator.IsBusy = true;
         }
 
-        public void Release()
-        {
-            _busyIndicator.IsBusy = false;
-        }
-
         public void Dispose()
         {
-            Release();
+            _busyIndicator.IsBusy = false;
         }
     }
 }

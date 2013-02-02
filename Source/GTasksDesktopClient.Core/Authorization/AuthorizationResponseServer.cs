@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -34,6 +35,8 @@ namespace GTasksDesktopClient.Core.Authorization
 
         private string HandleContext(HttpListenerContext context)
         {
+            WriteResponse(context);
+
             string code = context.Request.QueryString["code"];
             if (!string.IsNullOrEmpty(code))
                 return code;
@@ -43,6 +46,17 @@ namespace GTasksDesktopClient.Core.Authorization
                 throw new AuthorizationCanceledException();
 
             throw new NotSupportedException("Authorization method is not supported by client.");
+        }
+
+        private static void WriteResponse(HttpListenerContext context)
+        {
+            using (var writer = new StreamWriter(context.Response.OutputStream))
+            {
+                const string response = 
+                    "<script type='text/javascript'>currentWindow = window.open(window.location, '_self'); currentWindow.close();</script>";
+                writer.Write(response);
+                writer.Flush();
+            }
         }
     }
 }

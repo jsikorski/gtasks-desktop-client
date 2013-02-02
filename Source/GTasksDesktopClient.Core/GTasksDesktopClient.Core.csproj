@@ -101,10 +101,6 @@
     <Compile Include="Authorization\AuthorizationManager.cs" />
     <Compile Include="Authorization\AuthorizationResponseServer.cs" />
     <Compile Include="Authorization\AuthorizationStorage.cs" />
-    <Compile Include="Authorization\AuthorizationView.xaml.cs">
-      <DependentUpon>AuthorizationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Authorization\AuthorizationViewModel.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksContext.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\IBackgroundTask.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\StartBackgroundTasks.cs" />
@@ -184,10 +180,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Authorization\AuthorizationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Layout\LayoutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

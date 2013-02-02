@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using Autofac;
 using Caliburn.Micro;
@@ -13,13 +14,9 @@ namespace GTasksDesktopClient.Core.Shell
     {
         private const string WindowTitle = "Google Tasks Desktop Client";
 
-        private readonly AuthorizationViewModel _authorizationViewModel;
         private readonly LayoutViewModel _layoutViewModel;
 
         private bool _isBusy;
-        private string _message;
-        private readonly BusyScope _busyScope;
-
         public bool IsBusy
         {
             get { return _isBusy; }
@@ -30,31 +27,24 @@ namespace GTasksDesktopClient.Core.Shell
             }
         }
 
-        public ShellViewModel(
-            AuthorizationViewModel authorizationViewModel,
-            LayoutViewModel layoutViewModel)
+        public ShellViewModel(LayoutViewModel layoutViewModel)
         {
             base.DisplayName = WindowTitle;
+            IsBusy = true;
 
-            _authorizationViewModel = authorizationViewModel;
             _layoutViewModel = layoutViewModel;
 
             AuthorizationManager.AuthorizationRequired += ShowAuthorizationView;
             AuthorizationManager.AuthorizationSucceeded += ShowLayout;
-
-            _busyScope = new BusyScope(this);
         }
 
         private void ShowAuthorizationView(Uri authorizationUrl)
         {
-            _busyScope.Release();
-            _authorizationViewModel.AuthorizationUrl = authorizationUrl;
-            ActivateItem(_authorizationViewModel);
+            Process.Start(authorizationUrl.ToString());
         }
 
         private void ShowLayout()
         {
-            _busyScope.Release();
             ActivateItem(_layoutViewModel);
         }
     }
