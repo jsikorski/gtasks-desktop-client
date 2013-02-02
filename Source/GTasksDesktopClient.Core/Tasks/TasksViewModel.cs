@@ -7,12 +7,13 @@ using Caliburn.Micro;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Shell;
+using GTasksDesktopClient.Core.TasksLists;
 using GTasksDesktopClient.Core.Utils;
 using Task = Google.Apis.Tasks.v1.Data.Task;
 
 namespace GTasksDesktopClient.Core.Tasks
 {
-    public class TasksViewModel : Screen, ITab, IHandle<TasksUpdated>
+    public class TasksViewModel : Screen, ITab, IHandle<TasksUpdated>, IHandle<SelectedTasksListIdReseted>
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly CurrentDataContext _currentDataContext;
@@ -56,6 +57,11 @@ namespace GTasksDesktopClient.Core.Tasks
         public void Handle(TasksUpdated message)
         {
             UpdateTasks(message.Tasks);
+        }
+
+        public void Handle(SelectedTasksListIdReseted message)
+        {
+            _eventAggregator.Publish(new TasksListsViewRequested());
         }
     }
 }

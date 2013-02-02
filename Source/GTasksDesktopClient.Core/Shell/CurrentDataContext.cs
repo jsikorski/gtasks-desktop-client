@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.Remoting.Contexts;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Tasks;
 using GTasksDesktopClient.Core.TasksLists;
@@ -11,7 +10,20 @@ namespace GTasksDesktopClient.Core.Shell
     {
         private readonly IEventAggregator _eventAggregator;
 
-        public string SelectedTasksListId { get; set; }
+        private string _selectedTasksListId;
+        public string SelectedTasksListId
+        {
+            get
+            {
+                return _selectedTasksListId;
+            }
+            set
+            {
+                _selectedTasksListId = value;
+                if (_selectedTasksListId == null)
+                    _eventAggregator.Publish(new SelectedTasksListIdReseted());
+            }
+        }
 
         private IEnumerable<Task> _tasks;
         public IEnumerable<Task> Tasks

@@ -1,8 +1,7 @@
-﻿using GTasksDesktopClient.Core.Infrastructure;
-using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
+﻿using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
 using Google.Apis.Tasks.v1;
-using Google.Apis.Tasks.v1.Data;
+using System.Linq;
 
 namespace GTasksDesktopClient.Core.Synchronization
 {
@@ -32,11 +31,14 @@ namespace GTasksDesktopClient.Core.Synchronization
             using (new SynchronizationScope(_syncStateIndicator))
             {
                 SynchronizeLists();
-                SynchronizeTasks();
+                
+                if (IsAnyTasksListSelected())
+                    SynchronizeTasks();
             }
 
             _synchronizationContext.Unlock();
         }
+
 
         private void SynchronizeLists()
         {
@@ -47,13 +49,26 @@ namespace GTasksDesktopClient.Core.Synchronization
                 _currentDataContext.TasksLists = lists.Items;
                 _synchronizationContext.LastTasksListsETag = lists.ETag;
             }
+
+            UpdateSelectedTasksListId();
+        }
+
+        private void UpdateSelectedTasksListId()
+        {
+            var isTasksListStillPresent = _currentDataContext.TasksLists.Any(
+                tasksList => tasksList.Id == _currentDataContext.SelectedTasksListId);
+
+            if (!isTasksListStillPresent)
+                _currentDataContext.SelectedTasksListId = null;
+        }
+
+        private bool IsAnyTasksListSelected()
+        {
+            return _currentDataContext.SelectedTasksListId != null;
         }
 
         private void SynchronizeTasks()
         {
-            if (_currentDataContext.SelectedTasksListId == null)
-                return;
-
             var tasks = _tasksService.Tasks.List(_currentDataContext.SelectedTasksListId).Fetch();
 
             if (_synchronizationContext.LastTasksETag != tasks.ETag)

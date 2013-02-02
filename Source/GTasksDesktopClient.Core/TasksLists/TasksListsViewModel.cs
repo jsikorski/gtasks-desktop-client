@@ -8,7 +8,6 @@ using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Shell;
 using GTasksDesktopClient.Core.Tasks;
 using GTasksDesktopClient.Core.Utils;
-using DotNetOpenAuth.Messaging;
 using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.TasksLists

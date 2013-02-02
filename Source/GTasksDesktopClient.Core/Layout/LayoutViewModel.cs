@@ -5,7 +5,8 @@ using GTasksDesktopClient.Core.TasksLists;
 
 namespace GTasksDesktopClient.Core.Layout
 {
-    public class LayoutViewModel : Conductor<ITab>.Collection.OneActive, IHandle<TasksViewRequested>
+    public class LayoutViewModel : Conductor<ITab>.Collection.OneActive, 
+        IHandle<TasksListsViewRequested>, IHandle<TasksViewRequested>
     {
         private readonly EventAggregator _eventAggregator;
 
@@ -37,6 +38,11 @@ namespace GTasksDesktopClient.Core.Layout
         protected override void OnDeactivate(bool close)
         {
             _eventAggregator.Unsubscribe(this);
+        }
+
+        public void Handle(TasksListsViewRequested message)
+        {
+            ActivateItem(TasksListsViewModel);
         }
 
         public void Handle(TasksViewRequested message)

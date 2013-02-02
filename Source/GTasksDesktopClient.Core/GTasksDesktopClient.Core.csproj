@@ -126,6 +126,7 @@
       <DependentUpon>TasksListsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TasksLists\TasksListsViewModel.cs" />
+    <Compile Include="TasksLists\TasksListsViewRequested.cs" />
     <Compile Include="TasksLists\TasksListViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -142,6 +143,7 @@
     <Compile Include="Synchronization\SynchronizationStateViewModel.cs" />
     <Compile Include="Synchronization\Synchronize.cs" />
     <Compile Include="Tasks\LoadTasks.cs" />
+    <Compile Include="Tasks\SelectedTasksListIdReseted.cs" />
     <Compile Include="Tasks\TasksViewRequested.cs" />
     <Compile Include="Tasks\TasksUpdated.cs" />
     <Compile Include="Tasks\TasksView.xaml.cs">
