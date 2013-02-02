@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authorization.cs" />
+    <Compile Include="AutofacInitializer.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksContext.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\IBackgroundTask.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\StartBackgroundTasks.cs" />
