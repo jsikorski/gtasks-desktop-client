@@ -42,6 +42,7 @@ namespace GTasksDesktopClient.Core.Tasks
 
         private void UpdateTasks(IEnumerable<Task> tasks)
         {
+            Tasks.Clear();
             var tasksViewModels = tasks.Select(task => new TaskViewModel(task));
             Tasks.AddRange(tasksViewModels);
         }
@@ -54,7 +55,6 @@ namespace GTasksDesktopClient.Core.Tasks
 
         public void Handle(TasksUpdated message)
         {
-            Tasks.Clear();
             UpdateTasks(message.Tasks);
         }
     }

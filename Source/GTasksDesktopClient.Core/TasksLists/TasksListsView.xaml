@@ -9,13 +9,13 @@
              d:DesignWidth="300">
 
     <ListBox ItemsSource="{Binding TasksLists}" 
-             SelectedItem="{Binding SelectedTasksList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+             SelectedItem="{Binding SelectedTasksList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+             cal:Message.Attach="[Event MouseUp] = [Action ShowTasksList];">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <Grid Background="Transparent"
                       Cursor="{x:Static Cursors.Hand}" 
                       MinHeight="75" 
-                      cal:Message.Attach="[Event MouseUp] = [Action ShowTasksList]"
                       VerticalAlignment="Center">
                         
                     <Grid.ColumnDefinitions>

@@ -4,14 +4,14 @@ using Google.Apis.Tasks.v1;
 
 namespace GTasksDesktopClient.Core.Tasks
 {
-    public class ShowTasks : ICommand
+    public class LoadTasks : ICommand
     {
         private readonly string _tasksListsId;
         private readonly TasksService _tasksService;
         private readonly CurrentDataContext _currentDataContext;
         private readonly IBusyIndicator _busyIndicator;
 
-        public ShowTasks(
+        public LoadTasks(
             string tasksListsId,
             TasksService tasksService,
             CurrentDataContext currentDataContext,

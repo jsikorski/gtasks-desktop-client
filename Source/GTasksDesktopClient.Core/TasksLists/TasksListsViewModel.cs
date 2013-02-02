@@ -16,7 +16,7 @@ namespace GTasksDesktopClient.Core.TasksLists
     public class TasksListsViewModel : Screen, ITab, IHandle<TasksListsUpdated>
     {
         private readonly EventAggregator _eventAggregator;
-        private readonly Func<string, ShowTasks> _showTasksFactory;
+        private readonly Func<string, LoadTasks> _loadTasksFactory;
         private readonly CurrentDataContext _currentDataContext;
 
         public string Header
@@ -30,11 +30,11 @@ namespace GTasksDesktopClient.Core.TasksLists
             get { return _selectedTasksList; }
             set
             {
-                if (value == null)
-                    return;
-
                 _selectedTasksList = value;
-                _currentDataContext.SelectedTasksListId = _selectedTasksList.Id;
+
+                if (_selectedTasksList != null)
+                    _currentDataContext.SelectedTasksListId = _selectedTasksList.Id;
+
                 NotifyOfPropertyChange(() => SelectedTasksList);
             }
         }
@@ -43,11 +43,11 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         public TasksListsViewModel(
             EventAggregator eventAggregator,
-            Func<string, ShowTasks> showTasksFactory,
+            Func<string, LoadTasks> loadTasksFactory,
             CurrentDataContext currentDataContext)
         {
             _eventAggregator = eventAggregator;
-            _showTasksFactory = showTasksFactory;
+            _loadTasksFactory = loadTasksFactory;
             _currentDataContext = currentDataContext;
 
             TasksLists = new ObservableCollection<TasksListViewModel>();
@@ -62,6 +62,7 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         private void UpdateTasksLists(IEnumerable<TaskList> tasksLists)
         {
+            TasksLists.Clear();
             var tasksListsViewModels = tasksLists.Select(tasksList => new TasksListViewModel(tasksList));
             TasksLists.AddRange(tasksListsViewModels);
             UpdateSelectedTasksList();
@@ -80,8 +81,17 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         private void SelectFirstTasksList()
         {
-            if (TasksLists.Any())
-                SelectedTasksList = TasksLists.First();
+            if (!TasksLists.Any())
+                return;
+
+            SelectedTasksList = TasksLists.First();
+            LoadTasks();
+        }
+
+        private void LoadTasks()
+        {
+            var loadTasks = _loadTasksFactory(_currentDataContext.SelectedTasksListId);
+            CommandsInvoker.ExecuteCommand(loadTasks);
         }
 
         protected override void OnDeactivate(bool close)
@@ -92,15 +102,15 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         public void ShowTasksList()
         {
-            _eventAggregator.Publish(new TasksViewRequested());
+            if (SelectedTasksList == null)
+                return;
 
-            var showTasks = _showTasksFactory(_currentDataContext.SelectedTasksListId);
-            CommandsInvoker.ExecuteCommand(showTasks);
+            _eventAggregator.Publish(new TasksViewRequested());
+            LoadTasks();
         }
 
         public void Handle(TasksListsUpdated message)
         {
-            TasksLists.Clear();
             UpdateTasksLists(message.TasksLists);
         }
     }
