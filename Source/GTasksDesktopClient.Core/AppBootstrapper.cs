@@ -1,16 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Autofac;
 using Caliburn.Micro;
-using GApiHelpers.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
-using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
 using System.Linq;
-using GTasksDesktopClient.Core.Synchronization;
-using Google.Apis.Tasks.v1;
-using Google.Apis.Util;
 using IStartable = GTasksDesktopClient.Core.Infrastructure.IStartable;
 
 namespace GTasksDesktopClient.Core

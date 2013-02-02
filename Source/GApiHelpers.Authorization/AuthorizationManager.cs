@@ -14,10 +14,10 @@ namespace GApiHelpers.Authorization
     {
         private const string AuthorizationResponseUrlFormat = "http://localhost:{0}/{1}/authorize/";
 
-        private string _clientIdentifier;
-        private string _clientSecret;
-        private IEnumerable<string> _scopes;
-        private string _refreshTokenFilePath;
+        private readonly string _clientIdentifier;
+        private readonly string _clientSecret;
+        private readonly IEnumerable<string> _scopes;
+        private readonly string _refreshTokenFilePath;
 
         public event Action<Uri> AuthorizationRequired;
         public event Action AuthorizationSucceeded;
