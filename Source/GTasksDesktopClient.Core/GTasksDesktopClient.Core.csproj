@@ -146,7 +146,6 @@
     <Compile Include="Tasks\TasksViewModel.cs" />
     <Compile Include="Tasks\TaskViewModel.cs" />
     <Compile Include="Utils\ObservableCollectionExtensions.cs" />
-    <Compile Include="Utils\WebBrowserBehaviors.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

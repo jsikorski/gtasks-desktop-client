@@ -21,6 +21,7 @@ namespace GApiHelpers.Authorization
 
         public event Action<Uri> AuthorizationRequired;
         public event Action AuthorizationSucceeded;
+        public event Action AuthorizationCanceled;
 
         private void TriggerAuthorizationRequired(Uri authorizationUrl)
         {
@@ -31,7 +32,14 @@ namespace GApiHelpers.Authorization
 
         private void TriggerAuthorizationSucceeded()
         {
-            Action handler = AuthorizationSucceeded;
+            var handler = AuthorizationSucceeded;
+            if (handler != null)
+                handler();
+        }
+
+        private void TriggerAuthorizationCanceled()
+        {
+            var handler = AuthorizationCanceled;
             if (handler != null)
                 handler();
         }
@@ -83,12 +91,26 @@ namespace GApiHelpers.Authorization
             var authorizationUrl = client.RequestUserAuthorization(state);
             TriggerAuthorizationRequired(authorizationUrl);
 
-            string authorizationCode = authorizationResponseServer.GetAuthorizationCode();
+            string authorizationCode = TryGetAuthorizationCode(authorizationResponseServer);
             authorizationResponseServer.Stop();
 
             state = client.ProcessUserAuthorization(authorizationCode, state);
             AuthorizationStorage.SaveRefreshToken(state.RefreshToken, _refreshTokenFilePath);
             return state;
+        }
+
+        private string TryGetAuthorizationCode(AuthorizationResponseServer server)
+        {
+            try
+            {
+                return server.GetAuthorizationCode();
+            }
+            catch (AuthorizationCanceledException)
+            {
+                TriggerAuthorizationCanceled();
+            }
+
+            return null;
         }
 
         private IAuthorizationState RefreshCredentials(NativeApplicationClient client, string refreshToken)

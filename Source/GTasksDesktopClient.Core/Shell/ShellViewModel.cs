@@ -1,9 +1,11 @@
 using System;
 using System.Diagnostics;
+using System.Windows;
 using Caliburn.Micro;
 using GApiHelpers.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
+using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
 
 namespace GTasksDesktopClient.Core.Shell
 {
@@ -37,6 +39,7 @@ namespace GTasksDesktopClient.Core.Shell
 
             _authorizationManager.AuthorizationRequired += ShowAuthorizationView;
             _authorizationManager.AuthorizationSucceeded += ShowLayout;
+            _authorizationManager.AuthorizationCanceled += ShowAuthorizationCanceledMessage;
         }
 
         private void ShowAuthorizationView(Uri authorizationUrl)
@@ -47,6 +50,16 @@ namespace GTasksDesktopClient.Core.Shell
         private void ShowLayout()
         {
             ActivateItem(_layoutViewModel);
+        }
+
+        private void ShowAuthorizationCanceledMessage()
+        {
+            Execute.OnUIThread(() => MessageBox.Show("Wyra¿enie zgody na " +
+                                                     "dostêp do zasobów konta Google " +
+                                                     "jest niezbêdne dla prawid³owego " +
+                                                     "dzia³nia aplikacji. Aby to zrobiæ " +
+                                                     "uruchom ponownie aplikacjê."));
+            TryClose();
         }
     }
 }
