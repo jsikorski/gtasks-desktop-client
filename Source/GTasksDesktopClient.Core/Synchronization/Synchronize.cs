@@ -2,6 +2,7 @@
 using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
 using Google.Apis.Tasks.v1;
+using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.Synchronization
 {
@@ -30,16 +31,36 @@ namespace GTasksDesktopClient.Core.Synchronization
 
             using (new SynchronizationScope(_syncStateIndicator))
             {
-                var lists = _tasksService.Tasklists.List().Fetch();
-
-                if (_synchronizationContext.LastTasksListsETag != lists.ETag)
-                {
-                    _currentDataContext.TasksLists = lists.Items;
-                    _synchronizationContext.LastTasksListsETag = lists.ETag;
-                }
+                SynchronizeLists();
+                SynchronizeTasks();
             }
-        
+
             _synchronizationContext.Unlock();
+        }
+
+        private void SynchronizeLists()
+        {
+            var lists = _tasksService.Tasklists.List().Fetch();
+
+            if (_synchronizationContext.LastTasksListsETag != lists.ETag)
+            {
+                _currentDataContext.TasksLists = lists.Items;
+                _synchronizationContext.LastTasksListsETag = lists.ETag;
+            }
+        }
+
+        private void SynchronizeTasks()
+        {
+            if (_currentDataContext.SelectedTasksListId == null)
+                return;
+
+            var tasks = _tasksService.Tasks.List(_currentDataContext.SelectedTasksListId).Fetch();
+
+            if (_synchronizationContext.LastTasksETag != tasks.ETag)
+            {
+                _currentDataContext.Tasks = tasks.Items;
+                _synchronizationContext.LastTasksETag = tasks.ETag;
+            }
         }
     }
 }

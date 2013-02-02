@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Runtime.Remoting.Contexts;
+using System.Threading;
 
 namespace GTasksDesktopClient.Core.Synchronization
 {
@@ -6,12 +8,18 @@ namespace GTasksDesktopClient.Core.Synchronization
     {
         private readonly Semaphore _semaphore;
 
+        public string LastTasksETag { get; set; }
         public string LastTasksListsETag { get; set; }
 
         public SynchronizationContext()
         {
             _semaphore = new Semaphore(1, 1);
         }
+
+        //public SynchronizationData GetData()
+        //{
+            
+        //}
 
         public void Lock()
         {
@@ -22,5 +30,19 @@ namespace GTasksDesktopClient.Core.Synchronization
         {
             _semaphore.Release();
         }
+
+        //public class SynchronizationData : IDisposable
+        //{
+        //    private SynchronizationData()
+        //    {
+        //    }
+ 
+        //    public static SynchronizationData CreateFor(SynchronizationContext synchronizationContext)
+        //    {
+                
+        //    }
+
+            
+        //}
     }
 }

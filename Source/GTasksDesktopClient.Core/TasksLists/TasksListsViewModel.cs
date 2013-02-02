@@ -31,10 +31,6 @@ namespace GTasksDesktopClient.Core.TasksLists
             set
             {
                 _selectedTasksList = value;
-
-                if (_selectedTasksList != null)
-                    _currentDataContext.SelectedTasksListId = _selectedTasksList.Id;
-
                 NotifyOfPropertyChange(() => SelectedTasksList);
             }
         }
@@ -85,12 +81,12 @@ namespace GTasksDesktopClient.Core.TasksLists
                 return;
 
             SelectedTasksList = TasksLists.First();
-            LoadTasks();
+            LoadTasks(SelectedTasksList.Id);
         }
 
-        private void LoadTasks()
+        private void LoadTasks(string tasksListId)
         {
-            var loadTasks = _loadTasksFactory(_currentDataContext.SelectedTasksListId);
+            var loadTasks = _loadTasksFactory(tasksListId);
             CommandsInvoker.ExecuteCommand(loadTasks);
         }
 
@@ -105,8 +101,9 @@ namespace GTasksDesktopClient.Core.TasksLists
             if (SelectedTasksList == null)
                 return;
 
+            string tasksListId = SelectedTasksList.Id;
             _eventAggregator.Publish(new TasksViewRequested());
-            LoadTasks();
+            LoadTasks(tasksListId);
         }
 
         public void Handle(TasksListsUpdated message)
