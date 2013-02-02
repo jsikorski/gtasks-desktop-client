@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GApiHelpers.Authorization
 {
-    public static class AuthorizationStorage
+    internal static class AuthorizationStorage
     {
         private const string RefreshTokenFileName = "google-tasks-auth.token";
 

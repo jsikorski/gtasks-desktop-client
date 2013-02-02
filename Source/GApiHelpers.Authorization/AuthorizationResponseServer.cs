@@ -1,11 +1,14 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
+using System.Reflection;
 
 namespace GApiHelpers.Authorization
 {
-    public class AuthorizationResponseServer
+    internal class AuthorizationResponseServer
     {
+        private const string ResponsePageResourcePath = "authorization_server_response.html";
+
         private readonly Uri _responseUrl;
         private HttpListener _webServer;
 
@@ -51,10 +54,11 @@ namespace GApiHelpers.Authorization
         {
             using (var writer = new StreamWriter(context.Response.OutputStream))
             {
-                const string response = 
-                    "<script type='text/javascript'>currentWindow = window.open(window.location, '_self'); currentWindow.close();</script>";
+                string response = ResourcesHelper.GetAsString(ResponsePageResourcePath);
                 writer.Write(response);
                 writer.Flush();
+
+                context.Response.Close();
             }
         }
     }
