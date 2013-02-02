@@ -38,6 +38,8 @@ namespace GApiHelpers.Authorization
 
         public static void Initialize(AuthorizationConfig authorizationConfig)
         {
+            authorizationConfig.Validate();
+
             _clientIdentifier = authorizationConfig.ClientIdentifier;
             _clientSecret = authorizationConfig.ClientSecret;
             _scopes = authorizationConfig.Scopes;
