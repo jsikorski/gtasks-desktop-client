@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthorizationCanceledException.cs" />
+    <Compile Include="AuthorizationConfig.cs" />
     <Compile Include="AuthorizationManager.cs" />
     <Compile Include="AuthorizationResponseServer.cs" />
     <Compile Include="AuthorizationStorage.cs" />

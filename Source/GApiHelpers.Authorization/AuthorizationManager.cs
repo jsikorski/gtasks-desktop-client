@@ -35,11 +35,11 @@ namespace GApiHelpers.Authorization
                 handler();
         }
 
-        public static void Initialize(string clientIdentifier, string clientSecret, IEnumerable<string> scopes)
+        public static void Initialize(AuthorizationConfig authorizationConfig)
         {
-            _clientIdentifier = clientIdentifier;
-            _clientSecret = clientSecret;
-            _scopes = scopes;
+            _clientIdentifier = authorizationConfig.ClientIdentifier;
+            _clientSecret = authorizationConfig.ClientSecret;
+            _scopes = authorizationConfig.Scopes;
         }
 
         public static IAuthenticator GetAuthenticator()
@@ -105,9 +105,9 @@ namespace GApiHelpers.Authorization
 
         private static Uri FormatResponseUrl()
         {
-            var applicationName = Assembly.GetEntryAssembly().GetName().Name;
+            var applicationNAme = Assembly.GetEntryAssembly().GetName().Name;
             var port = GetRandomUnusedPort();
-            string url = string.Format(AuthorizationResponseUrlFormat, port, applicationName);
+            string url = string.Format(AuthorizationResponseUrlFormat, port, applicationNAme);
             return new Uri(url);
         }
 
