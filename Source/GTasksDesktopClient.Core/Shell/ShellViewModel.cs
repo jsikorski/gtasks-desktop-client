@@ -30,16 +30,6 @@ namespace GTasksDesktopClient.Core.Shell
             }
         }
 
-        public string Message
-        {
-            get { return _message; }
-            set
-            {
-                _message = value;
-                NotifyOfPropertyChange(() => Message);
-            }
-        }
-
         public ShellViewModel(
             AuthorizationViewModel authorizationViewModel,
             LayoutViewModel layoutViewModel)
@@ -57,14 +47,14 @@ namespace GTasksDesktopClient.Core.Shell
 
         private void ShowAuthorizationView(Uri authorizationUrl)
         {
-            _busyScope.Dispose();
+            _busyScope.Release();
             _authorizationViewModel.AuthorizationUrl = authorizationUrl;
             ActivateItem(_authorizationViewModel);
         }
 
         private void ShowLayout()
         {
-            _busyScope.Dispose();
+            _busyScope.Release();
             ActivateItem(_layoutViewModel);
         }
     }

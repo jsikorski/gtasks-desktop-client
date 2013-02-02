@@ -6,16 +6,20 @@ namespace GTasksDesktopClient.Core.Infrastructure
     {
         private readonly IBusyIndicator _busyIndicator;
 
-        public BusyScope(IBusyIndicator busyIndicator, string message = "Proszę czekać...")
+        public BusyScope(IBusyIndicator busyIndicator)
         {
             _busyIndicator = busyIndicator;
             _busyIndicator.IsBusy = true;
-            _busyIndicator.Message = message;
+        }
+
+        public void Release()
+        {
+            _busyIndicator.IsBusy = false;
         }
 
         public void Dispose()
         {
-            _busyIndicator.IsBusy = false;
+            Release();
         }
     }
 }
