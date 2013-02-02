@@ -16,7 +16,8 @@ namespace GApiHelpers.Authorization
 
         private static string _clientIdentifier;
         private static string _clientSecret;
-        private static IEnumerable<string> _scopes; 
+        private static IEnumerable<string> _scopes;
+        private static string _refreshTokenFilePath;
 
         public static event Action<Uri> AuthorizationRequired;
         public static event Action AuthorizationSucceeded;
@@ -40,6 +41,7 @@ namespace GApiHelpers.Authorization
             _clientIdentifier = authorizationConfig.ClientIdentifier;
             _clientSecret = authorizationConfig.ClientSecret;
             _scopes = authorizationConfig.Scopes;
+            _refreshTokenFilePath = authorizationConfig.RefreshTokenFilePath;
         }
 
         public static IAuthenticator GetAuthenticator()
@@ -55,7 +57,7 @@ namespace GApiHelpers.Authorization
 
         private static IAuthorizationState GetAuthorization(NativeApplicationClient client)
         {
-            var refreshToken = AuthorizationStorage.LoadRefreshToken();
+            var refreshToken = AuthorizationStorage.LoadRefreshToken(_refreshTokenFilePath);
 
             IAuthorizationState state = string.IsNullOrEmpty(refreshToken)
                                             ? ObtainCredentials(client)
@@ -83,7 +85,7 @@ namespace GApiHelpers.Authorization
             authorizationResponseServer.Stop();
 
             state = client.ProcessUserAuthorization(authorizationCode, state);
-            AuthorizationStorage.SaveRefreshToken(state.RefreshToken);
+            AuthorizationStorage.SaveRefreshToken(state.RefreshToken, _refreshTokenFilePath);
             return state;
         }
 

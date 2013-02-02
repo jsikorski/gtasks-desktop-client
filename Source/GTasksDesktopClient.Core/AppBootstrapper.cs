@@ -113,7 +113,8 @@ namespace GTasksDesktopClient.Core
                 {
                     ClientIdentifier = Authorization.ClientIdentifier,
                     ClientSecret = Authorization.ClientSecret,
-                    Scopes = scopes
+                    Scopes = scopes,
+                    RefreshTokenFilePath = Authorization.RefreshTokenFilePath
                 };
 
             AuthorizationManager.Initialize(authorizationConfig);
