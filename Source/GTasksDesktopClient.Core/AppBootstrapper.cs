@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Autofac;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Infrastructure;
+using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
 using System.Linq;
 using IStartable = GTasksDesktopClient.Core.Infrastructure.IStartable;
@@ -31,16 +32,12 @@ namespace GTasksDesktopClient.Core
         protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
         {
             base.OnStartup(sender, e);
-
-            var startables = _container.Resolve<IEnumerable<IStartable>>();
-            startables.ToList().ForEach(startable => startable.Start());
+            _container.Resolve<BackgroundTasksManager>().StartAll();
         }
 
         protected override void OnExit(object sender, EventArgs e)
         {
-            var stopables = _container.Resolve<IEnumerable<IStopable>>();
-            stopables.ToList().ForEach(stopable => stopable.Stop());
-
+            _container.Resolve<BackgroundTasksManager>().StopAll();
             base.OnExit(sender, e);
         }
     }

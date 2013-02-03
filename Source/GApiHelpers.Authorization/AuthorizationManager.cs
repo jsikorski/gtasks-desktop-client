@@ -22,26 +22,18 @@ namespace GApiHelpers.Authorization
         public event Action<Uri> AuthorizationRequired;
         public event Action AuthorizationSucceeded;
         public event Action AuthorizationCanceled;
+        public event Action AuthorizationNotSupported;
 
-        private void TriggerAuthorizationRequired(Uri authorizationUrl)
+        private static void TriggerActionHandler(Action handler)
         {
-            var handler = AuthorizationRequired;
-            if (handler != null)
-                handler(authorizationUrl);
-        }
-
-        private void TriggerAuthorizationSucceeded()
-        {
-            var handler = AuthorizationSucceeded;
             if (handler != null)
                 handler();
         }
 
-        private void TriggerAuthorizationCanceled()
+        private static void TriggerActionHandler<T>(Action<T> handler, T parameter)
         {
-            var handler = AuthorizationCanceled;
             if (handler != null)
-                handler();
+                handler(parameter);
         }
 
         public AuthorizationManager(AuthorizationConfig authorizationConfig)
@@ -74,7 +66,7 @@ namespace GApiHelpers.Authorization
                                             : RefreshCredentials(client, refreshToken);
 
             if (!string.IsNullOrEmpty(state.AccessToken))
-                TriggerAuthorizationSucceeded();
+                TriggerActionHandler(AuthorizationSucceeded);
 
             return state;
         }
@@ -89,13 +81,17 @@ namespace GApiHelpers.Authorization
             authorizationResponseServer.Start();
 
             var authorizationUrl = client.RequestUserAuthorization(state);
-            TriggerAuthorizationRequired(authorizationUrl);
+            TriggerActionHandler(AuthorizationRequired, authorizationUrl);
 
             string authorizationCode = TryGetAuthorizationCode(authorizationResponseServer);
             authorizationResponseServer.Stop();
+            
+            if (!string.IsNullOrEmpty(authorizationCode))
+            {
+                state = client.ProcessUserAuthorization(authorizationCode, state);
+                AuthorizationStorage.SaveRefreshToken(state.RefreshToken, _refreshTokenFilePath);
+            }
 
-            state = client.ProcessUserAuthorization(authorizationCode, state);
-            AuthorizationStorage.SaveRefreshToken(state.RefreshToken, _refreshTokenFilePath);
             return state;
         }
 
@@ -107,7 +103,11 @@ namespace GApiHelpers.Authorization
             }
             catch (AuthorizationCanceledException)
             {
-                TriggerAuthorizationCanceled();
+                TriggerActionHandler(AuthorizationCanceled);
+            }
+            catch (NotSupportedException)
+            {
+                TriggerActionHandler(AuthorizationNotSupported);
             }
 
             return null;

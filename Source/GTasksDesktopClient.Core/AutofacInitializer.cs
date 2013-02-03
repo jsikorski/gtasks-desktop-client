@@ -91,6 +91,8 @@ namespace GTasksDesktopClient.Core
             containerBuilder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                             .Where(type => type.GetInterfaces().Any(i => i == typeof(IBackgroundTask)))
                             .AsImplementedInterfaces();
+
+            containerBuilder.RegisterType<BackgroundTasksManager>().SingleInstance();
         }
 
         private static void RegisterCaliburnComponents(ContainerBuilder containerBuilder)

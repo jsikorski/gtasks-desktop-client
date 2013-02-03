@@ -100,6 +100,7 @@
     <Compile Include="Authorization.cs" />
     <Compile Include="AutofacInitializer.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksContext.cs" />
+    <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksManager.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\IBackgroundTask.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\StartBackgroundTasks.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\StopBackgroundTasks.cs" />
@@ -145,6 +146,7 @@
     </Compile>
     <Compile Include="Tasks\TasksViewModel.cs" />
     <Compile Include="Tasks\TaskViewModel.cs" />
+    <Compile Include="Utils\MessageBoxService.cs" />
     <Compile Include="Utils\ObservableCollectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

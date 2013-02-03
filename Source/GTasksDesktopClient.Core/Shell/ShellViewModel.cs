@@ -4,6 +4,7 @@ using System.Windows;
 using Caliburn.Micro;
 using GApiHelpers.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
+using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Utils;
 using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
@@ -16,6 +17,7 @@ namespace GTasksDesktopClient.Core.Shell
 
         private readonly LayoutViewModel _layoutViewModel;
         private readonly AuthorizationManager _authorizationManager;
+        private readonly BackgroundTasksManager _backgroundTasksManager;
 
         private bool _isBusy;
         public bool IsBusy
@@ -30,17 +32,20 @@ namespace GTasksDesktopClient.Core.Shell
 
         public ShellViewModel(
             LayoutViewModel layoutViewModel, 
-            AuthorizationManager authorizationManager)
+            AuthorizationManager authorizationManager, 
+            BackgroundTasksManager backgroundTasksManager)
         {
             base.DisplayName = WindowTitle;
             IsBusy = true;
 
             _layoutViewModel = layoutViewModel;
             _authorizationManager = authorizationManager;
+            _backgroundTasksManager = backgroundTasksManager;
 
             _authorizationManager.AuthorizationRequired += ShowAuthorizationView;
             _authorizationManager.AuthorizationSucceeded += ShowLayout;
             _authorizationManager.AuthorizationCanceled += ShowAuthorizationCanceledMessage;
+            _authorizationManager.AuthorizationNotSupported += ShowAuthorizationNotSupportedError;
         }
 
         private void ShowAuthorizationView(Uri authorizationUrl)
@@ -55,11 +60,23 @@ namespace GTasksDesktopClient.Core.Shell
 
         private void ShowAuthorizationCanceledMessage()
         {
+            _backgroundTasksManager.StopAll();
+
             MessageBoxService.ShowInfo("Wyra¿enie zgody na " +
                                        "dostêp do zasobów konta Google " +
                                        "jest niezbêdne dla prawid³owego " +
-                                       "dzia³nia aplikacji. Aby to zrobiæ " +
-                                       "uruchom ponownie aplikacjê.");
+                                       "dzia³nia aplikacji.");
+            TryClose();
+        }
+
+        private void ShowAuthorizationNotSupportedError()
+        {
+            _backgroundTasksManager.StopAll();
+            
+            MessageBoxService.ShowError("Autoryzacja zwi¹zana z dostêpem do " +
+                                        "konta Google nie mo¿e byæ zrealizowana. " +
+                                        "SprawdŸ ustawienia zapory sieciowej " +
+                                        "i spróbuj ponownie.");
             TryClose();
         }
     }
