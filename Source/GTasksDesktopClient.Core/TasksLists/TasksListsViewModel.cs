@@ -25,6 +25,7 @@ namespace GTasksDesktopClient.Core.TasksLists
             get { return "Listy"; }
         }
 
+        private readonly object _selectedTasksListLock = new object();
         private TasksListViewModel _selectedTasksList;
         public TasksListViewModel SelectedTasksList
         {
@@ -61,10 +62,13 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         private void UpdateTasksLists(IEnumerable<TaskList> tasksLists)
         {
-            TasksLists.Clear();
-            var tasksListsViewModels = tasksLists.Select(tasksList => new TasksListViewModel(tasksList));
-            TasksLists.AddRange(tasksListsViewModels);
-            UpdateSelectedTasksList();
+            lock (_selectedTasksListLock)
+            {
+                TasksLists.Clear();
+                var tasksListsViewModels = tasksLists.Select(tasksList => new TasksListViewModel(tasksList));
+                TasksLists.AddRange(tasksListsViewModels);
+                UpdateSelectedTasksList();
+            }
         }
 
         private void UpdateSelectedTasksList()
@@ -101,17 +105,29 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         public void ShowTasksList()
         {
-            if (SelectedTasksList == null)
+            string tasksListId = GetSelectedTasksListId();
+            if (string.IsNullOrEmpty(tasksListId))
                 return;
 
-            string tasksListId = SelectedTasksList.Id;
             _eventAggregator.Publish(new TasksViewRequested());
             LoadTasks(tasksListId);
         }
 
+        private string GetSelectedTasksListId()
+        {
+            lock (_selectedTasksListLock)
+            {
+                if (SelectedTasksList == null)
+                    return null;
+
+                return SelectedTasksList.Id;
+            }
+        }
+
         public void DeleteTasksList(MouseButtonEventArgs mouseButtonEventArgs)
         {
-            if (SelectedTasksList == null)
+            string tasksListId = GetSelectedTasksListId();
+            if (string.IsNullOrEmpty(tasksListId))
                 return;
 
             var deleteTasksLists = _deleteTasksListsFactory(SelectedTasksList.Id);
