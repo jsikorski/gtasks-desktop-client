@@ -23,5 +23,10 @@ namespace GTasksDesktopClient.Core.TasksLists
         {
             InitializeComponent();
         }
+
+        private void UserControl_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

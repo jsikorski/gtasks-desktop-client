@@ -55,9 +55,11 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         private void UpdateTasksLists(IEnumerable<TaskList> tasksLists)
         {
+            var addedLists = TasksLists.Where(list => list.IsBeingAdded).ToList();
             TasksLists.Clear();
             var tasksListsViewModels = tasksLists.Select(tasksList => _tasksListViewModelFactory(tasksList));
             TasksLists.AddRange(tasksListsViewModels);
+            TasksLists.AddRange(addedLists);
             UpdateSelectedTasksList();
         }
 
@@ -85,6 +87,14 @@ namespace GTasksDesktopClient.Core.TasksLists
         {
             _eventAggregator.Unsubscribe(this);
             TasksLists.Clear();
+        }
+
+        public void BeginAddingList()
+        {
+            var tasksList = _tasksListViewModelFactory(new TaskList());
+            tasksList.IsBeingAdded = true;
+            TasksLists.Add(tasksList);
+            SelectedTasksList = tasksList;
         }
 
         public void Handle(TasksListsUpdated message)

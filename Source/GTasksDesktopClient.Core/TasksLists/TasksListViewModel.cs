@@ -16,6 +16,8 @@ namespace GTasksDesktopClient.Core.TasksLists
         private readonly Func<TaskList, EditTasksList> _editTasksListFactory;
         private readonly Func<string, DeleteTasksList> _deleteTasksListsFactory;
 
+        private string _titleBeforeEdit;
+
         public string Id
         {
             get { return _taskList.Id; }
@@ -37,17 +39,32 @@ namespace GTasksDesktopClient.Core.TasksLists
             set { _taskList.Updated = value.ToString(CultureInfo.InvariantCulture); }
         }
 
-        private string _titleBeforeEdit;
-
-        private bool _isInEditMode;
-        public bool IsInEditMode
+        private bool _isBeingEdited;
+        public bool IsBeingEdited
         {
-            get { return _isInEditMode; }
-            private set
+            get { return _isBeingEdited; }
+            set
             {
-                _isInEditMode = value;
+                _isBeingEdited = value;
                 NotifyOfPropertyChange(() => IsInEditMode);
             }
+        }
+
+        private bool _isBeingAdded;
+        public bool IsBeingAdded
+        {
+            get { return _isBeingAdded; }
+            set
+            {
+                _isBeingAdded = value;
+                NotifyOfPropertyChange(() => IsInEditMode);
+
+            }
+        }
+
+        public bool IsInEditMode
+        {
+            get { return IsBeingEdited || IsBeingAdded; }
         }
 
         public TasksListViewModel(
@@ -79,14 +96,14 @@ namespace GTasksDesktopClient.Core.TasksLists
         public void BeginEditing(MouseButtonEventArgs mouseButtonEventArgs)
         {
             _titleBeforeEdit = Title;
-            IsInEditMode = true;
+            IsBeingEdited = true;
             mouseButtonEventArgs.Handled = true;
         }
 
         public void CancelEditing(MouseButtonEventArgs mouseButtonEventArgs)
         {
             Title = _titleBeforeEdit;
-            IsInEditMode = false;
+            IsBeingEdited = false;
             mouseButtonEventArgs.Handled = true;
         }
 
@@ -101,7 +118,7 @@ namespace GTasksDesktopClient.Core.TasksLists
                 CommandsInvoker.ExecuteCommand(editTasksList);
             }
 
-            IsInEditMode = false;
+            IsBeingEdited = false;
             mouseButtonEventArgs.Handled = true;
         }
 
