@@ -3,44 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="300" 
              d:DesignWidth="300">
-
-    <ListBox ItemsSource="{Binding TasksLists}" 
-             SelectedItem="{Binding SelectedTasksList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-             cal:Message.Attach="[Event MouseUp] = [Action ShowTasksList]">
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <Grid Background="Transparent"
-                      Cursor="{x:Static Cursors.Hand}" 
-                      MinHeight="75" 
-                      VerticalAlignment="Center">
-                        
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
-                        <TextBlock Text="{Binding LastModifiedAt}" />
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="0 0 10 0" Orientation="Horizontal">
-                        <Rectangle Grid.Column="1" Width="12" Height="12" Margin="0 0 10 0">
-                            <Rectangle.Fill>
-                                <VisualBrush Visual="{StaticResource appbar_edit}" />
-                            </Rectangle.Fill>
-                        </Rectangle>
-                        <Rectangle Grid.Column="1" Width="12" Height="12" cal:Message.Attach="[Event MouseUp] = [Action DeleteTasksList($eventArgs)]">
-                            <Rectangle.Fill>
-                                <VisualBrush Visual="{StaticResource appbar_delete}" />
-                            </Rectangle.Fill>
-                        </Rectangle>
-                    </StackPanel>
-                </Grid>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+    
+    <ListBox Name="TasksLists" 
+             SelectedItem="{Binding SelectedTasksList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 </UserControl>

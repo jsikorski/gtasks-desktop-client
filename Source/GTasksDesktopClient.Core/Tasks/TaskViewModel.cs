@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Caliburn.Micro;
 using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.Tasks

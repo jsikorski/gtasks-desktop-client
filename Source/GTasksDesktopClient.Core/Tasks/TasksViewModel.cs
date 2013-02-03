@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Caliburn.Micro;
-using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Shell;
 using GTasksDesktopClient.Core.TasksLists;
