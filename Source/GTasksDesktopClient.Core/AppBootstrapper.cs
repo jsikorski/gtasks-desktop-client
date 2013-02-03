@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using Autofac;
 using Caliburn.Micro;
-using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
-using System.Linq;
-using IStartable = GTasksDesktopClient.Core.Infrastructure.IStartable;
 
 namespace GTasksDesktopClient.Core
 {

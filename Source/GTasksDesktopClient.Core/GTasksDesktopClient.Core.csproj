@@ -116,6 +116,7 @@
     </Compile>
     <Compile Include="Layout\LayoutViewModel.cs" />
     <Compile Include="Shell\CurrentDataContext.cs" />
+    <Compile Include="TasksLists\DeleteTasksList.cs" />
     <Compile Include="TasksLists\TasksListsUpdated.cs" />
     <Compile Include="TasksLists\TasksListsView.xaml.cs">
       <DependentUpon>TasksListsView.xaml</DependentUpon>

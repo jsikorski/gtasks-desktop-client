@@ -1,13 +1,11 @@
 using System;
 using System.Diagnostics;
-using System.Windows;
 using Caliburn.Micro;
 using GApiHelpers.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Utils;
-using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
 
 namespace GTasksDesktopClient.Core.Shell
 {

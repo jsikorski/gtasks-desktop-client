@@ -55,8 +55,8 @@ namespace GTasksDesktopClient.Core.Synchronization
 
         private void UpdateSelectedTasksListId()
         {
-            var isTasksListStillPresent = _currentDataContext.TasksLists.Any(
-                tasksList => tasksList.Id == _currentDataContext.SelectedTasksListId);
+            var isTasksListStillPresent = _currentDataContext
+                .TasksListExists(_currentDataContext.SelectedTasksListId);
 
             if (!isTasksListStillPresent)
                 _currentDataContext.SelectedTasksListId = null;

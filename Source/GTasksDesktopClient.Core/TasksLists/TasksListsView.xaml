@@ -10,7 +10,7 @@
 
     <ListBox ItemsSource="{Binding TasksLists}" 
              SelectedItem="{Binding SelectedTasksList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-             cal:Message.Attach="[Event MouseUp] = [Action ShowTasksList];">
+             cal:Message.Attach="[Event MouseUp] = [Action ShowTasksList]">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <Grid Background="Transparent"
@@ -33,7 +33,7 @@
                                 <VisualBrush Visual="{StaticResource appbar_edit}" />
                             </Rectangle.Fill>
                         </Rectangle>
-                        <Rectangle Grid.Column="1" Width="12" Height="12">
+                        <Rectangle Grid.Column="1" Width="12" Height="12" cal:Message.Attach="[Event MouseUp] = [Action DeleteTasksList($eventArgs)]">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{StaticResource appbar_delete}" />
                             </Rectangle.Fill>

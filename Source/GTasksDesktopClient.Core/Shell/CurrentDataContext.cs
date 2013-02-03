@@ -3,6 +3,7 @@ using Caliburn.Micro;
 using GTasksDesktopClient.Core.Tasks;
 using GTasksDesktopClient.Core.TasksLists;
 using Google.Apis.Tasks.v1.Data;
+using System.Linq;
 
 namespace GTasksDesktopClient.Core.Shell
 {
@@ -53,6 +54,11 @@ namespace GTasksDesktopClient.Core.Shell
 
             Tasks = new List<Task>();
             TasksLists = new List<TaskList>();
+        }
+
+        public bool TasksListExists(string tasksListId)
+        {
+            return TasksLists.Any(tasksList => tasksList.Id == tasksListId);
         }
     }
 }

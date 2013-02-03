@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
@@ -16,6 +17,7 @@ namespace GTasksDesktopClient.Core.TasksLists
     {
         private readonly EventAggregator _eventAggregator;
         private readonly Func<string, LoadTasks> _loadTasksFactory;
+        private readonly Func<string, DeleteTasksList> _deleteTasksListsFactory;
         private readonly CurrentDataContext _currentDataContext;
 
         public string Header
@@ -39,10 +41,12 @@ namespace GTasksDesktopClient.Core.TasksLists
         public TasksListsViewModel(
             EventAggregator eventAggregator,
             Func<string, LoadTasks> loadTasksFactory,
+            Func<string, DeleteTasksList> deleteTasksListsFactory, 
             CurrentDataContext currentDataContext)
         {
             _eventAggregator = eventAggregator;
             _loadTasksFactory = loadTasksFactory;
+            _deleteTasksListsFactory = deleteTasksListsFactory;
             _currentDataContext = currentDataContext;
 
             TasksLists = new ObservableCollection<TasksListViewModel>();
@@ -103,6 +107,17 @@ namespace GTasksDesktopClient.Core.TasksLists
             string tasksListId = SelectedTasksList.Id;
             _eventAggregator.Publish(new TasksViewRequested());
             LoadTasks(tasksListId);
+        }
+
+        public void DeleteTasksList(MouseButtonEventArgs mouseButtonEventArgs)
+        {
+            if (SelectedTasksList == null)
+                return;
+
+            var deleteTasksLists = _deleteTasksListsFactory(SelectedTasksList.Id);
+            CommandsInvoker.ExecuteCommand(deleteTasksLists);
+
+            mouseButtonEventArgs.Handled = true;
         }
 
         public void Handle(TasksListsUpdated message)
