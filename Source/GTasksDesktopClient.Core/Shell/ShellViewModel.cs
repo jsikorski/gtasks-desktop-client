@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using GApiHelpers.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Layout;
+using GTasksDesktopClient.Core.Utils;
 using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
 
 namespace GTasksDesktopClient.Core.Shell
@@ -54,11 +55,11 @@ namespace GTasksDesktopClient.Core.Shell
 
         private void ShowAuthorizationCanceledMessage()
         {
-            Execute.OnUIThread(() => MessageBox.Show("Wyra¿enie zgody na " +
-                                                     "dostêp do zasobów konta Google " +
-                                                     "jest niezbêdne dla prawid³owego " +
-                                                     "dzia³nia aplikacji. Aby to zrobiæ " +
-                                                     "uruchom ponownie aplikacjê."));
+            MessageBoxService.ShowInfo("Wyra¿enie zgody na " +
+                                       "dostêp do zasobów konta Google " +
+                                       "jest niezbêdne dla prawid³owego " +
+                                       "dzia³nia aplikacji. Aby to zrobiæ " +
+                                       "uruchom ponownie aplikacjê.");
             TryClose();
         }
     }
