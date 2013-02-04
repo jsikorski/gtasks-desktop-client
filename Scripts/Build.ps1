@@ -52,7 +52,7 @@ Task DownloadDependencies {
 		-NugetPackagesOutputDir $nugetPackagesOutputDir
 }
 
-Task Compile -depends Init, DownloadDependencies {
+Task Compile -depends Init, GenerateAssembliesInfos, DownloadDependencies {
 	Exec { MSBuild $slnFile /property:Configuration=Release /verbosity:quiet /nologo }
 }
 

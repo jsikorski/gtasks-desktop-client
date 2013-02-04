@@ -41,3 +41,5 @@ Packages/*
 !Packages/repositories.config
 TestResult.xml
 *.dat
+
+AssemblyInfo.cs
