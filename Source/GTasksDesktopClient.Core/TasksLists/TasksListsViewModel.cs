@@ -18,7 +18,7 @@ namespace GTasksDesktopClient.Core.TasksLists
     {
         private readonly EventAggregator _eventAggregator;
         private readonly IWindowManager _windowManager;
-        private readonly DataAccessController _dataAccessController;
+        private readonly DataContext _dataContext;
         private readonly Func<TaskList, TasksListViewModel> _tasksListViewModelFactory;
         private readonly IContainer _container;
 
@@ -43,13 +43,13 @@ namespace GTasksDesktopClient.Core.TasksLists
         public TasksListsViewModel(
             EventAggregator eventAggregator,
             IWindowManager windowManager,
-            DataAccessController dataAccessController,
+            DataContext dataContext,
             Func<TaskList, TasksListViewModel> tasksListViewModelFactory, 
             IContainer container)
         {
             _eventAggregator = eventAggregator;
             _windowManager = windowManager;
-            _dataAccessController = dataAccessController;
+            _dataContext = dataContext;
             _tasksListViewModelFactory = tasksListViewModelFactory;
             _container = container;
 
@@ -59,7 +59,7 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         protected override void OnActivate()
         {
-            UpdateTasksLists(_dataAccessController.GetReadAccess().TasksLists);
+            UpdateTasksLists(_dataContext.GetReadAccess().TasksLists);
             _eventAggregator.Subscribe(this);
         }
 
@@ -77,7 +77,7 @@ namespace GTasksDesktopClient.Core.TasksLists
         {
             var lastSelectedTasksList =
                 TasksLists.SingleOrDefault(
-                    tasksList => tasksList.Id == _dataAccessController.GetReadAccess().LastLoadedTasksListId);
+                    tasksList => tasksList.Id == _dataContext.GetReadAccess().LastLoadedTasksListId);
 
             if (lastSelectedTasksList == null)
                 SelectFirstTasksList();

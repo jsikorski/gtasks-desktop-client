@@ -11,25 +11,25 @@ namespace GTasksDesktopClient.Core.TasksLists.Delete
         private readonly TaskList _taskList;
         private readonly TasksService _tasksService;
         private readonly IBusyIndicator _busyIndicator;
-        private readonly DataAccessController _dataAccessController;
+        private readonly DataContext _dataContext;
 
         public DeleteTasksList(
             TaskList taskList, 
             TasksService tasksService, 
             IBusyIndicator busyIndicator, 
-            DataAccessController dataAccessController)
+            DataContext dataContext)
         {
             _taskList = taskList;
             _tasksService = tasksService;
             _busyIndicator = busyIndicator;
-            _dataAccessController = dataAccessController;
+            _dataContext = dataContext;
         }
 
         public override void Execute()
         {
             using (new BusyScope(_busyIndicator))
             {
-                using (var dataAccess = _dataAccessController.GetReadWriteAccess())
+                using (var dataAccess = _dataContext.GetReadWriteAccess())
                 {
                     _tasksService.Tasklists.Delete(_taskList.Id).Fetch();
                     dataAccess.UpdateTasksLists(_tasksService);

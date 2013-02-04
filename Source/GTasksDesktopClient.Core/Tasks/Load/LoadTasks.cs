@@ -8,18 +8,18 @@ namespace GTasksDesktopClient.Core.Tasks.Load
     public class LoadTasks : ApiCommand
     {
         private readonly string _tasksListsId;
-        private readonly DataAccessController _dataAccessController;
+        private readonly DataContext _dataContext;
         private readonly TasksService _tasksService;
         private readonly IBusyIndicator _busyIndicator;
 
         public LoadTasks(
             string tasksListsId,
-            DataAccessController dataAccessController,
+            DataContext dataContext,
             TasksService tasksService,
             IBusyIndicator busyIndicator)
         {
             _tasksListsId = tasksListsId;
-            _dataAccessController = dataAccessController;
+            _dataContext = dataContext;
             _tasksService = tasksService;
             _busyIndicator = busyIndicator;
         }
@@ -28,7 +28,7 @@ namespace GTasksDesktopClient.Core.Tasks.Load
         {
             using (new BusyScope(_busyIndicator))
             {
-                using (var dataAccess = _dataAccessController.GetReadWriteAccess())
+                using (var dataAccess = _dataContext.GetReadWriteAccess())
                 {
                     if (_tasksListsId == dataAccess.LastLoadedTasksListId)
                         return;

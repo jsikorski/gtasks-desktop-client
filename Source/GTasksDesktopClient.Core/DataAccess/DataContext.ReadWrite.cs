@@ -6,40 +6,40 @@ using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.DataAccess
 {
-    public partial class DataAccessController
+    public partial class DataContext
     {
         public class ReadWriteAccess : IDisposable
         {
-            private readonly DataAccessController _dataAccessController;
+            private readonly DataContext _dataContext;
 
             public string LastTasksETag
             {
-                get { return _dataAccessController.LastTasksETag; }
-                set { _dataAccessController.LastTasksETag = value; }
+                get { return _dataContext.LastTasksETag; }
+                set { _dataContext.LastTasksETag = value; }
             }
 
             public string LastTasksListsETag
             {
-                get { return _dataAccessController.LastTasksListsETag; }
-                set { _dataAccessController.LastTasksListsETag = value; }
+                get { return _dataContext.LastTasksListsETag; }
+                set { _dataContext.LastTasksListsETag = value; }
             }
 
             public string LastLoadedTasksListId
             {
-                get { return _dataAccessController.LastLoadedTasksListId; }
-                private set { _dataAccessController.LastLoadedTasksListId = value; }
+                get { return _dataContext.LastLoadedTasksListId; }
+                private set { _dataContext.LastLoadedTasksListId = value; }
             }
 
             public IEnumerable<TaskList> TasksLists
             {
-                get { return _dataAccessController.TasksLists; }
-                set { _dataAccessController.TasksLists = value; }
+                get { return _dataContext.TasksLists; }
+                set { _dataContext.TasksLists = value; }
             }
 
             public IEnumerable<Task> Tasks
             {
-                get { return _dataAccessController.Tasks; }
-                set { _dataAccessController.Tasks = value; }
+                get { return _dataContext.Tasks; }
+                set { _dataContext.Tasks = value; }
             }
 
             public bool TasksListExists(string tasksListId)
@@ -47,10 +47,10 @@ namespace GTasksDesktopClient.Core.DataAccess
                 return TasksLists.Any(tasksList => tasksList.Id == tasksListId);
             }
 
-            public ReadWriteAccess(DataAccessController dataAccessController)
+            public ReadWriteAccess(DataContext dataContext)
             {
-                _dataAccessController = dataAccessController;
-                _dataAccessController.Semaphore.WaitOne();
+                _dataContext = dataContext;
+                _dataContext.Semaphore.WaitOne();
             }
 
             public void UpdateTasksLists(TasksService tasksService)
@@ -86,7 +86,7 @@ namespace GTasksDesktopClient.Core.DataAccess
 
             public void Dispose()
             {
-                _dataAccessController.Semaphore.Release();
+                _dataContext.Semaphore.Release();
             }
         }
     }

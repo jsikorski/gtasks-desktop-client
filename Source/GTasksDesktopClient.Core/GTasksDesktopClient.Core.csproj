@@ -88,9 +88,9 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authorization.cs" />
     <Compile Include="AutofacInitializer.cs" />
-    <Compile Include="DataAccess\DataAccessController.cs" />
-    <Compile Include="DataAccess\DataAccessController.Read.cs" />
-    <Compile Include="DataAccess\DataAccessController.ReadWrite.cs" />
+    <Compile Include="DataAccess\DataContext.cs" />
+    <Compile Include="DataAccess\DataContext.Read.cs" />
+    <Compile Include="DataAccess\DataContext.ReadWrite.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksContext.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksManager.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\IBackgroundTask.cs" />

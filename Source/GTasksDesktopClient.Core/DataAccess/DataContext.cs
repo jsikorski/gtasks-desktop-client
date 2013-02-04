@@ -1,17 +1,13 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Caliburn.Micro;
-using GTasksDesktopClient.Core.Tasks;
 using GTasksDesktopClient.Core.Tasks.Events;
 using GTasksDesktopClient.Core.TasksLists.Events;
-using Google.Apis.Tasks.v1;
 using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.DataAccess
 {
-    public partial class DataAccessController
+    public partial class DataContext
     {
         private readonly IEventAggregator _eventAggregator;
 
@@ -56,7 +52,7 @@ namespace GTasksDesktopClient.Core.DataAccess
             }
         }
 
-        public DataAccessController(IEventAggregator eventAggregator)
+        public DataContext(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
             Semaphore = new Semaphore(1, 1);

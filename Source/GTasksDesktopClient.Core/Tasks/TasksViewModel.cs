@@ -18,7 +18,7 @@ namespace GTasksDesktopClient.Core.Tasks
     public class TasksViewModel : Screen, ITab, IHandle<TasksUpdated>, IHandle<SelectedTasksListIdReseted>
     {
         private readonly IEventAggregator _eventAggregator;
-        private readonly DataAccessController _dataAccessController;
+        private readonly DataContext _dataContext;
         private readonly IWindowManager _windowManager;
         private readonly Func<Task, TaskViewModel> _taskViewModelFactory;
         private readonly IContainer _container;
@@ -32,13 +32,13 @@ namespace GTasksDesktopClient.Core.Tasks
 
         public TasksViewModel(
             IEventAggregator eventAggregator, 
-            DataAccessController dataAccessController, 
+            DataContext dataContext, 
             IWindowManager windowManager,
             Func<Task, TaskViewModel> taskViewModelFactory,
             IContainer container)
         {
             _eventAggregator = eventAggregator;
-            _dataAccessController = dataAccessController;
+            _dataContext = dataContext;
             _windowManager = windowManager;
             _taskViewModelFactory = taskViewModelFactory;
             _container = container;
@@ -49,7 +49,7 @@ namespace GTasksDesktopClient.Core.Tasks
         protected override void OnActivate()
         {
             _eventAggregator.Subscribe(this);
-            UpdateTasks(_dataAccessController.GetReadAccess().Tasks);                
+            UpdateTasks(_dataContext.GetReadAccess().Tasks);                
         }
 
         private void UpdateTasks(IEnumerable<Task> tasks)

@@ -10,18 +10,18 @@ namespace GTasksDesktopClient.Core.Tasks.Delete
     {
         private readonly Task _task;
         private readonly TasksService _tasksService;
-        private readonly DataAccessController _dataAccessController;
+        private readonly DataContext _dataContext;
         private readonly IBusyIndicator _busyIndicator;
 
         public DeleteTask(
             Task task, 
             TasksService tasksService,
-            DataAccessController dataAccessController, 
+            DataContext dataContext, 
             IBusyIndicator busyIndicator)
         {
             _task = task;
             _tasksService = tasksService;
-            _dataAccessController = dataAccessController;
+            _dataContext = dataContext;
             _busyIndicator = busyIndicator;
         }
 
@@ -29,7 +29,7 @@ namespace GTasksDesktopClient.Core.Tasks.Delete
         {
             using (new BusyScope(_busyIndicator))
             {
-                using (var dataAccess = _dataAccessController.GetReadWriteAccess())
+                using (var dataAccess = _dataContext.GetReadWriteAccess())
                 {
                     _tasksService.Tasks.Delete(dataAccess.LastLoadedTasksListId, _task.Id).Fetch();
                     dataAccess.UpdateTasks(_tasksService, dataAccess.LastLoadedTasksListId);

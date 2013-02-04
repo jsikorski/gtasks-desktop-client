@@ -10,18 +10,18 @@ namespace GTasksDesktopClient.Core.Tasks.Add
     {
         private readonly Task _task;
         private readonly TasksService _tasksService;
-        private readonly DataAccessController _dataAccessController;
+        private readonly DataContext _dataContext;
         private readonly IBusyIndicator _busyIndicator;
 
         public AddTask(
             Task task, 
             TasksService tasksService, 
-            DataAccessController dataAccessController, 
+            DataContext dataContext, 
             IBusyIndicator busyIndicator)
         {
             _task = task;
             _tasksService = tasksService;
-            _dataAccessController = dataAccessController;
+            _dataContext = dataContext;
             _busyIndicator = busyIndicator;
         }
 
@@ -29,7 +29,7 @@ namespace GTasksDesktopClient.Core.Tasks.Add
         {
             using (new BusyScope(_busyIndicator))
             {
-                using (var dataAccess = _dataAccessController.GetReadWriteAccess())
+                using (var dataAccess = _dataContext.GetReadWriteAccess())
                 {
                     _tasksService.Tasks.Insert(_task, dataAccess.LastLoadedTasksListId).Fetch();
                     dataAccess.UpdateTasks(_tasksService, dataAccess.LastLoadedTasksListId);
