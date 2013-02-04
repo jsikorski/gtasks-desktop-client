@@ -8,7 +8,7 @@ namespace GTasksDesktopClient.Core.Infrastructure.BackgroundTasks
 {
     public class StartBackgroundTasks : IStartable
     {
-        private const int BackgroundTasksInterval = 10000;
+        private const int BackgroundTasksInterval = 1000;
 
         private readonly IContainer _container;
         private readonly BackgroundTasksContext _backgroundTasksContext;
