@@ -4,16 +4,16 @@ using GTasksDesktopClient.Core.Infrastructure;
 using Google.Apis.Tasks.v1;
 using Google.Apis.Tasks.v1.Data;
 
-namespace GTasksDesktopClient.Core.Tasks.Update
+namespace GTasksDesktopClient.Core.Tasks.Edit
 {
-    public class UpdateTask : ApiCommand
+    public class EditTask : ApiCommand
     {
         private readonly Task _task;
         private readonly DataAccessController _dataAccessController;
         private readonly TasksService _tasksService;
         private readonly IBusyIndicator _busyIndicator;
 
-        public UpdateTask(
+        public EditTask(
             Task task,
             DataAccessController dataAccessController, 
             TasksService tasksService, 

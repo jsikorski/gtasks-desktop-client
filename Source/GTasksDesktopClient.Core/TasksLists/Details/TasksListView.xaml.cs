@@ -1,4 +1,3 @@
-using System.Windows;
 using System.Windows.Controls;
 
 namespace GTasksDesktopClient.Core.TasksLists.Details
@@ -11,11 +10,6 @@ namespace GTasksDesktopClient.Core.TasksLists.Details
         public TasksListView()
         {
             InitializeComponent();
-        }
-
-        private void UserControl_Loaded_1(object sender, RoutedEventArgs e)
-        {
-            
         }
     }
 }

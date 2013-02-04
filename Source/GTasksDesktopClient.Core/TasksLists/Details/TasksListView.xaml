@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:cal="http://www.caliburnproject.org" xmlns:Utils="clr-namespace:GTasksDesktopClient.Core.Utils"
+             xmlns:cal="http://www.caliburnproject.org" 
+             xmlns:utils="clr-namespace:GTasksDesktopClient.Core.Utils"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             Loaded="UserControl_Loaded_1">
+             d:DesignHeight="300" d:DesignWidth="300">
     
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <Utils:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+        <utils:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
     </UserControl.Resources>
     
     <Grid>

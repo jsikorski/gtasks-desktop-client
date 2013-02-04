@@ -157,7 +157,7 @@
       <DependentUpon>TasksView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tasks\TasksViewModel.cs" />
-    <Compile Include="Tasks\Update\UpdateTask.cs" />
+    <Compile Include="Tasks\Edit\EditTask.cs" />
     <Compile Include="Utils\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Utils\MessageBoxService.cs" />
     <Compile Include="Utils\ObservableCollectionExtensions.cs" />
@@ -225,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tasks\Add\AddTaskView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tasks\Details\TaskStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
