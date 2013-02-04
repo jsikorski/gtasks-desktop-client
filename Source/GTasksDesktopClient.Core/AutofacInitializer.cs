@@ -104,11 +104,11 @@ namespace GTasksDesktopClient.Core
             containerBuilder.RegisterInstance(new AuthorizationManager(Authorization.GetConfiguration()));
             containerBuilder.Register(
                 context => new TasksService(context.Resolve<AuthorizationManager>().GetAuthenticator())).As<TasksService>();
-            containerBuilder.RegisterType<DataContext>().SingleInstance();
         }
 
         private static void RegisterContexts(ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterType<DataContext>().SingleInstance();
             containerBuilder.RegisterType<BackgroundTasksContext>().SingleInstance();
         }
     }
