@@ -1,4 +1,5 @@
 ﻿using GTasksDesktopClient.Core.Api;
+using GTasksDesktopClient.Core.DataAccess;
 using GTasksDesktopClient.Core.Infrastructure;
 using Google.Apis.Tasks.v1;
 
@@ -27,12 +28,12 @@ namespace GTasksDesktopClient.Core.Tasks
         {
             using (new BusyScope(_busyIndicator))
             {
-                using (var dataContext = _dataAccessController.GetContext())
+                using (var dataAccess = _dataAccessController.GetReadWriteAccess())
                 {
-                    if (_tasksListsId == dataContext.LastLoadedTasksListId)
+                    if (_tasksListsId == dataAccess.LastLoadedTasksListId)
                         return;
 
-                    dataContext.UpdateTasks(_tasksService, _tasksListsId);
+                    dataAccess.UpdateTasks(_tasksService, _tasksListsId);
                 }
             }
         }

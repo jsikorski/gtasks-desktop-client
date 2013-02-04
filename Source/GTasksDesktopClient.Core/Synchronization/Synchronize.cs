@@ -1,4 +1,5 @@
-﻿using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
+﻿using GTasksDesktopClient.Core.DataAccess;
+using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
 using Google.Apis.Tasks.v1;
 
@@ -22,38 +23,38 @@ namespace GTasksDesktopClient.Core.Synchronization
 
         public void Execute()
         {
-            using (var dataContext = _dataAccessController.GetContext())
+            using (var dataAccess = _dataAccessController.GetReadWriteAccess())
             {
                 using (new SynchronizationScope(_syncStateIndicator))
                 {
-                    SynchronizeLists(dataContext);
-                    SynchronizeTasks(dataContext);
+                    SynchronizeLists(dataAccess);
+                    SynchronizeTasks(dataAccess);
                 }
             }
         }
 
-        private void SynchronizeLists(DataAccessController.DataContext dataContext)
+        private void SynchronizeLists(DataAccessController.ReadWriteAccess dataAccess)
         {
-            dataContext.UpdateTasksLists(_tasksService);
-            UpdateLastLoadedTasksListId(dataContext);
+            dataAccess.UpdateTasksLists(_tasksService);
+            UpdateLastLoadedTasksListId(dataAccess);
         }
 
-        private void UpdateLastLoadedTasksListId(DataAccessController.DataContext dataContext)
+        private void UpdateLastLoadedTasksListId(DataAccessController.ReadWriteAccess dataAccess)
         {
-            dataContext.ValidateLastLoadedTasksListsId();
+            dataAccess.ValidateLastLoadedTasksListsId();
         }
 
-        private void SynchronizeTasks(DataAccessController.DataContext dataContext)
+        private void SynchronizeTasks(DataAccessController.ReadWriteAccess dataAccess)
         {
-            if (!IsAnyTasksListSelected(dataContext))
+            if (!IsAnyTasksListSelected(dataAccess))
                 return;
 
-            dataContext.UpdateTasks(_tasksService, dataContext.LastLoadedTasksListId);
+            dataAccess.UpdateTasks(_tasksService, dataAccess.LastLoadedTasksListId);
         }
 
-        private bool IsAnyTasksListSelected(DataAccessController.DataContext dataContext)
+        private bool IsAnyTasksListSelected(DataAccessController.ReadWriteAccess dataAccess)
         {
-            return dataContext.LastLoadedTasksListId != null;
+            return dataAccess.LastLoadedTasksListId != null;
         }
     }
 }

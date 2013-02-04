@@ -4,6 +4,7 @@ using System.Reflection;
 using Autofac;
 using Caliburn.Micro;
 using GApiHelpers.Authorization;
+using GTasksDesktopClient.Core.DataAccess;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using Google.Apis.Tasks.v1;

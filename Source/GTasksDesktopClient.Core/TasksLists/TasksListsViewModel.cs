@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
+using GTasksDesktopClient.Core.DataAccess;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Shell;
 using GTasksDesktopClient.Core.TasksLists.Add;
@@ -59,7 +60,7 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         protected override void OnActivate()
         {
-            UpdateTasksLists(_dataAccessController.TasksLists);
+            UpdateTasksLists(_dataAccessController.GetReadAccess().TasksLists);
             _eventAggregator.Subscribe(this);
         }
 
@@ -76,7 +77,8 @@ namespace GTasksDesktopClient.Core.TasksLists
         private void UpdateSelectedTasksList()
         {
             var lastSelectedTasksList =
-                TasksLists.SingleOrDefault(tasksList => tasksList.Id == _dataAccessController.LastLoadedTasksListId);
+                TasksLists.SingleOrDefault(
+                    tasksList => tasksList.Id == _dataAccessController.GetReadAccess().LastLoadedTasksListId);
 
             if (lastSelectedTasksList == null)
                 SelectFirstTasksList();

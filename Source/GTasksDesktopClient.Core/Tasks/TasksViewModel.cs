@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
+using GTasksDesktopClient.Core.DataAccess;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Shell;
 using GTasksDesktopClient.Core.TasksLists;
@@ -36,7 +37,7 @@ namespace GTasksDesktopClient.Core.Tasks
         protected override void OnActivate()
         {
             _eventAggregator.Subscribe(this);
-            UpdateTasks(_dataAccessController.Tasks);                
+            UpdateTasks(_dataAccessController.GetReadAccess().Tasks);                
         }
 
         private void UpdateTasks(IEnumerable<Task> tasks)

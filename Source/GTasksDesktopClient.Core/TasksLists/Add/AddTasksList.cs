@@ -1,4 +1,5 @@
 using GTasksDesktopClient.Core.Api;
+using GTasksDesktopClient.Core.DataAccess;
 using GTasksDesktopClient.Core.Infrastructure;
 using Google.Apis.Tasks.v1;
 using Google.Apis.Tasks.v1.Data;
@@ -28,10 +29,10 @@ namespace GTasksDesktopClient.Core.TasksLists.Add
         {
             using (new BusyScope(_busyIndicator))
             {
-                using (var dataContext = _dataAccessController.GetContext())
+                using (var dataAccess = _dataAccessController.GetReadWriteAccess())
                 {
                     AddList();
-                    dataContext.UpdateTasksLists(_tasksService);
+                    dataAccess.UpdateTasksLists(_tasksService);
                 }
             }
         }
