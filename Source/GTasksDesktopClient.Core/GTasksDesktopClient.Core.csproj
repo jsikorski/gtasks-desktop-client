@@ -139,6 +139,11 @@
     </Compile>
     <Compile Include="Synchronization\SynchronizationStateViewModel.cs" />
     <Compile Include="Synchronization\Synchronize.cs" />
+    <Compile Include="Tasks\Add\AddTask.cs" />
+    <Compile Include="Tasks\Add\AddTaskView.xaml.cs">
+      <DependentUpon>AddTaskView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tasks\Add\AddTaskViewModel.cs" />
     <Compile Include="Tasks\Details\TaskStatus.cs" />
     <Compile Include="Tasks\Details\TaskView.xaml.cs">
       <DependentUpon>TaskView.xaml</DependentUpon>
@@ -216,6 +221,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Synchronization\SynchronizationStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tasks\Add\AddTaskView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Autofac;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.DataAccess;
 using GTasksDesktopClient.Core.Layout;
+using GTasksDesktopClient.Core.Tasks.Add;
 using GTasksDesktopClient.Core.Tasks.Details;
 using GTasksDesktopClient.Core.Tasks.Events;
 using GTasksDesktopClient.Core.TasksLists.Events;
@@ -17,7 +19,9 @@ namespace GTasksDesktopClient.Core.Tasks
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly DataAccessController _dataAccessController;
+        private readonly IWindowManager _windowManager;
         private readonly Func<Task, TaskViewModel> _taskViewModelFactory;
+        private readonly IContainer _container;
 
         public string Header
         {
@@ -29,11 +33,15 @@ namespace GTasksDesktopClient.Core.Tasks
         public TasksViewModel(
             IEventAggregator eventAggregator, 
             DataAccessController dataAccessController, 
-            Func<Task, TaskViewModel> taskViewModelFactory)
+            IWindowManager windowManager,
+            Func<Task, TaskViewModel> taskViewModelFactory,
+            IContainer container)
         {
             _eventAggregator = eventAggregator;
             _dataAccessController = dataAccessController;
+            _windowManager = windowManager;
             _taskViewModelFactory = taskViewModelFactory;
+            _container = container;
 
             Tasks = new ObservableCollection<TaskViewModel>();
         }
@@ -55,6 +63,12 @@ namespace GTasksDesktopClient.Core.Tasks
         {
             Tasks.Clear();
             _eventAggregator.Unsubscribe(this);
+        }
+
+        public void ShowAddNewTaskView()
+        {
+            var addTaskViewModel = _container.Resolve<AddTaskViewModel>();
+            _windowManager.ShowDialog(addTaskViewModel);
         }
 
         public void Handle(TasksUpdated message)
