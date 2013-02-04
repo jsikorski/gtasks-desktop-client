@@ -5,6 +5,8 @@ using Caliburn.Micro;
 using GTasksDesktopClient.Core.DataAccess;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Shell;
+using GTasksDesktopClient.Core.Tasks.Details;
+using GTasksDesktopClient.Core.Tasks.Events;
 using GTasksDesktopClient.Core.TasksLists;
 using GTasksDesktopClient.Core.TasksLists.Events;
 using GTasksDesktopClient.Core.Utils;

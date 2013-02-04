@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Globalization;
-using Caliburn.Micro;
 using Google.Apis.Tasks.v1.Data;
 
-namespace GTasksDesktopClient.Core.Tasks
+namespace GTasksDesktopClient.Core.Tasks.Details
 {
     public class TaskViewModel
     {

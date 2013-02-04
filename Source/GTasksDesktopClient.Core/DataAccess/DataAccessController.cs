@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Tasks;
+using GTasksDesktopClient.Core.Tasks.Events;
 using GTasksDesktopClient.Core.TasksLists.Events;
 using Google.Apis.Tasks.v1;
 using Google.Apis.Tasks.v1.Data;

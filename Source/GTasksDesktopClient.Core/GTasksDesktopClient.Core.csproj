@@ -139,15 +139,18 @@
     </Compile>
     <Compile Include="Synchronization\SynchronizationStateViewModel.cs" />
     <Compile Include="Synchronization\Synchronize.cs" />
-    <Compile Include="Tasks\LoadTasks.cs" />
-    <Compile Include="Tasks\SelectedTasksListIdReseted.cs" />
-    <Compile Include="Tasks\TasksViewRequested.cs" />
-    <Compile Include="Tasks\TasksUpdated.cs" />
+    <Compile Include="Tasks\Details\TaskView.xaml.cs">
+      <DependentUpon>TaskView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tasks\Details\TaskViewModel.cs" />
+    <Compile Include="Tasks\Events\SelectedTasksListIdReseted.cs" />
+    <Compile Include="Tasks\Events\TasksUpdated.cs" />
+    <Compile Include="Tasks\Events\TasksViewRequested.cs" />
+    <Compile Include="Tasks\Load\LoadTasks.cs" />
     <Compile Include="Tasks\TasksView.xaml.cs">
       <DependentUpon>TasksView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tasks\TasksViewModel.cs" />
-    <Compile Include="Tasks\TaskViewModel.cs" />
     <Compile Include="Utils\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Utils\MessageBoxService.cs" />
     <Compile Include="Utils\ObservableCollectionExtensions.cs" />
@@ -211,6 +214,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Synchronization\SynchronizationStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tasks\Details\TaskView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

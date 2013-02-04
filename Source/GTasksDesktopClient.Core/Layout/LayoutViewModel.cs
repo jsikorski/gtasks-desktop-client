@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using GTasksDesktopClient.Core.Synchronization;
 using GTasksDesktopClient.Core.Tasks;
+using GTasksDesktopClient.Core.Tasks.Events;
 using GTasksDesktopClient.Core.TasksLists;
 using GTasksDesktopClient.Core.TasksLists.Events;
 

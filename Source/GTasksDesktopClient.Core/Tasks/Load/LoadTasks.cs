@@ -1,9 +1,9 @@
-﻿using GTasksDesktopClient.Core.Api;
+using GTasksDesktopClient.Core.Api;
 using GTasksDesktopClient.Core.DataAccess;
 using GTasksDesktopClient.Core.Infrastructure;
 using Google.Apis.Tasks.v1;
 
-namespace GTasksDesktopClient.Core.Tasks
+namespace GTasksDesktopClient.Core.Tasks.Load
 {
     public class LoadTasks : ApiCommand
     {
