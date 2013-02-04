@@ -6,7 +6,6 @@ using Autofac;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.DataAccess;
 using GTasksDesktopClient.Core.Layout;
-using GTasksDesktopClient.Core.Shell;
 using GTasksDesktopClient.Core.TasksLists.Add;
 using GTasksDesktopClient.Core.TasksLists.Details;
 using GTasksDesktopClient.Core.TasksLists.Events;

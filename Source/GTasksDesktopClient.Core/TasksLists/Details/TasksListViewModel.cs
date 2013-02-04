@@ -17,7 +17,7 @@ namespace GTasksDesktopClient.Core.TasksLists.Details
         private readonly EventAggregator _eventAggregator;
         private readonly Func<string, LoadTasks> _loadTasksFactory;
         private readonly Func<TaskList, EditTasksList> _editTasksListFactory;
-        private readonly Func<string, DeleteTasksList> _deleteTasksListsFactory;
+        private readonly Func<TaskList, DeleteTasksList> _deleteTasksListsFactory;
 
         private string _titleBeforeEdit;
 
@@ -58,7 +58,7 @@ namespace GTasksDesktopClient.Core.TasksLists.Details
             EventAggregator eventAggregator,
             Func<string, LoadTasks> loadTasksFactory, 
             Func<TaskList, EditTasksList> editTasksListFactory,
-            Func<string, DeleteTasksList> deleteTasksListsFactory)
+            Func<TaskList, DeleteTasksList> deleteTasksListsFactory)
         {
             _taskList = taskList;
             _eventAggregator = eventAggregator;
@@ -110,7 +110,7 @@ namespace GTasksDesktopClient.Core.TasksLists.Details
 
         public void Delete(MouseButtonEventArgs mouseButtonEventArgs)
         {
-            var deleteTasksLists = _deleteTasksListsFactory(Id);
+            var deleteTasksLists = _deleteTasksListsFactory(_taskList);
             CommandsInvoker.ExecuteCommand(deleteTasksLists);
             mouseButtonEventArgs.Handled = true;
         }
