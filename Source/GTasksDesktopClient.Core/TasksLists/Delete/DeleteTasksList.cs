@@ -1,9 +1,10 @@
+using GTasksDesktopClient.Core.Api;
 using GTasksDesktopClient.Core.Infrastructure;
 using Google.Apis.Tasks.v1;
 
 namespace GTasksDesktopClient.Core.TasksLists.Delete
 {
-    public class DeleteTasksList : ICommand
+    public class DeleteTasksList : ApiCommand
     {
         private readonly string _tasksListId;
         private readonly TasksService _tasksService;
@@ -22,7 +23,7 @@ namespace GTasksDesktopClient.Core.TasksLists.Delete
             _dataAccessController = dataAccessController;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             using (new BusyScope(_busyIndicator))
             {

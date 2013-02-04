@@ -1,9 +1,10 @@
-﻿using GTasksDesktopClient.Core.Infrastructure;
+﻿using GTasksDesktopClient.Core.Api;
+using GTasksDesktopClient.Core.Infrastructure;
 using Google.Apis.Tasks.v1;
 
 namespace GTasksDesktopClient.Core.Tasks
 {
-    public class LoadTasks : ICommand
+    public class LoadTasks : ApiCommand
     {
         private readonly string _tasksListsId;
         private readonly DataAccessController _dataAccessController;
@@ -22,7 +23,7 @@ namespace GTasksDesktopClient.Core.Tasks
             _busyIndicator = busyIndicator;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             using (new BusyScope(_busyIndicator))
             {

@@ -92,6 +92,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Api\ApiCommand.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -106,9 +107,11 @@
     <Compile Include="Infrastructure\BackgroundTasks\StartBackgroundTasks.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\StopBackgroundTasks.cs" />
     <Compile Include="Infrastructure\BusyScope.cs" />
+    <Compile Include="Infrastructure\CommandsExtensions.cs" />
     <Compile Include="Infrastructure\CommandsInvoker.cs" />
     <Compile Include="Infrastructure\IBusyIndicator.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />
+    <Compile Include="Infrastructure\IHandleException.cs" />
     <Compile Include="Infrastructure\IStartable.cs" />
     <Compile Include="Infrastructure\IStopable.cs" />
     <Compile Include="Layout\ITab.cs" />
