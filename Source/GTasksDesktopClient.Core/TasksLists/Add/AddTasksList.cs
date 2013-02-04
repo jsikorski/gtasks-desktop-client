@@ -31,16 +31,10 @@ namespace GTasksDesktopClient.Core.TasksLists.Add
             {
                 using (var dataAccess = _dataAccessController.GetReadWriteAccess())
                 {
-                    AddList();
+                    _tasksService.Tasklists.Insert(_tasksList).Fetch();
                     dataAccess.UpdateTasksLists(_tasksService);
                 }
             }
-        }
-
-        private void AddList()
-        {
-            var tasksList = _tasksService.Tasklists.Insert(_tasksList).Fetch();
-            _tasksService.Tasks.Insert(new Task(), tasksList.Id).Fetch();
         }
     }
 }
