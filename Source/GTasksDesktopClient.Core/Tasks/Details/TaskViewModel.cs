@@ -91,9 +91,15 @@ namespace GTasksDesktopClient.Core.Tasks.Details
 
         public void Edit(MouseButtonEventArgs mouseButtonEventArgs)
         {
-            var editTask = _editTaskFactory(_task);
-            CommandsInvoker.ExecuteCommand(editTask);
+            if (string.IsNullOrEmpty(Title))
+                return;
 
+            if (Title != _titleBeforeEdit)
+            {
+                var editTask = _editTaskFactory(_task);
+                CommandsInvoker.ExecuteCommand(editTask);
+            }
+            
             mouseButtonEventArgs.Handled = true;
         }
 
