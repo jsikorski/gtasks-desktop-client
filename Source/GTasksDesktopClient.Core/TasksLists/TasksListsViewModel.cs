@@ -17,8 +17,8 @@ namespace GTasksDesktopClient.Core.TasksLists
     public class TasksListsViewModel : Screen, ITab, IHandle<TasksListsUpdated>
     {
         private readonly EventAggregator _eventAggregator;
-        private readonly CurrentDataContext _currentDataContext;
         private readonly IWindowManager _windowManager;
+        private readonly DataAccessController _dataAccessController;
         private readonly Func<TaskList, TasksListViewModel> _tasksListViewModelFactory;
         private readonly IContainer _container;
 
@@ -42,14 +42,14 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         public TasksListsViewModel(
             EventAggregator eventAggregator,
-            CurrentDataContext currentDataContext,
             IWindowManager windowManager,
+            DataAccessController dataAccessController,
             Func<TaskList, TasksListViewModel> tasksListViewModelFactory, 
             IContainer container)
         {
             _eventAggregator = eventAggregator;
-            _currentDataContext = currentDataContext;
             _windowManager = windowManager;
+            _dataAccessController = dataAccessController;
             _tasksListViewModelFactory = tasksListViewModelFactory;
             _container = container;
 
@@ -59,7 +59,7 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         protected override void OnActivate()
         {
-            UpdateTasksLists(_currentDataContext.TasksLists);
+            UpdateTasksLists(_dataAccessController.TasksLists);
             _eventAggregator.Subscribe(this);
         }
 
@@ -76,7 +76,7 @@ namespace GTasksDesktopClient.Core.TasksLists
         private void UpdateSelectedTasksList()
         {
             var lastSelectedTasksList =
-                TasksLists.SingleOrDefault(tasksList => tasksList.Id == _currentDataContext.LastLoadedTasksListId);
+                TasksLists.SingleOrDefault(tasksList => tasksList.Id == _dataAccessController.LastLoadedTasksListId);
 
             if (lastSelectedTasksList == null)
                 SelectFirstTasksList();

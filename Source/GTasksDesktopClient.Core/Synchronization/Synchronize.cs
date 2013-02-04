@@ -6,75 +6,54 @@ namespace GTasksDesktopClient.Core.Synchronization
 {
     public class Synchronize : IBackgroundTask
     {
-        private readonly SynchronizationContext _synchronizationContext;
-        private readonly CurrentDataContext _currentDataContext;
+        private readonly DataAccessController _dataAccessController;
         private readonly TasksService _tasksService;
         private readonly ISyncStateIndicator _syncStateIndicator;
 
         public Synchronize(
-            SynchronizationContext synchronizationContext,
-            CurrentDataContext currentDataContext,
+            DataAccessController dataAccessController,
             TasksService tasksService, 
             ISyncStateIndicator syncStateIndicator)
         {
-            _synchronizationContext = synchronizationContext;
-            _currentDataContext = currentDataContext;
+            _dataAccessController = dataAccessController;
             _tasksService = tasksService;
             _syncStateIndicator = syncStateIndicator;
         }
 
         public void Execute()
         {
-            _synchronizationContext.Lock();
-
-            using (new SynchronizationScope(_syncStateIndicator))
+            using (var dataContext = _dataAccessController.GetContext())
             {
-                SynchronizeLists();
-                
-                if (IsAnyTasksListSelected())
-                    SynchronizeTasks();
+                using (new SynchronizationScope(_syncStateIndicator))
+                {
+                    SynchronizeLists(dataContext);
+                    SynchronizeTasks(dataContext);
+                }
             }
-
-            _synchronizationContext.Unlock();
         }
 
-
-        private void SynchronizeLists()
+        private void SynchronizeLists(DataAccessController.DataContext dataContext)
         {
-            var lists = _tasksService.Tasklists.List().Fetch();
-
-            if (_synchronizationContext.LastTasksListsETag != lists.ETag)
-            {
-                _currentDataContext.TasksLists = lists.Items;
-                _synchronizationContext.LastTasksListsETag = lists.ETag;
-            }
-
-            UpdateLastLoadedTasksListId();
+            dataContext.UpdateTasksLists(_tasksService);
+            UpdateLastLoadedTasksListId(dataContext);
         }
 
-        private void UpdateLastLoadedTasksListId()
+        private void UpdateLastLoadedTasksListId(DataAccessController.DataContext dataContext)
         {
-            var isTasksListStillPresent = _currentDataContext
-                .TasksListExists(_currentDataContext.LastLoadedTasksListId);
-
-            if (!isTasksListStillPresent)
-                _currentDataContext.LastLoadedTasksListId = null;
+            dataContext.ValidateLastLoadedTasksListsId();
         }
 
-        private bool IsAnyTasksListSelected()
+        private void SynchronizeTasks(DataAccessController.DataContext dataContext)
         {
-            return _currentDataContext.LastLoadedTasksListId != null;
+            if (!IsAnyTasksListSelected(dataContext))
+                return;
+
+            dataContext.UpdateTasks(_tasksService, dataContext.LastLoadedTasksListId);
         }
 
-        private void SynchronizeTasks()
+        private bool IsAnyTasksListSelected(DataAccessController.DataContext dataContext)
         {
-            var tasks = _tasksService.Tasks.List(_currentDataContext.LastLoadedTasksListId).Fetch();
-
-            if (_synchronizationContext.LastTasksETag != tasks.ETag)
-            {
-                _currentDataContext.Tasks = tasks.Items;
-                _synchronizationContext.LastTasksETag = tasks.ETag;
-            }
+            return dataContext.LastLoadedTasksListId != null;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autofac;
@@ -7,8 +6,6 @@ using Caliburn.Micro;
 using GApiHelpers.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
-using GTasksDesktopClient.Core.Shell;
-using GTasksDesktopClient.Core.Synchronization;
 using Google.Apis.Tasks.v1;
 using IStartable = GTasksDesktopClient.Core.Infrastructure.IStartable;
 
@@ -106,13 +103,12 @@ namespace GTasksDesktopClient.Core
             containerBuilder.RegisterInstance(new AuthorizationManager(Authorization.GetConfiguration()));
             containerBuilder.Register(
                 context => new TasksService(context.Resolve<AuthorizationManager>().GetAuthenticator())).As<TasksService>();
+            containerBuilder.RegisterType<DataAccessController>().SingleInstance();
         }
 
         private static void RegisterContexts(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<BackgroundTasksContext>().SingleInstance();
-            containerBuilder.RegisterType<CurrentDataContext>().SingleInstance();
-            containerBuilder.RegisterType<SynchronizationContext>().SingleInstance();
         }
     }
 }

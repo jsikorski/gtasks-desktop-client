@@ -99,6 +99,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Authorization.cs" />
     <Compile Include="AutofacInitializer.cs" />
+    <Compile Include="DataAccessController.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksContext.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\BackgroundTasksManager.cs" />
     <Compile Include="Infrastructure\BackgroundTasks\IBackgroundTask.cs" />
@@ -115,7 +116,6 @@
       <DependentUpon>LayoutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layout\LayoutViewModel.cs" />
-    <Compile Include="Shell\CurrentDataContext.cs" />
     <Compile Include="TasksLists\Add\AddTasksList.cs" />
     <Compile Include="TasksLists\Add\AddTasksListView.xaml.cs">
       <DependentUpon>AddTasksListView.xaml</DependentUpon>
@@ -138,7 +138,6 @@
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
     <Compile Include="Synchronization\ISyncStateIndicator.cs" />
-    <Compile Include="Synchronization\SynchronizationContext.cs" />
     <Compile Include="Synchronization\SynchronizationScope.cs" />
     <Compile Include="Synchronization\SynchronizationState.cs" />
     <Compile Include="Synchronization\SynchronizationStateToStringConverter.cs" />

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Threading;
 using Caliburn.Micro;
 using GApiHelpers.Authorization;
 using GTasksDesktopClient.Core.Infrastructure;
@@ -53,7 +54,7 @@ namespace GTasksDesktopClient.Core.Shell
 
         private void ShowLayout()
         {
-            ActivateItem(_layoutViewModel);
+            ThreadPool.QueueUserWorkItem((s) => ActivateItem(_layoutViewModel));
         }
 
         private void ShowAuthorizationCanceledMessage()

@@ -14,7 +14,7 @@ namespace GTasksDesktopClient.Core.Tasks
     public class TasksViewModel : Screen, ITab, IHandle<TasksUpdated>, IHandle<SelectedTasksListIdReseted>
     {
         private readonly IEventAggregator _eventAggregator;
-        private readonly CurrentDataContext _currentDataContext;
+        private readonly DataAccessController _dataAccessController;
 
         public string Header
         {
@@ -25,10 +25,10 @@ namespace GTasksDesktopClient.Core.Tasks
 
         public TasksViewModel(
             IEventAggregator eventAggregator, 
-            CurrentDataContext currentDataContext)
+            DataAccessController dataAccessController)
         {
             _eventAggregator = eventAggregator;
-            _currentDataContext = currentDataContext;
+            _dataAccessController = dataAccessController;
 
             Tasks = new ObservableCollection<TaskViewModel>();
         }
@@ -36,7 +36,7 @@ namespace GTasksDesktopClient.Core.Tasks
         protected override void OnActivate()
         {
             _eventAggregator.Subscribe(this);
-            UpdateTasks(_currentDataContext.Tasks);
+            UpdateTasks(_dataAccessController.Tasks);                
         }
 
         private void UpdateTasks(IEnumerable<Task> tasks)

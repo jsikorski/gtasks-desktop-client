@@ -1,6 +1,4 @@
 ﻿using GTasksDesktopClient.Core.Infrastructure;
-using GTasksDesktopClient.Core.Shell;
-using GTasksDesktopClient.Core.Synchronization;
 using Google.Apis.Tasks.v1;
 
 namespace GTasksDesktopClient.Core.Tasks
@@ -8,43 +6,33 @@ namespace GTasksDesktopClient.Core.Tasks
     public class LoadTasks : ICommand
     {
         private readonly string _tasksListsId;
+        private readonly DataAccessController _dataAccessController;
         private readonly TasksService _tasksService;
-        private readonly CurrentDataContext _currentDataContext;
         private readonly IBusyIndicator _busyIndicator;
-        private readonly SynchronizationContext _synchronizationContext;
 
         public LoadTasks(
             string tasksListsId,
+            DataAccessController dataAccessController,
             TasksService tasksService,
-            CurrentDataContext currentDataContext,
-            IBusyIndicator busyIndicator, 
-            SynchronizationContext synchronizationContext)
+            IBusyIndicator busyIndicator)
         {
             _tasksListsId = tasksListsId;
+            _dataAccessController = dataAccessController;
             _tasksService = tasksService;
-            _currentDataContext = currentDataContext;
             _busyIndicator = busyIndicator;
-            _synchronizationContext = synchronizationContext;
         }
 
         public void Execute()
         {
             using (new BusyScope(_busyIndicator))
             {
-                _synchronizationContext.Lock();
-
-                if (_tasksListsId == _currentDataContext.LastLoadedTasksListId)
+                using (var dataContext = _dataAccessController.GetContext())
                 {
-                    _synchronizationContext.Unlock();
-                    return;
+                    if (_tasksListsId == dataContext.LastLoadedTasksListId)
+                        return;
+
+                    dataContext.UpdateTasks(_tasksService, _tasksListsId);
                 }
-                    
-                _currentDataContext.LastLoadedTasksListId = _tasksListsId;
-
-                var tasks = _tasksService.Tasks.List(_tasksListsId).Fetch();
-                _currentDataContext.Tasks = tasks.Items;
-
-                _synchronizationContext.Unlock();
             }
         }
     }
