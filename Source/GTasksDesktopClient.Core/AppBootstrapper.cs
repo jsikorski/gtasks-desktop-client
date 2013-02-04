@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Threading;
 using Autofac;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
+using GTasksDesktopClient.Core.Utils;
 
 namespace GTasksDesktopClient.Core
 {
@@ -26,7 +29,7 @@ namespace GTasksDesktopClient.Core
             return _container.Resolve(service.MakeArrayType()) as IEnumerable<object>;
         }
 
-        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
+        protected override void OnStartup(object sender, StartupEventArgs e)
         {
             base.OnStartup(sender, e);
             _container.Resolve<BackgroundTasksManager>().StartAll();
@@ -36,6 +39,13 @@ namespace GTasksDesktopClient.Core
         {
             _container.Resolve<BackgroundTasksManager>().StopAll();
             base.OnExit(sender, e);
+        }
+
+        protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBoxService.ShowError("Wyst¹pi³ nieznany b³¹d.");
+            _container.Resolve<BackgroundTasksManager>().StopAll();
+            Application.Current.Shutdown();
         }
     }
 }
