@@ -57,4 +57,8 @@ Task Compile -depends Init, DownloadDependencies {
 }
 
 Task Release -Depends Compile {
+	Copy-Item "$buildDir\*" $releaseDir
+	Get-ChildItem $releaseDir | foreach { Copy-Item ("$buildDir\" + $_.Name + "\*.exe") ("$releaseDir\" + $_.Name) }
+	Get-ChildItem $releaseDir | foreach { Copy-Item ("$buildDir\" + $_.Name + "\*.dll") ("$releaseDir\" + $_.Name) }
+	Get-ChildItem $releaseDir | foreach { Copy-Item ("$buildDir\" + $_.Name + "\*.exe.config") ("$releaseDir\" + $_.Name) }
 }
