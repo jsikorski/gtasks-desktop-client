@@ -19,7 +19,7 @@ Properties {
 Task Default -Depends ShowLogo, Release
 
 Task GetVersion {
-	$script:version = "$versionMajorNumber.$versionMinorNumber"
+	$script:version = "$versionMajorNumber.$versionMinorNumber.0.0"
 }
 
 Task ShowLogo -Depends GetVersion {
