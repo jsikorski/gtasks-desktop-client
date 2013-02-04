@@ -8,18 +8,18 @@ namespace GTasksDesktopClient.Core.TasksLists.Add
 {
     public class AddTasksList : ApiCommand
     {
-        private readonly string _listTitle;
+        private readonly TaskList _tasksList;
         private readonly TasksService _tasksService;
         private readonly IBusyIndicator _busyIndicator;
         private readonly DataAccessController _dataAccessController;
 
         public AddTasksList(
-            string listTitle,
+            TaskList tasksList,
             TasksService tasksService,
             IBusyIndicator busyIndicator,
             DataAccessController dataAccessController)
         {
-            _listTitle = listTitle;
+            _tasksList = tasksList;
             _tasksService = tasksService;
             _busyIndicator = busyIndicator;
             _dataAccessController = dataAccessController;
@@ -39,8 +39,7 @@ namespace GTasksDesktopClient.Core.TasksLists.Add
 
         private void AddList()
         {
-            var tasksList = new TaskList { Title = _listTitle };
-            tasksList = _tasksService.Tasklists.Insert(tasksList).Fetch();
+            var tasksList = _tasksService.Tasklists.Insert(_tasksList).Fetch();
             _tasksService.Tasks.Insert(new Task(), tasksList.Id).Fetch();
         }
     }
