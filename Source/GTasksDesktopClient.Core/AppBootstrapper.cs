@@ -43,8 +43,8 @@ namespace GTasksDesktopClient.Core
 
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBoxService.ShowError("Wyst¹pi³ nieznany b³¹d.");
             _container.Resolve<BackgroundTasksManager>().StopAll();
+            MessageBoxService.ShowError("Wyst¹pi³ nieznany b³¹d.");
             Application.Current.Shutdown();
         }
     }

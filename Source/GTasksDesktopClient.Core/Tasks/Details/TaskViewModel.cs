@@ -1,5 +1,6 @@
 using System;
-using System.Globalization;
+using GTasksDesktopClient.Core.Infrastructure;
+using GTasksDesktopClient.Core.Tasks.Update;
 using Google.Apis.Tasks.v1.Data;
 
 namespace GTasksDesktopClient.Core.Tasks.Details
@@ -7,6 +8,7 @@ namespace GTasksDesktopClient.Core.Tasks.Details
     public class TaskViewModel
     {
         private readonly Task _task;
+        private readonly Func<Task, UpdateTask> _updateTaskFactory;
 
         public string Id
         {
@@ -15,8 +17,19 @@ namespace GTasksDesktopClient.Core.Tasks.Details
 
         public bool IsCompleted
         {
-            get { return !string.IsNullOrEmpty(_task.Completed); }
-            set { _task.Completed = value ? DateTime.UtcNow.ToString(CultureInfo.InvariantCulture) : null; }
+            get { return _task.Status == TaskStatus.Completed; }
+            set
+            {
+                if (value)
+                {
+                    _task.Status = TaskStatus.Completed;
+                }
+                else
+                {
+                    _task.Status = TaskStatus.NeedsAction;
+                    _task.Completed = null;
+                }
+            }
         }
 
         public string Title
@@ -25,9 +38,18 @@ namespace GTasksDesktopClient.Core.Tasks.Details
             set { _task.Title = Title; }
         }
 
-        public TaskViewModel(Task task)
+        public TaskViewModel(
+            Task task,
+            Func<Task, UpdateTask> updateTaskFactory)
         {
             _task = task;
+            _updateTaskFactory = updateTaskFactory;
+        }
+
+        public void ToggleCompleted()
+        {
+            var updateTask = _updateTaskFactory(_task);
+            CommandsInvoker.ExecuteCommand(updateTask);
         }
     }
 }
