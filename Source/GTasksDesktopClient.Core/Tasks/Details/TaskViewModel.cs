@@ -2,6 +2,7 @@ using System;
 using System.Windows.Input;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Infrastructure;
+using GTasksDesktopClient.Core.Tasks.Delete;
 using GTasksDesktopClient.Core.Tasks.Edit;
 using Google.Apis.Tasks.v1.Data;
 
@@ -11,6 +12,7 @@ namespace GTasksDesktopClient.Core.Tasks.Details
     {
         private readonly Task _task;
         private readonly Func<Task, EditTask> _editTaskFactory;
+        private readonly Func<Task, DeleteTask> _deleteTaskFactory;
 
         private string _titleBeforeEdit;
 
@@ -59,10 +61,12 @@ namespace GTasksDesktopClient.Core.Tasks.Details
 
         public TaskViewModel(
             Task task,
-            Func<Task, EditTask> editTaskFactory)
+            Func<Task, EditTask> editTaskFactory, 
+            Func<Task, DeleteTask> deleteTaskFactory)
         {
             _task = task;
             _editTaskFactory = editTaskFactory;
+            _deleteTaskFactory = deleteTaskFactory;
         }
 
         public void ToggleCompleted()
@@ -89,6 +93,14 @@ namespace GTasksDesktopClient.Core.Tasks.Details
         {
             var editTask = _editTaskFactory(_task);
             CommandsInvoker.ExecuteCommand(editTask);
+
+            mouseButtonEventArgs.Handled = true;
+        }
+
+        public void Delete(MouseButtonEventArgs mouseButtonEventArgs)
+        {
+            var deleteTask = _deleteTaskFactory(_task);
+            CommandsInvoker.ExecuteCommand(deleteTask);
 
             mouseButtonEventArgs.Handled = true;
         }

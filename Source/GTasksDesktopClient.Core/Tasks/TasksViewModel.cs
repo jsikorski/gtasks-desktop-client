@@ -55,6 +55,10 @@ namespace GTasksDesktopClient.Core.Tasks
         private void UpdateTasks(IEnumerable<Task> tasks)
         {
             Tasks.Clear();
+
+            if (tasks == null)
+                return;
+
             var tasksViewModels = tasks.Select(task => _taskViewModelFactory(task));
             Tasks.AddRange(tasksViewModels);
         }

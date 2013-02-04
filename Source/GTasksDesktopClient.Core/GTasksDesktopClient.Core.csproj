@@ -144,6 +144,7 @@
       <DependentUpon>AddTaskView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tasks\Add\AddTaskViewModel.cs" />
+    <Compile Include="Tasks\Delete\DeleteTask.cs" />
     <Compile Include="Tasks\Details\TaskStatus.cs" />
     <Compile Include="Tasks\Details\TaskView.xaml.cs">
       <DependentUpon>TaskView.xaml</DependentUpon>
