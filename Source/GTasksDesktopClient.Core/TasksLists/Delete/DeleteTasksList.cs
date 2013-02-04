@@ -1,31 +1,30 @@
-﻿using GTasksDesktopClient.Core.Infrastructure;
+using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Shell;
 using GTasksDesktopClient.Core.Synchronization;
 using Google.Apis.Tasks.v1;
-using Google.Apis.Tasks.v1.Data;
 
-namespace GTasksDesktopClient.Core.TasksLists
+namespace GTasksDesktopClient.Core.TasksLists.Delete
 {
-    public class EditTasksList : ICommand
+    public class DeleteTasksList : ICommand
     {
-        private readonly TaskList _tasksList;
+        private readonly string _tasksListId;
         private readonly TasksService _tasksService;
         private readonly IBusyIndicator _busyIndicator;
-        private readonly CurrentDataContext _currentDataContext;
         private readonly SynchronizationContext _synchronizationContext;
+        private readonly CurrentDataContext _currentDataContext;
 
-        public EditTasksList(
-            TaskList tasksList, 
+        public DeleteTasksList(
+            string tasksListId, 
             TasksService tasksService, 
             IBusyIndicator busyIndicator, 
-            CurrentDataContext currentDataContext,
-            SynchronizationContext synchronizationContext)
+            SynchronizationContext synchronizationContext,
+            CurrentDataContext currentDataContext)
         {
-            _tasksList = tasksList;
+            _tasksListId = tasksListId;
             _tasksService = tasksService;
             _busyIndicator = busyIndicator;
-            _currentDataContext = currentDataContext;
             _synchronizationContext = synchronizationContext;
+            _currentDataContext = currentDataContext;
         }
 
         public void Execute()
@@ -34,16 +33,16 @@ namespace GTasksDesktopClient.Core.TasksLists
             {
                 _synchronizationContext.Lock();
 
-                UpdateList();
+                DeleteList();
                 UpdateLists();
 
                 _synchronizationContext.Unlock();
             }
         }
 
-        private void UpdateList()
+        private void DeleteList()
         {
-            _tasksService.Tasklists.Update(_tasksList, _tasksList.Id).Fetch();
+            _tasksService.Tasklists.Delete(_tasksListId).Fetch();
         }
 
         private void UpdateLists()

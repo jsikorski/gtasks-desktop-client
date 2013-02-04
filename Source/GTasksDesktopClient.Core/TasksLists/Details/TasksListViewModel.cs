@@ -1,12 +1,14 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows.Input;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Tasks;
+using GTasksDesktopClient.Core.TasksLists.Delete;
+using GTasksDesktopClient.Core.TasksLists.Edit;
 using Google.Apis.Tasks.v1.Data;
 
-namespace GTasksDesktopClient.Core.TasksLists
+namespace GTasksDesktopClient.Core.TasksLists.Details
 {
     public class TasksListViewModel : Screen
     {
@@ -46,25 +48,8 @@ namespace GTasksDesktopClient.Core.TasksLists
             set
             {
                 _isBeingEdited = value;
-                NotifyOfPropertyChange(() => IsInEditMode);
+                NotifyOfPropertyChange(() => IsBeingEdited);
             }
-        }
-
-        private bool _isBeingAdded;
-        public bool IsBeingAdded
-        {
-            get { return _isBeingAdded; }
-            set
-            {
-                _isBeingAdded = value;
-                NotifyOfPropertyChange(() => IsInEditMode);
-
-            }
-        }
-
-        public bool IsInEditMode
-        {
-            get { return IsBeingEdited || IsBeingAdded; }
         }
 
         public TasksListViewModel(

@@ -12,13 +12,5 @@ namespace GTasksDesktopClient.Core.Utils
                  collection.Add(item);
              }
          }
-
-        public static void RemoveRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
-        {
-            foreach (var item in items)
-            {
-                collection.Remove(item);
-            }
-        }
     }
 }

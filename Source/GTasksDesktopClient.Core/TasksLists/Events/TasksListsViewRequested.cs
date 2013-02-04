@@ -1,4 +1,4 @@
-﻿namespace GTasksDesktopClient.Core.TasksLists
+namespace GTasksDesktopClient.Core.TasksLists.Events
 {
     public class TasksListsViewRequested
     {

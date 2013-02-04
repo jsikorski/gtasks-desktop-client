@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Tasks;
 using GTasksDesktopClient.Core.TasksLists;
+using GTasksDesktopClient.Core.TasksLists.Events;
 using Google.Apis.Tasks.v1.Data;
 using System.Linq;
 
@@ -11,17 +12,17 @@ namespace GTasksDesktopClient.Core.Shell
     {
         private readonly IEventAggregator _eventAggregator;
 
-        private string _selectedTasksListId;
-        public string SelectedTasksListId
+        private string _lastLoadedTasksListId;
+        public string LastLoadedTasksListId
         {
             get
             {
-                return _selectedTasksListId;
+                return _lastLoadedTasksListId;
             }
             set
             {
-                _selectedTasksListId = value;
-                if (_selectedTasksListId == null)
+                _lastLoadedTasksListId = value;
+                if (_lastLoadedTasksListId == null)
                     _eventAggregator.Publish(new SelectedTasksListIdReseted());
             }
         }

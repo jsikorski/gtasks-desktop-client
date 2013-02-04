@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Autofac;
 using Caliburn.Micro;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Shell;
+using GTasksDesktopClient.Core.TasksLists.Add;
+using GTasksDesktopClient.Core.TasksLists.Details;
+using GTasksDesktopClient.Core.TasksLists.Events;
 using GTasksDesktopClient.Core.Utils;
 using Google.Apis.Tasks.v1.Data;
 
@@ -14,7 +18,9 @@ namespace GTasksDesktopClient.Core.TasksLists
     {
         private readonly EventAggregator _eventAggregator;
         private readonly CurrentDataContext _currentDataContext;
+        private readonly IWindowManager _windowManager;
         private readonly Func<TaskList, TasksListViewModel> _tasksListViewModelFactory;
+        private readonly IContainer _container;
 
         public string Header
         {
@@ -37,11 +43,15 @@ namespace GTasksDesktopClient.Core.TasksLists
         public TasksListsViewModel(
             EventAggregator eventAggregator,
             CurrentDataContext currentDataContext,
-            Func<TaskList, TasksListViewModel> tasksListViewModelFactory)
+            IWindowManager windowManager,
+            Func<TaskList, TasksListViewModel> tasksListViewModelFactory, 
+            IContainer container)
         {
             _eventAggregator = eventAggregator;
             _currentDataContext = currentDataContext;
+            _windowManager = windowManager;
             _tasksListViewModelFactory = tasksListViewModelFactory;
+            _container = container;
 
             TasksLists = new ObservableCollection<TasksListViewModel>();
             SelectFirstTasksList();
@@ -55,18 +65,18 @@ namespace GTasksDesktopClient.Core.TasksLists
 
         private void UpdateTasksLists(IEnumerable<TaskList> tasksLists)
         {
-            var addedLists = TasksLists.Where(list => list.IsBeingAdded).ToList();
             TasksLists.Clear();
+            
             var tasksListsViewModels = tasksLists.Select(tasksList => _tasksListViewModelFactory(tasksList));
             TasksLists.AddRange(tasksListsViewModels);
-            TasksLists.AddRange(addedLists);
+            
             UpdateSelectedTasksList();
         }
 
         private void UpdateSelectedTasksList()
         {
             var lastSelectedTasksList =
-                TasksLists.SingleOrDefault(tasksList => tasksList.Id == _currentDataContext.SelectedTasksListId);
+                TasksLists.SingleOrDefault(tasksList => tasksList.Id == _currentDataContext.LastLoadedTasksListId);
 
             if (lastSelectedTasksList == null)
                 SelectFirstTasksList();
@@ -89,12 +99,10 @@ namespace GTasksDesktopClient.Core.TasksLists
             TasksLists.Clear();
         }
 
-        public void BeginAddingList()
+        public void ShowAddNewListView()
         {
-            var tasksList = _tasksListViewModelFactory(new TaskList());
-            tasksList.IsBeingAdded = true;
-            TasksLists.Add(tasksList);
-            SelectedTasksList = tasksList;
+            var addTasksListViewModel = _container.Resolve<AddTasksListViewModel>();
+            _windowManager.ShowDialog(addTasksListViewModel);
         }
 
         public void Handle(TasksListsUpdated message)

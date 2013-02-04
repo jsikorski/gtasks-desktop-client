@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Google.Apis.Tasks.v1.Data;
 
-namespace GTasksDesktopClient.Core.TasksLists
+namespace GTasksDesktopClient.Core.TasksLists.Events
 {
     public class TasksListsUpdated
     {

@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using GTasksDesktopClient.Core.Layout;
 using GTasksDesktopClient.Core.Shell;
 using GTasksDesktopClient.Core.TasksLists;
+using GTasksDesktopClient.Core.TasksLists.Events;
 using GTasksDesktopClient.Core.Utils;
 using Task = Google.Apis.Tasks.v1.Data.Task;
 

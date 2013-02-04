@@ -10,7 +10,7 @@
     
     <StackPanel>
         <ListBox Name="TasksLists" 
-             SelectedItem="{Binding SelectedTasksList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <Button Margin="0 3 0 0" cal:Message.Attach="[Event Click] = [Action BeginAddingList]">Dodaj listę</Button>
+                 SelectedItem="{Binding SelectedTasksList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Button x:Name="ShowAddNewListView" Margin="0 3 0 0" Style="{DynamicResource SquareButtonStyle}" Content="Dodaj listę" />
     </StackPanel>
 </UserControl>

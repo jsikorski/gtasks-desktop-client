@@ -1,7 +1,6 @@
 ﻿using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
 using Google.Apis.Tasks.v1;
-using System.Linq;
 
 namespace GTasksDesktopClient.Core.Synchronization
 {
@@ -50,26 +49,26 @@ namespace GTasksDesktopClient.Core.Synchronization
                 _synchronizationContext.LastTasksListsETag = lists.ETag;
             }
 
-            UpdateSelectedTasksListId();
+            UpdateLastLoadedTasksListId();
         }
 
-        private void UpdateSelectedTasksListId()
+        private void UpdateLastLoadedTasksListId()
         {
             var isTasksListStillPresent = _currentDataContext
-                .TasksListExists(_currentDataContext.SelectedTasksListId);
+                .TasksListExists(_currentDataContext.LastLoadedTasksListId);
 
             if (!isTasksListStillPresent)
-                _currentDataContext.SelectedTasksListId = null;
+                _currentDataContext.LastLoadedTasksListId = null;
         }
 
         private bool IsAnyTasksListSelected()
         {
-            return _currentDataContext.SelectedTasksListId != null;
+            return _currentDataContext.LastLoadedTasksListId != null;
         }
 
         private void SynchronizeTasks()
         {
-            var tasks = _tasksService.Tasks.List(_currentDataContext.SelectedTasksListId).Fetch();
+            var tasks = _tasksService.Tasks.List(_currentDataContext.LastLoadedTasksListId).Fetch();
 
             if (_synchronizationContext.LastTasksETag != tasks.ETag)
             {

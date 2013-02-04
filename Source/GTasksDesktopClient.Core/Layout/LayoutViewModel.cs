@@ -2,6 +2,7 @@
 using GTasksDesktopClient.Core.Synchronization;
 using GTasksDesktopClient.Core.Tasks;
 using GTasksDesktopClient.Core.TasksLists;
+using GTasksDesktopClient.Core.TasksLists.Events;
 
 namespace GTasksDesktopClient.Core.Layout
 {

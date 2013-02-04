@@ -116,18 +116,23 @@
     </Compile>
     <Compile Include="Layout\LayoutViewModel.cs" />
     <Compile Include="Shell\CurrentDataContext.cs" />
-    <Compile Include="TasksLists\DeleteTasksList.cs" />
-    <Compile Include="TasksLists\EditTasksList.cs" />
-    <Compile Include="TasksLists\TasksListsUpdated.cs" />
+    <Compile Include="TasksLists\Add\AddTasksList.cs" />
+    <Compile Include="TasksLists\Add\AddTasksListView.xaml.cs">
+      <DependentUpon>AddTasksListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TasksLists\Add\AddTasksListViewModel.cs" />
+    <Compile Include="TasksLists\Delete\DeleteTasksList.cs" />
+    <Compile Include="TasksLists\Details\TasksListView.xaml.cs">
+      <DependentUpon>TasksListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TasksLists\Details\TasksListViewModel.cs" />
+    <Compile Include="TasksLists\Edit\EditTasksList.cs" />
+    <Compile Include="TasksLists\Events\TasksListsUpdated.cs" />
+    <Compile Include="TasksLists\Events\TasksListsViewRequested.cs" />
     <Compile Include="TasksLists\TasksListsView.xaml.cs">
       <DependentUpon>TasksListsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TasksLists\TasksListsViewModel.cs" />
-    <Compile Include="TasksLists\TasksListsViewRequested.cs" />
-    <Compile Include="TasksLists\TasksListView.xaml.cs">
-      <DependentUpon>TasksListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TasksLists\TasksListViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -193,9 +198,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TasksLists\TasksListStyles.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="TasksLists\Add\AddTasksListView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TasksLists\Details\TasksListStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TasksLists\Details\TasksListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TasksLists\TasksListsView.xaml">
       <SubType>Designer</SubType>
@@ -206,10 +219,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Synchronization\SynchronizationStateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TasksLists\TasksListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

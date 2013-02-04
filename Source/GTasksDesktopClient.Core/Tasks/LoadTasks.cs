@@ -33,13 +33,13 @@ namespace GTasksDesktopClient.Core.Tasks
             {
                 _synchronizationContext.Lock();
 
-                if (_tasksListsId == _currentDataContext.SelectedTasksListId)
+                if (_tasksListsId == _currentDataContext.LastLoadedTasksListId)
                 {
                     _synchronizationContext.Unlock();
                     return;
                 }
                     
-                _currentDataContext.SelectedTasksListId = _tasksListsId;
+                _currentDataContext.LastLoadedTasksListId = _tasksListsId;
 
                 var tasks = _tasksService.Tasks.List(_tasksListsId).Fetch();
                 _currentDataContext.Tasks = tasks.Items;
