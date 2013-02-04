@@ -7,7 +7,7 @@
 
 Properties {
 	$versionMajorNumber   = "0"
-	$versionMinorNumber   = "0"
+	$versionMinorNumber   = "1"
 	$productName 	   	  = "GTasks Desktop Client"
 	$buildDir 	  	   	  = "$baseDir\Build"
 	$releaseDir    	   	  = "$baseDir\Release"
