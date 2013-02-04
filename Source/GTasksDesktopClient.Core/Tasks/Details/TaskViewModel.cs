@@ -99,7 +99,8 @@ namespace GTasksDesktopClient.Core.Tasks.Details
                 var editTask = _editTaskFactory(_task);
                 CommandsInvoker.ExecuteCommand(editTask);
             }
-            
+
+            IsBeingEdited = false;
             mouseButtonEventArgs.Handled = true;
         }
 
