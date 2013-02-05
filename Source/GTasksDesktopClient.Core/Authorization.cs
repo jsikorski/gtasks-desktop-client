@@ -6,8 +6,8 @@ namespace GTasksDesktopClient.Core
 {
     public static class Authorization
     {
-        private const string ClientIdentifier = "44216695279.apps.googleusercontent.com";
-        private const string ClientSecret = "knxBQxkxb6vxEquJDDe5zAYu";
+        private const string ClientIdentifier = "471999494130.apps.googleusercontent.com";
+        private const string ClientSecret = "vRG66n9Q3zHWCEa6UqAQ80E6";
         private const string RefreshTokenFilePath = "google-tasks-auth.token";
 
         public static AuthorizationConfig GetConfiguration()
