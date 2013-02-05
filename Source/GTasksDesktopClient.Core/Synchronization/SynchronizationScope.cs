@@ -12,6 +12,11 @@ namespace GTasksDesktopClient.Core.Synchronization
             _syncStateIndicator.State = SynchronizationState.Connecting;
         }
 
+        public void NotifyException()
+        {
+            _syncStateIndicator.State = SynchronizationState.Error;
+        }
+
         public void Dispose()
         {
             _syncStateIndicator.State = SynchronizationState.Idle;    

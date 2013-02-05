@@ -1,7 +1,6 @@
 namespace GTasksDesktopClient.Core.Infrastructure.BackgroundTasks
 {
-    public interface IBackgroundTask
+    public interface IBackgroundTask : IExecutable
     {
-        void Execute();
     }
 }

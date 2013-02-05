@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Timers;
 using Autofac;
 
@@ -8,7 +7,7 @@ namespace GTasksDesktopClient.Core.Infrastructure.BackgroundTasks
 {
     public class StartBackgroundTasks : IStartable
     {
-        private const int BackgroundTasksInterval = 10000;
+        private const int BackgroundTasksInterval = 1000;
 
         private readonly IContainer _container;
         private readonly BackgroundTasksContext _backgroundTasksContext;
@@ -29,21 +28,10 @@ namespace GTasksDesktopClient.Core.Infrastructure.BackgroundTasks
         private void ExecuteTasks(object state, ElapsedEventArgs elapsedEventArgs)
         {
             var backgroundTasks = _container.Resolve<IEnumerable<IBackgroundTask>>();
-            backgroundTasks.ToList().ForEach(ExecuteTask);
+            backgroundTasks.ToList().ForEach(BackgroundTasksInvoker.ExecuteTask);
 
             _backgroundTasksContext.Timer.Interval = BackgroundTasksInterval;
             _backgroundTasksContext.Timer.Start();
-        }
-
-        private void ExecuteTask(IBackgroundTask task)
-        {
-            try
-            {
-                task.Execute();
-            }
-            catch (TaskCanceledException)
-            {
-            }
         }
     }
 }

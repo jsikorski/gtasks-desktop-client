@@ -17,7 +17,7 @@ namespace GTasksDesktopClient.Core.Synchronization
                 case SynchronizationState.Connecting:
                     return "łączenie...";
                 default:
-                    return "wystąpił nieznany błąd";
+                    return "wystąpił błąd";
             }
         }
 

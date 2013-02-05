@@ -11,8 +11,8 @@
         <synchronization:SynchronizationStateToStringConverter x:Key="synchronizationStateToStringConverter" />
     </UserControl.Resources>
     
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 6 0">
         <TextBlock Text="Stan synchronizacji:" />
-        <TextBlock Margin="5 0 0 0" Text="{Binding State, Converter={StaticResource synchronizationStateToStringConverter}}" MinWidth="55" />
+        <TextBlock Margin="5 0 0 0" Text="{Binding State, Converter={StaticResource synchronizationStateToStringConverter}}" />
     </StackPanel>
 </UserControl>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Linq;
 using GTasksDesktopClient.Core.Utils;
 
 namespace GTasksDesktopClient.Core.Infrastructure
@@ -17,26 +16,11 @@ namespace GTasksDesktopClient.Core.Infrastructure
                                                  }
                                                  catch (Exception exception)
                                                  {
-                                                     HandleException(exception, command);
+                                                     ExceptionsHandler.Handle(exception, command);
                                                  }
                                              });
         }
 
-        private static void HandleException(Exception exception, ICommand command)
-        {
-            if (command.HandlesException(exception))
-            {
-                ((dynamic) command).HandleException((dynamic)exception);
-            }
-            else
-            {
-                HandleUnknownExceptions();
-            }
-        }
-
-        private static void HandleUnknownExceptions()
-        {
-            MessageBoxService.ShowError("Wystąpił nieznany błąd.");
-        }
+        
     }
 }

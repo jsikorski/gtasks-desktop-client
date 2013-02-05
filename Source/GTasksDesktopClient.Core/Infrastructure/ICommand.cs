@@ -1,7 +1,6 @@
 namespace GTasksDesktopClient.Core.Infrastructure
 {
-    public interface ICommand
+    public interface ICommand : IExecutable
     {
-        void Execute();
     }
 }

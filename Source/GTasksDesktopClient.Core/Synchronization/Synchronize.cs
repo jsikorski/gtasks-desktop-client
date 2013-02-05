@@ -1,11 +1,13 @@
-﻿using GTasksDesktopClient.Core.DataAccess;
+﻿using System;
+using GTasksDesktopClient.Core.DataAccess;
+using GTasksDesktopClient.Core.Infrastructure;
 using GTasksDesktopClient.Core.Infrastructure.BackgroundTasks;
 using GTasksDesktopClient.Core.Shell;
 using Google.Apis.Tasks.v1;
 
 namespace GTasksDesktopClient.Core.Synchronization
 {
-    public class Synchronize : IBackgroundTask
+    public class Synchronize : IBackgroundTask, IHandleException<Exception>
     {
         private readonly DataContext _dataContext;
         private readonly TasksService _tasksService;
@@ -21,11 +23,13 @@ namespace GTasksDesktopClient.Core.Synchronization
             _syncStateIndicator = syncStateIndicator;
         }
 
+        private SynchronizationScope _currentSynchronizationScope;
+
         public void Execute()
         {
             using (var dataAccess = _dataContext.GetReadWriteAccess())
             {
-                using (new SynchronizationScope(_syncStateIndicator))
+                using (_currentSynchronizationScope = new SynchronizationScope(_syncStateIndicator))
                 {
                     SynchronizeLists(dataAccess);
                     SynchronizeTasks(dataAccess);
@@ -55,6 +59,11 @@ namespace GTasksDesktopClient.Core.Synchronization
         private bool IsAnyTasksListSelected(DataContext.ReadWriteAccess dataAccess)
         {
             return dataAccess.LastLoadedTasksListId != null;
+        }
+
+        public void HandleException(Exception exception)
+        {
+            _currentSynchronizationScope.NotifyException();
         }
     }
 }
