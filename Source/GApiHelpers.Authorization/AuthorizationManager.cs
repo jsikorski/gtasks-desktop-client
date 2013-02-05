@@ -150,5 +150,10 @@ namespace GApiHelpers.Authorization
                 listener.Stop();
             }
         }
+
+        public void Logout()
+        {
+            AuthorizationStorage.DeleteRefreshToken(_refreshTokenFilePath);
+        }
     }
 }

@@ -22,5 +22,10 @@ namespace GApiHelpers.Authorization
             byte[] decryptedData = ProtectedData.Unprotect(encryptedData, null, DataProtectionScope.CurrentUser);
             return Encoding.Unicode.GetString(decryptedData);
         }
+
+        public static void DeleteRefreshToken(string filePath)
+        {
+            File.Delete(filePath);
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace GTasksDesktopClient.Core.Infrastructure.BackgroundTasks
         public void StopAll()
         {
             var stopables = _container.Resolve<IEnumerable<IStopable>>();
-            stopables.ToList().ForEach(stopable => stopable.Stop());
+            stopables.ToList().ForEach(stopable => stopable.Stop());   
         }
     }
 }

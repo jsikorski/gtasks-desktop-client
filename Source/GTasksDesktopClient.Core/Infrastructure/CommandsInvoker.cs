@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using GTasksDesktopClient.Core.Utils;
 
 namespace GTasksDesktopClient.Core.Infrastructure
 {

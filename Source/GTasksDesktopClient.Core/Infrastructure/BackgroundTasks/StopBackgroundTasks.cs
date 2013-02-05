@@ -11,7 +11,10 @@ namespace GTasksDesktopClient.Core.Infrastructure.BackgroundTasks
 
         public void Stop()
         {
-            _backgroundTasksContext.Timer.Stop();
+            using (var timerUsageScope = _backgroundTasksContext.GetTimeUsageScope())
+            {
+                timerUsageScope.Timer.Stop();
+            }
         }
     }
 }

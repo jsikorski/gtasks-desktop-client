@@ -12,6 +12,12 @@ namespace GTasksDesktopClient.Core.DataAccess
         {
             private readonly DataContext _dataContext;
 
+            public string LastLoadedTasksListId
+            {
+                get { return _dataContext.LastLoadedTasksListId; }
+                private set { _dataContext.LastLoadedTasksListId = value; }
+            }
+
             public string LastTasksETag
             {
                 get { return _dataContext.LastTasksETag; }
@@ -22,12 +28,6 @@ namespace GTasksDesktopClient.Core.DataAccess
             {
                 get { return _dataContext.LastTasksListsETag; }
                 set { _dataContext.LastTasksListsETag = value; }
-            }
-
-            public string LastLoadedTasksListId
-            {
-                get { return _dataContext.LastLoadedTasksListId; }
-                private set { _dataContext.LastLoadedTasksListId = value; }
             }
 
             public IEnumerable<TaskList> TasksLists
@@ -82,6 +82,15 @@ namespace GTasksDesktopClient.Core.DataAccess
 
                 if (!isTasksListStillPresent)
                     LastLoadedTasksListId = null;
+            }
+
+            public void ResetAll()
+            {
+                LastLoadedTasksListId = null;
+                LastTasksETag = null;
+                LastTasksListsETag = null;
+                TasksLists = null;
+                Tasks = null;
             }
 
             public void Dispose()

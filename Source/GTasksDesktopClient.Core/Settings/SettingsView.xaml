@@ -31,5 +31,7 @@
             <Slider x:Name="FrequencySlider" Minimum="1000" Maximum="50000" TickFrequency="1000" IsSnapToTickEnabled="True" Margin="0 5 0 0" 
                     Value="{Binding BackgroundTasksFrequency, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
+
+        <Button x:Name="LogoutAndExit" Content="Wyloguj i zamknij" Style="{DynamicResource SquareButtonStyle}" Margin="10 25 0 0"/>
     </StackPanel>
 </UserControl>
