@@ -7,6 +7,9 @@ namespace GTasksDesktopClient.Core.Infrastructure.BackgroundTasks
     {
         public static void ExecuteTask(IBackgroundTask backgroundTask)
         {
+            if (!Properties.Settings.Default.BackgroundTasksEnabled)
+                return;
+
             try
             {
                 backgroundTask.Execute();

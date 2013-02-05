@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using GTasksDesktopClient.Core.Settings;
 using GTasksDesktopClient.Core.Synchronization;
 using GTasksDesktopClient.Core.Tasks;
 using GTasksDesktopClient.Core.Tasks.Events;
@@ -20,6 +21,7 @@ namespace GTasksDesktopClient.Core.Layout
             EventAggregator eventAggregator,
             TasksListsViewModel tasksListsViewModel, 
             TasksViewModel tasksViewModel,
+            SettingsViewModel settingsViewModel,
             SynchronizationStateViewModel synchronizationStateViewModel)
         {
             _eventAggregator = eventAggregator;
@@ -28,6 +30,7 @@ namespace GTasksDesktopClient.Core.Layout
 
             Items.Add(TasksListsViewModel);
             Items.Add(TasksViewModel);
+            Items.Add(settingsViewModel);
             
             SynchronizationStateViewModel = synchronizationStateViewModel;
         }

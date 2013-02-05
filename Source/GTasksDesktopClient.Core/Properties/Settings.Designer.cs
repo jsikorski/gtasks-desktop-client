@@ -22,5 +22,29 @@ namespace GTasksDesktopClient.Core.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BackgroundTasksEnabled {
+            get {
+                return ((bool)(this["BackgroundTasksEnabled"]));
+            }
+            set {
+                this["BackgroundTasksEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        public int BackgroundTasksFrequency {
+            get {
+                return ((int)(this["BackgroundTasksFrequency"]));
+            }
+            set {
+                this["BackgroundTasksFrequency"] = value;
+            }
+        }
     }
 }

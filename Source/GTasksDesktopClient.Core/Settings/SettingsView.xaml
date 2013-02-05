@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="GTasksDesktopClient.Core.Settings.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" 
+             d:DesignWidth="300">
+    <StackPanel Orientation="Vertical" Margin="0 0 10 0">
+        <controls:ToggleSwitch Header="Stan zadań w tle" OnLabel="Włączone" OffLabel="Wyłączone" 
+                               IsChecked="{Binding BackgroundTasksEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        
+        <StackPanel Margin="10 25 0 0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="15" />
+                    </Style>
+                </Grid.Resources>
+                
+                <TextBlock Grid.Column="0" Text="Częstotliwość zadań w tle" />
+                <TextBlock Grid.Column="1" Text="{Binding ElementName=FrequencySlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+
+            <Slider x:Name="FrequencySlider" Minimum="1000" Maximum="50000" TickFrequency="1000" IsSnapToTickEnabled="True" Margin="0 5 0 0" 
+                    Value="{Binding BackgroundTasksFrequency, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

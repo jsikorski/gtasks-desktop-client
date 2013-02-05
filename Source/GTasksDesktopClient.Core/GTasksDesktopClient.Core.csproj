@@ -112,6 +112,10 @@
       <DependentUpon>LayoutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Layout\LayoutViewModel.cs" />
+    <Compile Include="Settings\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\SettingsViewModel.cs" />
     <Compile Include="TasksLists\Add\AddTasksList.cs" />
     <Compile Include="TasksLists\Add\AddTasksListView.xaml.cs">
       <DependentUpon>AddTasksListView.xaml</DependentUpon>
@@ -203,6 +207,10 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TasksLists\Add\AddTasksListView.xaml">
       <Generator>MSBuild:Compile</Generator>

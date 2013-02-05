@@ -7,12 +7,12 @@ namespace GTasksDesktopClient.Core.Infrastructure.BackgroundTasks
 {
     public class StartBackgroundTasks : IStartable
     {
-        private const int BackgroundTasksInterval = 1000;
-
         private readonly IContainer _container;
         private readonly BackgroundTasksContext _backgroundTasksContext;
 
-        public StartBackgroundTasks(IContainer container, BackgroundTasksContext backgroundTasksContext)
+        public StartBackgroundTasks(
+            IContainer container, 
+            BackgroundTasksContext backgroundTasksContext)
         {
             _container = container;
             _backgroundTasksContext = backgroundTasksContext;
@@ -30,7 +30,7 @@ namespace GTasksDesktopClient.Core.Infrastructure.BackgroundTasks
             var backgroundTasks = _container.Resolve<IEnumerable<IBackgroundTask>>();
             backgroundTasks.ToList().ForEach(BackgroundTasksInvoker.ExecuteTask);
 
-            _backgroundTasksContext.Timer.Interval = BackgroundTasksInterval;
+            _backgroundTasksContext.Timer.Interval = Properties.Settings.Default.BackgroundTasksFrequency;
             _backgroundTasksContext.Timer.Start();
         }
     }
